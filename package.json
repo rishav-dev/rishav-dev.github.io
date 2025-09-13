@@ -5,8 +5,10 @@
   "scripts": {
   "dev": "next dev -H 0.0.0.0 --turbopack",
   "build": "next build",
-  "export": "next build",
-  "preview": "npx serve out -l 3000",
+  "start": "next start",
+  "export": "next build && next export",
+  "preview": "npx serve out -p 4173",
+  "clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch{};try{require('fs').rmSync('out',{recursive:true,force:true})}catch{}\"",
   "lint": "tsc --noEmit && next lint",
   "format": "biome format --write"
 },

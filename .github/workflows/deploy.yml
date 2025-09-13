@@ -1,9 +1,7 @@
 name: Deploy static Next.js to Pages
-
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -22,12 +20,14 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 20
           cache: 'npm'
 
       - run: npm ci
-      - run: npm run build   # generates ./out
+      # Build + export to ./out
+      - run: npm run export
 
+      # Upload the ./out folder
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
