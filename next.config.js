@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   output: 'export',
   images: { unoptimized: true },
   trailingSlash: true,
-  basePath: '', // keep empty for rishav-dev.github.io
+  basePath: '',
 };
-module.exports = nextConfig;
