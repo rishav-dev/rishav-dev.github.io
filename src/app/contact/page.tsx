@@ -1,62 +1,99 @@
 "use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
-import Navigation from '@/components/Navigation';
-import ParticlesBackground from '@/components/ParticlesBackground';
-import { Mail, MapPin, Linkedin, Github, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import Navigation from "@/components/Navigation";
+import {
+  Mail,
+  MapPin,
+  Linkedin,
+  Github,
+  Send,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
+
+/** Read EmailJS config from env. */
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    company: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
+    "idle"
+  );
+  const [configOK, setConfigOK] = useState(true);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  /** Init EmailJS once on mount */
+  useEffect(() => {
+    const ok = Boolean(PUBLIC_KEY && SERVICE_ID && TEMPLATE_ID);
+    setConfigOK(ok);
+    if (ok) {
+      try {
+        emailjs.init(PUBLIC_KEY);
+      } catch (e) {
+        console.warn("EmailJS init failed:", e);
+        setConfigOK(false);
+      }
+    }
+  }, []);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+    if (!configOK) {
+      setSubmitStatus("error");
+      return;
+    }
 
-    // Initialize EmailJS with your public key
-    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+    // Basic client-side guard
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setSubmitStatus("error");
+      return;
+    }
+
+    // Honeypot: if filled, quietly succeed (don’t send)
+    if (formData.company.trim().length > 0) {
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "", company: "" });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
 
     try {
-      // Send email using EmailJS
-      await emailjs.send(
-        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
-        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          to_name: 'Rishav Chakravarty',
-        }
-      );
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_name: "Rishav Chakravarty",
+      });
 
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "", company: "" });
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitStatus('idle'), 5000);
+      // Clear banner after 5s
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     } catch (error) {
-      console.error('Error sending email:', error);
-      setSubmitStatus('error');
-
-      // Reset error message after 5 seconds
-      setTimeout(() => setSubmitStatus('idle'), 5000);
+      console.error("Error sending email:", error);
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -64,7 +101,6 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <ParticlesBackground />
       <Navigation />
 
       {/* Grid Background */}
@@ -79,10 +115,12 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-5xl lg:text-6xl font-bold text-gradient mb-6">
-              Let's Connect
+              Let&apos;s Connect
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              I'm always interested in discussing new opportunities, innovative projects, and ways to create impact through data and technology
+              I&apos;m always interested in discussing new opportunities,
+              innovative projects, and ways to create impact through data and
+              technology
             </p>
           </motion.div>
         </div>
@@ -126,7 +164,8 @@ export default function Contact() {
                   <div>
                     <h3 className="text-white font-semibold mb-1">Location</h3>
                     <p className="text-gray-400 text-sm">
-                      Amherst, Massachusetts<br />
+                      Amherst, Massachusetts
+                      <br />
                       United States
                     </p>
                   </div>
@@ -184,10 +223,34 @@ export default function Contact() {
               <div className="glass p-8 rounded-xl border border-white/10">
                 <h2 className="text-2xl font-bold text-white mb-6">Send a Message</h2>
 
+                {!configOK && (
+                  <div className="mb-6 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-sm">
+                    Env vars missing. Add{' '}
+                    <code className="text-white">
+                      NEXT_PUBLIC_EMAILJS_PUBLIC_KEY / SERVICE_ID / TEMPLATE_ID
+                    </code>{" "}
+                    to <code className="text-white">.env.local</code> and restart the dev server.
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot (hidden) */}
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-400 mb-2"
+                      >
                         Your Name
                       </label>
                       <input
@@ -203,7 +266,10 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-400 mb-2"
+                      >
                         Your Email
                       </label>
                       <input
@@ -220,7 +286,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-400 mb-2">
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-400 mb-2"
+                    >
                       Subject
                     </label>
                     <input
@@ -236,7 +305,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-400 mb-2"
+                    >
                       Message
                     </label>
                     <textarea
@@ -255,9 +327,9 @@ export default function Contact() {
                   <div className="flex items-center justify-between">
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !configOK}
                       className={`px-8 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2 ${
-                        isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                        isSubmitting || !configOK ? "opacity-50 cursor-not-allowed" : ""
                       }`}
                     >
                       {isSubmitting ? (
@@ -274,7 +346,7 @@ export default function Contact() {
                     </button>
 
                     {/* Status Messages */}
-                    {submitStatus === 'success' && (
+                    {submitStatus === "success" && (
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -285,7 +357,7 @@ export default function Contact() {
                       </motion.div>
                     )}
 
-                    {submitStatus === 'error' && (
+                    {submitStatus === "error" && (
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -298,12 +370,7 @@ export default function Contact() {
                   </div>
                 </form>
 
-                {/* Note about EmailJS */}
-                <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-                  <p className="text-yellow-400 text-sm">
-                    <strong>Note:</strong> To enable the contact form, please set up EmailJS and update the service credentials in the code.
-                  </p>
-                </div>
+                
               </div>
             </motion.div>
           </div>
@@ -320,15 +387,19 @@ export default function Contact() {
             viewport={{ once: true }}
             className="glass rounded-2xl p-12 text-center max-w-3xl mx-auto"
           >
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Open to Opportunities
-            </h2>
+            <h2 className="text-3xl font-bold text-white mb-4">Open to Opportunities</h2>
             <p className="text-gray-400 mb-6">
-              I'm currently available for consulting projects, research collaborations, and full-time opportunities
-              in data science, behavioral analytics, and digital strategy.
+              I&apos;m currently available for consulting projects, research collaborations, and
+              full-time opportunities in data science, behavioral analytics, and digital strategy.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              {['Data Science', 'Machine Learning', 'Digital Strategy', 'Behavioral Analytics', 'Consulting'].map((tag) => (
+              {[
+                "Data Science",
+                "Machine Learning",
+                "Digital Strategy",
+                "Behavioral Analytics",
+                "Consulting",
+              ].map((tag) => (
                 <span
                   key={tag}
                   className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-full text-cyan-400 text-sm border border-cyan-500/30"

@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
-import ParticlesBackground from '@/components/ParticlesBackground';
 import { Briefcase, Calendar, MapPin, Building, Code, Brain, Users, TrendingUp } from 'lucide-react';
 
 const experiences = [
@@ -103,7 +102,7 @@ const experiences = [
 export default function Experience() {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <ParticlesBackground />
+
       <Navigation />
 
       {/* Grid Background */}
