@@ -1,20 +1,48 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import Navigation from '@/components/Navigation';
-import ParticlesBackground from '@/components/ParticlesBackground';
-import { GraduationCap, Award, Calendar, MapPin, ExternalLink } from 'lucide-react';
+import { motion } from "framer-motion";
+import Navigation from "@/components/Navigation";
+import {
+  GraduationCap,
+  Award,
+  Calendar,
+  MapPin,
+} from "lucide-react";
 
-const education = [
+/* ---------- types ---------- */
+type EducationItem = {
+  degree: string;
+  field: string;
+  school: string;
+  location: string;
+  period: string;
+  description: string;
+  color: string;          // tailwind gradient e.g. "from-purple-500 to-pink-500"
+  skills?: string[];
+  grade?: string;
+  award?: string;
+  concentrations?: string;
+};
+
+type Certification = {
+  title: string;
+  org: string;
+  blurb: string;
+  gradient: string;
+};
+
+/* ---------- YOUR DATA (kept) ---------- */
+const education: EducationItem[] = [
   {
     degree: "Master of Science - MS",
     field: "Data Analytics and Computational Social Science (DACSS)",
     school: "University of Massachusetts Amherst",
     location: "Amherst, Massachusetts",
     period: "Jun 2025 - May 2027",
-    description: "Currently pursuing my MS in DACSS at UMass Amherst, combining my psychology undergraduate background with advanced analytics expertise from my Postgraduate Diploma in Data Analytics from the University of Texas at Austin. I'm focused on leveraging computational methods to analyze and interpret human behaviors, societal dynamics, and psychological phenomena through rigorous data-driven frameworks. My studies blend statistical modeling, data engineering, and spatial analytics, enabling me to deliver actionable insights in interdisciplinary research and real-world applications.",
+    description:
+      "Currently pursuing my MS in DACSS at UMass Amherst, combining my psychology undergraduate background with advanced analytics expertise from my Postgraduate Diploma in Data Analytics from the University of Texas at Austin. I'm focused on leveraging computational methods to analyze and interpret human behaviors, societal dynamics, and psychological phenomena through rigorous data-driven frameworks. My studies blend statistical modeling, data engineering, and spatial analytics, enabling me to deliver actionable insights in interdisciplinary research and real-world applications.",
     color: "from-purple-500 to-pink-500",
-    skills: ["Statistical Modeling", "Data Engineering", "Spatial Analytics", "Computational Methods"]
+    skills: ["Statistical Modeling", "Data Engineering", "Spatial Analytics", "Computational Methods"],
   },
   {
     degree: "Postgraduate Diploma",
@@ -23,10 +51,19 @@ const education = [
     location: "Austin, Texas",
     period: "Jan 2024 - Sep 2024",
     grade: "3.76",
-    description: "I completed a Postgraduate Diploma in Data Science and Business Analytics from UT Austin, where I developed advanced skills in data analytics, predictive modeling, and strategic decision-making. The program provided a comprehensive foundation in machine learning, statistical analysis, and data visualization, focusing on real-world business applications.",
+    description:
+      "I completed a Postgraduate Diploma in Data Science and Business Analytics from UT Austin, where I developed advanced skills in data analytics, predictive modeling, and strategic decision-making. The program provided a comprehensive foundation in machine learning, statistical analysis, and data visualization, focusing on real-world business applications.",
     color: "from-orange-500 to-red-500",
-    skills: ["Machine Learning", "Predictive Modeling", "Data Visualization", "Business Analytics", "Python", "R", "MongoDB", "Deep Learning"],
-    certificate: "UTAusinCert.pdf"
+    skills: [
+      "Machine Learning",
+      "Predictive Modeling",
+      "Data Visualization",
+      "Business Analytics",
+      "Python",
+      "R",
+      "MongoDB",
+      "Deep Learning",
+    ],
   },
   {
     degree: "Bachelor of Science - BS",
@@ -35,189 +72,194 @@ const education = [
     location: "Blacksburg, Virginia",
     period: "Aug 2020 - Aug 2024",
     grade: "3.0",
-    description: "Developed a strong foundation in human behavior, cognitive processes, and data-driven inquiry through a psychology major, complemented by practical programming and computational thinking gained via a computer science minor. Participated in cross-disciplinary projects combining tech and behavioral science, such as applying statistical analysis and scripting to explore decision-making and user-interface studies.",
+    description:
+      "Developed a strong foundation in human behavior, cognitive processes, and data-driven inquiry through a psychology major, complemented by practical programming and computational thinking gained via a computer science minor. Participated in cross-disciplinary projects combining tech and behavioral science, such as applying statistical analysis and scripting to explore decision-making and user-interface studies.",
     color: "from-cyan-500 to-blue-500",
     skills: ["JavaScript", "Git", "SQL", "C++", "Java", "Python", "React.js", "Node.js", "AWS", "MongoDB"],
-    award: "KickStart VT Award Winner - Designed an innovative early-stage venture that merged behavioral insights with a tech solution. Competed in the Apex Center's pitch event and earned an equity-free seed grant ($500)"
-  }
+    award:
+      "KickStart VT Award Winner — designed an innovative early-stage venture merging behavioral insights with a tech solution; earned equity-free seed grant ($500).",
+  },
 ];
 
-export default function Education() {
+const certifications: Certification[] = [
+  {
+    title: "IBM Z Xplore Course",
+    org: "IBM",
+    blurb: "Expanding knowledge of mainframes and exploring machine learning.",
+    gradient: "from-blue-500 to-purple-500",
+  },
+  {
+    title: "Data Science & Business Analytics",
+    org: "UT Austin",
+    blurb: "Postgraduate Diploma with 3.76 GPA.",
+    gradient: "from-green-500 to-teal-500",
+  },
+];
+
+
+export default function EducationPage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <ParticlesBackground />
       <Navigation />
 
-      {/* Grid Background */}
-      <div className="absolute inset-0 data-grid opacity-20" />
+      {/* Faint grid behind this page only */}
+      <div className="absolute inset-0 data-grid opacity-15 -z-10" />
 
       {/* Header */}
-      <section className="relative pt-32 pb-20 px-4">
-        <div className="container mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      <section className="pt-24 pb-10 px-4">
+        <div className="container mx-auto max-w-6xl text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
+            className="text-5xl md:text-6xl font-bold text-gradient"
           >
-            <h1 className="text-5xl lg:text-6xl font-bold text-gradient mb-6">
-              Education Journey
-            </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              A continuous pursuit of knowledge at the intersection of data science, psychology, and technology
-            </p>
-          </motion.div>
+            Education
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="mt-3 text-lg md:text-xl text-gray-400"
+          >
+            My academic journey and continuous learning path
+          </motion.p>
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="relative pb-20 px-4">
-        <div className="container mx-auto max-w-5xl">
+      {/* Single-column Rail + Cards */}
+      <section className="pb-20 px-4">
+        <div className="container mx-auto max-w-6xl">
           <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500 via-teal-500 to-transparent"></div>
 
-            {education.map((edu, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`relative flex items-center mb-16 ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline Dot */}
-                <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-cyan-500 rounded-full shadow-lg shadow-cyan-500/50 z-10">
-                  <div className="absolute inset-0 bg-cyan-500 rounded-full animate-ping opacity-75"></div>
-                </div>
+            {/* Left vertical rail */}
+            <div className="absolute left-4 sm:left-6 md:left-8 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-500 via-teal-500 to-transparent" />
 
-                {/* Card */}
-                <div className={`ml-20 md:ml-0 ${index % 2 === 0 ? 'md:mr-auto md:pr-12' : 'md:ml-auto md:pl-12'} md:w-5/12`}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300"
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className={`p-3 bg-gradient-to-r ${edu.color} rounded-lg`}>
-                        <GraduationCap className="w-6 h-6 text-white" />
+            {/* Entries */}
+            <div className="space-y-8 md:space-y-10">
+              {education.map((edu, i) => (
+                <motion.article
+                  key={`${edu.school}-${i}`}
+                  initial={{ opacity: 0, x: -18 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
+                  transition={{ duration: 0.45, delay: i * 0.05 }}
+                  className="relative pl-12 sm:pl-14 md:pl-20"
+                >
+                  {/* Rail dot */}
+                  <div className="absolute left-4 sm:left-6 md:left-8 top-6 -translate-x-1/2">
+                    <div className={`w-5 h-5 rounded-full bg-gradient-to-r ${edu.color} flex items-center justify-center shadow-[0_0_18px_rgba(34,211,238,0.35)]`}>
+                      <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                    </div>
+                  </div>
+
+                  {/* Card */}
+                  <div className="relative glass rounded-2xl border border-white/10 p-6 md:p-7 hover:shadow-[0_0_35px_rgba(34,211,238,0.12)] transition-shadow">
+                    {/* top row */}
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div>
+                        <h3 className={`text-2xl md:text-3xl font-bold bg-gradient-to-r ${edu.color} bg-clip-text text-transparent`}>
+                          {edu.school}
+                        </h3>
+                        <p className="mt-1 text-gray-300 text-lg">{edu.degree}</p>
+                        <p className="text-cyan-300">{edu.field}</p>
                       </div>
-                      <span className="text-sm text-gray-400 flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {edu.period}
-                      </span>
+
+                      <div className="text-right shrink-0">
+                        {edu.grade && (
+                          <div className="inline-flex items-center gap-2 text-cyan-300">
+                            <GraduationCap className="w-4 h-4" />
+                            <span className="font-semibold">GPA: {edu.grade}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-white mb-1">{edu.degree}</h3>
-                    <p className="text-cyan-400 mb-2">{edu.field}</p>
-                    <p className="text-gray-300 font-medium mb-1">{edu.school}</p>
-                    <p className="text-gray-400 text-sm flex items-center gap-1 mb-4">
-                      <MapPin className="w-3 h-3" />
-                      {edu.location}
+                    {/* meta */}
+                    <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-400">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{edu.period}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MapPin className="w-4 h-4" />
+                        <span>{edu.location}</span>
+                      </div>
+                    </div>
+
+                    {/* description */}
+                    <p className="mt-4 text-gray-300">
+                      {edu.description}
                     </p>
 
-                    {edu.grade && (
-                      <div className="inline-block px-3 py-1 bg-cyan-500/20 rounded-full text-cyan-400 text-sm mb-4">
-                        GPA: {edu.grade}
-                      </div>
-                    )}
-
-                    <p className="text-gray-400 text-sm mb-4">{edu.description}</p>
-
+                    {/* award */}
                     {edu.award && (
-                      <div className="p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-lg border border-yellow-500/30 mb-4">
-                        <div className="flex items-start gap-2">
-                          <Award className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
-                          <p className="text-sm text-gray-300">{edu.award}</p>
-                        </div>
+                      <div className="mt-4 p-3 rounded-lg border border-yellow-500/30 bg-gradient-to-r from-yellow-500/15 to-orange-500/15 text-sm text-gray-200 flex gap-2">
+                        <Award className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+                        <span>{edu.award}</span>
                       </div>
                     )}
 
-                    {edu.skills && (
-                      <div className="flex flex-wrap gap-2">
-                        {edu.skills.slice(0, 4).map((skill, i) => (
+                    {/* skills (compact chips) */}
+                    {!!edu.skills?.length && (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {edu.skills.slice(0, 8).map((s) => (
                           <span
-                            key={i}
-                            className="px-2 py-1 text-xs rounded-md bg-gradient-to-r from-cyan-500/20 to-teal-500/20 text-cyan-400 border border-cyan-500/30"
+                            key={s}
+                            className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-gray-200"
                           >
-                            {skill}
+                            {s}
                           </span>
                         ))}
-                        {edu.skills.length > 4 && (
-                          <span className="px-2 py-1 text-xs rounded-md text-gray-400">
-                            +{edu.skills.length - 4} more
+                        {edu.skills.length > 8 && (
+                          <span className="text-xs text-gray-400">
+                            +{edu.skills.length - 8} more
                           </span>
                         )}
                       </div>
                     )}
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
+                  </div>
+                </motion.article>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Certifications Section */}
-      <section className="relative pb-20 px-4">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      {/* Certifications */}
+      <section className="pb-24 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <motion.h2
+            initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            transition={{ duration: 0.45 }}
+            className="text-3xl md:text-4xl font-bold text-gradient text-center mb-8"
           >
-            <h2 className="text-4xl font-bold text-gradient">Certifications</h2>
-            <p className="mt-4 text-gray-400">Continuous learning and skill development</p>
-          </motion.div>
+            Licenses & Certifications
+          </motion.h2>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300"
-            >
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-                  <Award className="w-6 h-6 text-white" />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            {certifications.map((c, i) => (
+              <motion.div
+                key={c.title}
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.05 * i }}
+                className="relative rounded-xl border border-white/10 bg-white/5 p-6 overflow-hidden"
+              >
+                <div className={`absolute -inset-0.5 rounded-xl bg-gradient-to-r ${c.gradient} blur-xl opacity-20`} />
+                <div className="relative">
+                  <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r ${c.gradient} text-white`}>
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <h3 className="mt-3 text-white font-semibold">{c.title}</h3>
+                  <p className="text-sm text-gray-400">{c.org}</p>
+                  <p className="mt-2 text-sm text-gray-300">{c.blurb}</p>
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    IBM Z Xplore Course
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-2">
-                    Expanding Knowledge of Mainframes and Exploring Machine Learning
-                  </p>
-                  <p className="text-cyan-400 text-sm">IBM</p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300"
-            >
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg">
-                  <Award className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Data Science & Business Analytics
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-2">
-                    Postgraduate Diploma with 3.76 GPA
-                  </p>
-                  <p className="text-cyan-400 text-sm">UT Austin</p>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

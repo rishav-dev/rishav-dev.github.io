@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@react-three/drei": "^9.117.0",
-    "@react-three/fiber": "^8.15.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "@types/three": "^0.180.0",
@@ -32,7 +30,7 @@
     "same-runtime": "^0.0.1",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.180.0"
+    "three": "^0.160.1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
