@@ -14,10 +14,23 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-/** Read EmailJS config from env. */
-const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
-const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
-const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+/** ---- EmailJS env (must be defined at build time) ---- */
+const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
+const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+
+/** The mailbox that should receive the message (can also live in your template). */
+const EMAIL_TO = "rishav.chakravarty@gmail.com";
+
+/** Safe error message extractor (avoids `any`). */
+function getErrorMessage(e: unknown): string {
+  if (typeof e === "string") return e;
+  if (e && typeof e === "object") {
+    const obj = e as { text?: string; message?: string };
+    return obj.text || obj.message || "Unknown error";
+  }
+  return "Unknown error";
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -25,13 +38,12 @@ export default function Contact() {
     email: "",
     subject: "",
     message: "",
-    company: "",
+    company: "", // honeypot
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [configOK, setConfigOK] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   /** Init EmailJS once on mount */
   useEffect(() => {
@@ -40,10 +52,13 @@ export default function Contact() {
     if (ok) {
       try {
         emailjs.init(PUBLIC_KEY);
-      } catch (e) {
-        console.warn("EmailJS init failed:", e);
+      } catch {
         setConfigOK(false);
       }
+    }
+    // Helpful only during development
+    if (process.env.NODE_ENV === "development") {
+      console.log("EMAILJS ENV →", { PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID });
     }
   }, []);
 
@@ -53,16 +68,21 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const validate = () => {
+    if (!formData.name.trim()) return "Please enter your name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Enter a valid email.";
+    if (!formData.subject.trim()) return "Please add a subject.";
+    if (formData.message.trim().length < 10) return "Message should be at least 10 characters.";
+    return null;
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setErrorMsg(null);
+
     if (!configOK) {
       setSubmitStatus("error");
-      return;
-    }
-
-    // Basic client-side guard
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      setSubmitStatus("error");
+      setErrorMsg("Email service is not configured.");
       return;
     }
 
@@ -73,26 +93,37 @@ export default function Contact() {
       return;
     }
 
+    const v = validate();
+    if (v) {
+      setSubmitStatus("error");
+      setErrorMsg(v);
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
     try {
-      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_name: "Rishav Chakravarty",
-      });
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_name: "Rishav Chakravarty",
+          to_email: EMAIL_TO,
+        }
+      );
 
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "", company: "" });
-
-      // Clear banner after 5s
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    } catch (error) {
-      console.error("Error sending email:", error);
+    } catch (err: unknown) {
       setSubmitStatus("error");
+      setErrorMsg(getErrorMessage(err));
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } finally {
       setIsSubmitting(false);
@@ -118,9 +149,8 @@ export default function Contact() {
               Let&apos;s Connect
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              I&apos;m always interested in discussing new opportunities,
-              innovative projects, and ways to create impact through data and
-              technology
+              I&apos;m always interested in discussing new opportunities, innovative projects,
+              and ways to create impact through data and technology.
             </p>
           </motion.div>
         </div>
@@ -137,7 +167,7 @@ export default function Contact() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-1 space-y-6"
             >
-              {/* Email Card */}
+              {/* Email */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg">
@@ -146,16 +176,16 @@ export default function Contact() {
                   <div>
                     <h3 className="text-white font-semibold mb-1">Email</h3>
                     <a
-                      href="mailto:rishav.chakravarty@gmail.com"
+                      href={`mailto:${EMAIL_TO}`}
                       className="text-gray-400 hover:text-cyan-400 transition-colors text-sm"
                     >
-                      rishav.chakravarty@gmail.com
+                      {EMAIL_TO}
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Location Card */}
+              {/* Location */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
@@ -164,15 +194,13 @@ export default function Contact() {
                   <div>
                     <h3 className="text-white font-semibold mb-1">Location</h3>
                     <p className="text-gray-400 text-sm">
-                      Amherst, Massachusetts
-                      <br />
-                      United States
+                      Amherst, Massachusetts<br />United States
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* LinkedIn Card */}
+              {/* LinkedIn */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg">
@@ -192,7 +220,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* GitHub Card */}
+              {/* GitHub */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-gray-600 to-gray-700 rounded-lg">
@@ -225,11 +253,17 @@ export default function Contact() {
 
                 {!configOK && (
                   <div className="mb-6 p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-sm">
-                    Env vars missing. Add{' '}
+                    Env vars missing. Add{" "}
                     <code className="text-white">
-                      NEXT_PUBLIC_EMAILJS_PUBLIC_KEY / SERVICE_ID / TEMPLATE_ID
+                      NEXT_PUBLIC_EMAILJS_PUBLIC_KEY / NEXT_PUBLIC_EMAILJS_SERVICE_ID / NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
                     </code>{" "}
                     to <code className="text-white">.env.local</code> and restart the dev server.
+                  </div>
+                )}
+
+                {errorMsg && submitStatus === "error" && (
+                  <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-200 text-sm">
+                    {errorMsg}
                   </div>
                 )}
 
@@ -247,10 +281,7 @@ export default function Contact() {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-gray-400 mb-2"
-                      >
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
                         Your Name
                       </label>
                       <input
@@ -260,16 +291,14 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        autoComplete="name"
                         className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all duration-300"
                         placeholder="John Doe"
                       />
                     </div>
 
                     <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-gray-400 mb-2"
-                      >
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
                         Your Email
                       </label>
                       <input
@@ -279,6 +308,7 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        autoComplete="email"
                         className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/50 focus:bg-white/10 transition-all duration-300"
                         placeholder="john@example.com"
                       />
@@ -286,10 +316,7 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-sm font-medium text-gray-400 mb-2"
-                    >
+                    <label htmlFor="subject" className="block text-sm font-medium text-gray-400 mb-2">
                       Subject
                     </label>
                     <input
@@ -305,10 +332,7 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-gray-400 mb-2"
-                    >
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
                       Message
                     </label>
                     <textarea
@@ -323,7 +347,7 @@ export default function Contact() {
                     />
                   </div>
 
-                  {/* Submit Button */}
+                  {/* Submit */}
                   <div className="flex items-center justify-between">
                     <button
                       type="submit"
@@ -345,7 +369,7 @@ export default function Contact() {
                       )}
                     </button>
 
-                    {/* Status Messages */}
+                    {/* Status */}
                     {submitStatus === "success" && (
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
@@ -369,8 +393,6 @@ export default function Contact() {
                     )}
                   </div>
                 </form>
-
-                
               </div>
             </motion.div>
           </div>
@@ -389,24 +411,20 @@ export default function Contact() {
           >
             <h2 className="text-3xl font-bold text-white mb-4">Open to Opportunities</h2>
             <p className="text-gray-400 mb-6">
-              I&apos;m currently available for consulting projects, research collaborations, and
-              full-time opportunities in data science, behavioral analytics, and digital strategy.
+              I&apos;m currently available for consulting projects, research collaborations,
+              and full-time opportunities in data science, behavioral analytics, and digital strategy.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              {[
-                "Data Science",
-                "Machine Learning",
-                "Digital Strategy",
-                "Behavioral Analytics",
-                "Consulting",
-              ].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-full text-cyan-400 text-sm border border-cyan-500/30"
-                >
-                  {tag}
-                </span>
-              ))}
+              {["Data Science", "Machine Learning", "Digital Strategy", "Behavioral Analytics", "Consulting"].map(
+                (tag) => (
+                  <span
+                    key={tag}
+                    className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-full text-cyan-400 text-sm border border-cyan-500/30"
+                  >
+                    {tag}
+                  </span>
+                )
+              )}
             </div>
           </motion.div>
         </div>
