@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import Navigation from "@/components/Navigation";
@@ -14,23 +14,12 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-/** ---- EmailJS env (must be defined at build time) ---- */
+/** Read EmailJS config from env (must start with NEXT_PUBLIC_) */
 const PUBLIC_KEY  = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
 const SERVICE_ID  = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
 
-/** The mailbox that should receive the message (can also live in your template). */
-const EMAIL_TO = "rishav.chakravarty@gmail.com";
-
-/** Safe error message extractor (avoids `any`). */
-function getErrorMessage(e: unknown): string {
-  if (typeof e === "string") return e;
-  if (e && typeof e === "object") {
-    const obj = e as { text?: string; message?: string };
-    return obj.text || obj.message || "Unknown error";
-  }
-  return "Unknown error";
-}
+type SubmitState = "idle" | "success" | "error";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -38,65 +27,46 @@ export default function Contact() {
     email: "",
     subject: "",
     message: "",
-    company: "", // honeypot
+    // simple honeypot
+    company: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<SubmitState>("idle");
   const [configOK, setConfigOK] = useState(true);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   /** Init EmailJS once on mount */
   useEffect(() => {
     const ok = Boolean(PUBLIC_KEY && SERVICE_ID && TEMPLATE_ID);
     setConfigOK(ok);
-    if (ok) {
-      try {
-        emailjs.init(PUBLIC_KEY);
-      } catch {
-        setConfigOK(false);
-      }
-    }
-    // Helpful only during development
-    if (process.env.NODE_ENV === "development") {
-      console.log("EMAILJS ENV →", { PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID });
+    if (!ok) return;
+    try {
+      emailjs.init(PUBLIC_KEY);
+    } catch {
+      setConfigOK(false);
     }
   }, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const validate = () => {
-    if (!formData.name.trim()) return "Please enter your name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return "Enter a valid email.";
-    if (!formData.subject.trim()) return "Please add a subject.";
-    if (formData.message.trim().length < 10) return "Message should be at least 10 characters.";
-    return null;
-  };
+  ) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setErrorMsg(null);
 
     if (!configOK) {
       setSubmitStatus("error");
-      setErrorMsg("Email service is not configured.");
       return;
     }
 
-    // Honeypot: if filled, quietly succeed (don’t send)
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      setSubmitStatus("error");
+      return;
+    }
+
+    // Honeypot filled => silently succeed
     if (formData.company.trim().length > 0) {
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "", company: "" });
-      return;
-    }
-
-    const v = validate();
-    if (v) {
-      setSubmitStatus("error");
-      setErrorMsg(v);
       return;
     }
 
@@ -104,26 +74,18 @@ export default function Contact() {
     setSubmitStatus("idle");
 
     try {
-      await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          reply_to: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          to_name: "Rishav Chakravarty",
-          to_email: EMAIL_TO,
-        }
-      );
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, {
+        name: formData.name,          // matches {{name}}
+        email: formData.email,        // matches {{email}}
+        title: formData.subject,      // matches {{title}} (your Subject field)
+        message: formData.message,    // matches {{message}}
+      });
 
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "", company: "" });
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    } catch (err: unknown) {
+    } catch (_err: unknown) {
       setSubmitStatus("error");
-      setErrorMsg(getErrorMessage(err));
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } finally {
       setIsSubmitting(false);
@@ -149,8 +111,8 @@ export default function Contact() {
               Let&apos;s Connect
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              I&apos;m always interested in discussing new opportunities, innovative projects,
-              and ways to create impact through data and technology.
+              I&apos;m always interested in discussing new opportunities,
+              innovative projects, and ways to create impact through data and technology
             </p>
           </motion.div>
         </div>
@@ -167,7 +129,7 @@ export default function Contact() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:col-span-1 space-y-6"
             >
-              {/* Email */}
+              {/* Email Card */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg">
@@ -176,16 +138,16 @@ export default function Contact() {
                   <div>
                     <h3 className="text-white font-semibold mb-1">Email</h3>
                     <a
-                      href={`mailto:${EMAIL_TO}`}
+                      href="mailto:rishav.chakravarty@gmail.com"
                       className="text-gray-400 hover:text-cyan-400 transition-colors text-sm"
                     >
-                      {EMAIL_TO}
+                      rishav.chakravarty@gmail.com
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Location */}
+              {/* Location Card */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
@@ -194,13 +156,15 @@ export default function Contact() {
                   <div>
                     <h3 className="text-white font-semibold mb-1">Location</h3>
                     <p className="text-gray-400 text-sm">
-                      Amherst, Massachusetts<br />United States
+                      Amherst, Massachusetts
+                      <br />
+                      United States
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* LinkedIn */}
+              {/* LinkedIn Card */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg">
@@ -220,7 +184,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* GitHub */}
+              {/* GitHub Card */}
               <div className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-gradient-to-r from-gray-600 to-gray-700 rounded-lg">
@@ -257,13 +221,7 @@ export default function Contact() {
                     <code className="text-white">
                       NEXT_PUBLIC_EMAILJS_PUBLIC_KEY / NEXT_PUBLIC_EMAILJS_SERVICE_ID / NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
                     </code>{" "}
-                    to <code className="text-white">.env.local</code> and restart the dev server.
-                  </div>
-                )}
-
-                {errorMsg && submitStatus === "error" && (
-                  <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-200 text-sm">
-                    {errorMsg}
+                    to <code className="text-white">.env.local</code> (project root) and restart the dev server.
                   </div>
                 )}
 
@@ -281,7 +239,10 @@ export default function Contact() {
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-400 mb-2"
+                      >
                         Your Name
                       </label>
                       <input
@@ -298,7 +259,10 @@ export default function Contact() {
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-400 mb-2"
+                      >
                         Your Email
                       </label>
                       <input
@@ -316,7 +280,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-400 mb-2">
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-400 mb-2"
+                    >
                       Subject
                     </label>
                     <input
@@ -332,7 +299,10 @@ export default function Contact() {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-400 mb-2"
+                    >
                       Message
                     </label>
                     <textarea
@@ -347,7 +317,7 @@ export default function Contact() {
                     />
                   </div>
 
-                  {/* Submit */}
+                  {/* Submit Button */}
                   <div className="flex items-center justify-between">
                     <button
                       type="submit"
@@ -369,7 +339,7 @@ export default function Contact() {
                       )}
                     </button>
 
-                    {/* Status */}
+                    {/* Status Messages */}
                     {submitStatus === "success" && (
                       <motion.div
                         initial={{ opacity: 0, x: 20 }}
@@ -388,7 +358,7 @@ export default function Contact() {
                         className="flex items-center gap-2 text-red-400"
                       >
                         <AlertCircle className="w-5 h-5" />
-                        <span>Failed to send. Please try again.</span>
+                        <span>Failed to send. Please check the form & config.</span>
                       </motion.div>
                     )}
                   </div>
@@ -411,20 +381,24 @@ export default function Contact() {
           >
             <h2 className="text-3xl font-bold text-white mb-4">Open to Opportunities</h2>
             <p className="text-gray-400 mb-6">
-              I&apos;m currently available for consulting projects, research collaborations,
-              and full-time opportunities in data science, behavioral analytics, and digital strategy.
+              I&apos;m currently available for consulting projects, research collaborations, and
+              full-time opportunities in data science, behavioral analytics, and digital strategy.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              {["Data Science", "Machine Learning", "Digital Strategy", "Behavioral Analytics", "Consulting"].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-full text-cyan-400 text-sm border border-cyan-500/30"
-                  >
-                    {tag}
-                  </span>
-                )
-              )}
+              {[
+                "Data Science",
+                "Machine Learning",
+                "Digital Strategy",
+                "Behavioral Analytics",
+                "Consulting",
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-full text-cyan-400 text-sm border border-cyan-500/30"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </motion.div>
         </div>
