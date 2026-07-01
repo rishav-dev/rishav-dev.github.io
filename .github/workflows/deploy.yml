@@ -1,0 +1,64 @@
+name: Deploy Next.js site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest
+
+    env:
+      NEXT_PUBLIC_EMAILJS_SERVICE_ID: ${{ vars.NEXT_PUBLIC_EMAILJS_SERVICE_ID }}
+      NEXT_PUBLIC_EMAILJS_TEMPLATE_ID: ${{ vars.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID }}
+      NEXT_PUBLIC_EMAILJS_PUBLIC_KEY: ${{ vars.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+
+      - name: Add .nojekyll
+        run: touch ./out/.nojekyll
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
