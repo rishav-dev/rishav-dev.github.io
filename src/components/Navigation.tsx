@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Database, Brain, Code, ChartBar, Home, GraduationCap, Briefcase, FolderOpen, Trophy, Mail, FileText } from 'lucide-react';
+import Logo from "@/components/Logo";
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -41,16 +42,7 @@ export default function Navigation() {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg blur-lg opacity-60 group-hover:opacity-100 transition-opacity"></div>
-              <div className="relative bg-gradient-to-r from-cyan-500 to-teal-500 p-2 rounded-lg">
-                <Database className="w-6 h-6 text-white" />
-              </div>
-            </div>
-            <span className="text-xl font-bold text-gradient">RC</span>
-          </Link>
+          <Logo />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">

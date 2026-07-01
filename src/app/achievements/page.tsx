@@ -1,253 +1,314 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
-import { Trophy, Award, Star, Medal, Target, Zap, Calendar, Building } from "lucide-react";
+import {
+  Trophy,
+  Award,
+  Star,
+  Medal,
+  Target,
+  Zap,
+  Calendar,
+  Building,
+  BarChart,
+  Code,
+  Database,
+  Brain,
+} from "lucide-react";
+import type { ComponentType } from "react";
 
-/* --------------------------- Achievements data --------------------------- */
-const achievements = [
+type IconType = ComponentType<{ className?: string }>;
+
+type Achievement = {
+  title: string;
+  organization: string;
+  date: string;
+  type: string;
+  summary: string;
+  details: string[];
+  metric?: string;
+  icon: IconType;
+  gradient: string;
+  featured?: boolean;
+};
+
+type ImpactHighlight = {
+  value: string;
+  label: string;
+  context: string;
+  icon: IconType;
+};
+
+type SkillGroup = {
+  title: string;
+  subtitle: string;
+  icon: IconType;
+  items: string[];
+};
+
+const frostedCard =
+  "relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.055] backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_80px_rgba(2,6,23,0.45)]";
+
+const frostedOverlay =
+  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-gradient-to-br before:from-white/10 before:via-white/[0.03] before:to-cyan-500/10 before:opacity-80";
+
+const achievements: Achievement[] = [
+  {
+    title: "UPitch Spring 2026 Second Place Winner",
+    organization: "Karnah",
+    date: "Spring 2026",
+    type: "Startup Competition",
+    summary:
+      "Awarded second place for Karnah, an AI-powered in-kind donation platform designed to improve nonprofit matching, transparency, and waste reduction.",
+    details: [
+      "Recognized for building a practical AI venture around nonprofit resource allocation.",
+      "Positioned Karnah around matching efficiency, donation transparency, and reduced organizational waste.",
+    ],
+    metric: "$750 Prize",
+    icon: Medal,
+    gradient: "from-cyan-400 via-teal-400 to-emerald-400",
+    featured: true,
+  },
   {
     title: "The Action Taker Award",
     organization: "LISC Massachusetts & the IXL Center",
-    date: "May 2025",
-    description:
-      "Recognized as one of the standout participants in the competitive LISC Digital Growth Accelerator. This award was presented for demonstrating exceptional initiative, execution, and impact in digitally transforming Simple Coaching Inc. Through hands-on strategy, digital upgrades, and consistent implementation, I helped position the business for sustainable growth and improved client engagement.",
-    type: "Leadership",
+    date: "2025",
+    type: "Digital Growth",
+    summary:
+      "Recognized for leading and executing impactful digital upgrades during the LISC Digital Growth Accelerator.",
+    details: [
+      "Supported improvements to business systems, client engagement, and digital operations.",
+      "Connected strategy with execution through measurable upgrades to online presence and workflow design.",
+    ],
     icon: Zap,
-    color: "from-yellow-500 to-orange-500",
-    highlight: true,
+    gradient: "from-amber-300 via-orange-400 to-rose-400",
+    featured: true,
   },
   {
     title: "KickStart VT Seed Grant Winner",
-    organization: "Apex Systems Center for Innovation and Entrepreneurship",
-    date: "Nov 2024",
-    description:
-      "Honored to be selected as a KickStart VT Seed Grant Winner for CalendAI, an AI-powered calendar app designed to transform productivity through intelligent scheduling. KickStart VT recognizes promising student-led ventures in the early stages, and this award underscores the innovative potential of CalendAI. With this support, I am taking significant steps forward in development, joining a network of fellow entrepreneurs.",
-    type: "Innovation",
+    organization: "CalendAI",
+    date: "2024",
+    type: "Entrepreneurship",
+    summary:
+      "Founded and developed CalendAI, an AI-powered calendar app for intelligent scheduling.",
+    details: [
+      "Recognized by Virginia Tech for early-stage venture promise and innovation.",
+      "Advanced the concept through entrepreneurial networks and product-development groundwork.",
+    ],
     icon: Trophy,
-    color: "from-purple-500 to-pink-500",
-    highlight: true,
-    amount: "$500 Seed Grant",
+    gradient: "from-violet-400 via-fuchsia-400 to-pink-400",
+    featured: true,
   },
   {
-    title: "Featured Presenter",
-    organization: "Google Developer Student Clubs",
-    date: "Aug 2023 - Nov 2023",
-    description:
-      "I had the opportunity to speak at the Google Developer Student Clubs event, where I shared insights on the role of interdisciplinary collaboration in advancing AI-driven healthcare innovations. I explored how machine learning can be applied to analyze large-scale data and provide meaningful, personalized therapeutic outcomes.",
-    type: "Speaking",
-    icon: Star,
-    color: "from-cyan-500 to-blue-500",
-  },
-  {
-    title: "IBM Z Xplore Course Certification",
-    organization: "IBM",
+    title: "Future Founder Startup Award",
+    organization: "Minute Pitch Competition",
     date: "2024",
-    description:
-      "Successfully completed the IBM Z Xplore Course, expanding knowledge of mainframes and exploring machine learning applications in enterprise computing environments.",
-    type: "Certification",
+    type: "Venture Recognition",
+    summary:
+      "Honored for creativity, confidence, and the promise of the venture during a startup pitch competition.",
+    details: [
+      "Recognized as a standout founder with a venture positioned around future entrepreneurship.",
+      "Award highlighted communication, concept clarity, and early-stage founder potential.",
+    ],
     icon: Award,
-    color: "from-blue-500 to-indigo-500",
+    gradient: "from-blue-400 via-cyan-400 to-teal-400",
   },
   {
-    title: "Data Science Excellence",
-    organization: "University of Texas at Austin",
-    date: "2024",
-    description:
-      "Achieved 3.76 GPA in Postgraduate Diploma in Data Science and Business Analytics, demonstrating excellence in advanced analytics, machine learning, and business intelligence.",
-    type: "Academic",
-    icon: Medal,
-    color: "from-green-500 to-teal-500",
+    title: "Featured Speaker — AI for Mental Health",
+    organization: "Google Developer Student Club",
+    date: "Aug 2023 – Nov 2023",
+    type: "Speaking",
+    summary:
+      "Presented machine learning applications for personalized mental health interventions to an audience of 150+ participants.",
+    details: [
+      "Discussed how AI and behavioral science can support personalized therapeutic outcomes.",
+      "Translated technical machine-learning concepts into accessible, interdisciplinary insights.",
+    ],
+    metric: "150+ Participants",
+    icon: Star,
+    gradient: "from-sky-400 via-blue-400 to-indigo-400",
   },
 ];
 
-const stats = [
-  { value: "3", label: "Major Awards", icon: Trophy },
-  { value: "2", label: "Seed Grants", icon: Target },
-  { value: "5+", label: "Certifications", icon: Award },
-  { value: "10+", label: "Speaking Events", icon: Star },
+const impactHighlights: ImpactHighlight[] = [
+  {
+    value: "37%",
+    label: "increase in new client inquiries",
+    context: "Steve Fisher Consulting",
+    icon: BarChart,
+  },
+  {
+    value: "43%",
+    label: "reduction in administrative workload",
+    context: "Steve Fisher Consulting",
+    icon: Target,
+  },
+  {
+    value: "40%",
+    label: "increase in revenue",
+    context: "Simple Coaching Inc.",
+    icon: Trophy,
+  },
+  {
+    value: "48%",
+    label: "boost in engagement",
+    context: "Simple Coaching Inc.",
+    icon: Zap,
+  },
+  {
+    value: "93%",
+    label: "face-recognition model accuracy",
+    context: "Independent ML project",
+    icon: Brain,
+  },
+  {
+    value: "35%",
+    label: "reduction in manual reporting workload",
+    context: "Zad Holding Company Q.P.S.C.",
+    icon: Database,
+  },
 ];
 
-/* ---------------------------- Radial skill card --------------------------- */
-function RadialSkill({
-  label,
-  level,
-  ring,
-}: {
-  label: string;
-  level: number; // 0–100
-  ring: string; // CSS color 
-}) {
-  const [val, setVal] = useState(0);
-  const deg = (val / 100) * 360;
+const skillGroups: SkillGroup[] = [
+  {
+    title: "Analytics & Modeling",
+    subtitle: "Coursework and applied project foundation",
+    icon: BarChart,
+    items: [
+      "Applied Statistics",
+      "Exploratory Data Analysis",
+      "Regression & Predictive Modeling",
+      "Machine Learning",
+      "Time Series Forecasting",
+      "Model Tuning & Validation",
+    ],
+  },
+  {
+    title: "Languages",
+    subtitle: "Programming and technical communication",
+    icon: Code,
+    items: ["Python", "R", "Java", "JavaScript", "MATLAB", "SQL", "Bash"],
+  },
+  {
+    title: "Developer Tools",
+    subtitle: "Data, cloud, and workflow platforms",
+    icon: Database,
+    items: [
+      "VS Code",
+      "Eclipse",
+      "Google Cloud Platform",
+      "Power BI",
+      "MongoDB",
+      "Microsoft SQL Server",
+      "GitHub",
+    ],
+  },
+  {
+    title: "Frameworks & Libraries",
+    subtitle: "Tools used across analytics and web projects",
+    icon: Brain,
+    items: [
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "React.js",
+      "Node.js",
+      "Docker",
+      "JUnit",
+    ],
+  },
+];
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      onViewportEnter={() => setVal(level)}
-      transition={{ duration: 0.6 }}
-      className="glass border border-white/10 rounded-2xl p-4 flex flex-col items-center"
-    >
-      <div className="relative w-28 h-28">
-        {/* outer ring */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: `conic-gradient(${ring} ${deg}deg, rgba(255,255,255,0.08) 0deg)`,
-            filter: "drop-shadow(0 0 10px rgba(34,211,238,0.15))",
-          }}
-        />
-        {/* inner cap */}
-        <div className="absolute inset-2 rounded-full bg-[rgba(2,6,23,0.85)] border border-white/10 flex items-center justify-center">
-          <span className="text-xl font-semibold text-cyan-300">{val}%</span>
-        </div>
-      </div>
-      <div className="mt-3 text-center text-sm text-gray-300">{label}</div>
-    </motion.div>
-  );
-}
-
-/* --------------------------------- Page ---------------------------------- */
 export default function Achievements() {
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(20,184,166,0.12),transparent_34%),#020617] text-white">
       <Navigation />
 
-      {/* Grid Background */}
-      <div className="absolute inset-0 data-grid opacity-20" />
+      <div className="pointer-events-none absolute inset-0 data-grid opacity-20" />
+      <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-400/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-20 right-10 h-96 w-96 rounded-full bg-teal-400/10 blur-3xl" />
 
       {/* Header */}
-      <section className="relative pt-32 pb-20 px-4">
-        <div className="container mx-auto text-center">
+      <section className="relative px-4 pb-16 pt-32">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.65 }}
+            className={`${frostedCard} ${frostedOverlay} px-6 py-10 text-center md:px-12 md:py-14`}
           >
-            <h1 className="text-5xl lg:text-6xl font-bold text-gradient mb-6">
-              Achievements & Recognition
-            </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Celebrating milestones in innovation, leadership, and academic excellence
-            </p>
+            <div className="relative z-10">
+              <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-200">
+                <Trophy className="h-4 w-4" />
+                Resume-backed awards, impact, and technical strengths
+              </div>
+
+              <h1 className="bg-gradient-to-r from-cyan-200 via-white to-teal-200 bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-7xl">
+                Achievements & Recognition
+              </h1>
+
+              <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-slate-300 md:text-lg">
+                A curated view of venture awards, digital-growth outcomes,
+                technical project results, and the analytics toolkit behind my
+                work.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Overview */}
-      <section className="relative pb-20 px-4">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="glass p-6 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 text-center"
-              >
-                <div className="inline-flex p-3 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg mb-4">
-                  <stat.icon className="w-6 h-6 text-white" />
-                </div>
-                <div className="text-3xl font-bold text-gradient mb-2">{stat.value}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Impact Metrics */}
+      <section className="relative px-4 pb-20">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end"
+          >
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+                Measurable Impact
+              </h2>
+              <p className="mt-3 max-w-2xl text-slate-400">
+                Selected outcomes from consulting, analytics, and machine
+                learning work.
+              </p>
+            </div>
+          </motion.div>
 
-      {/* Achievements Timeline */}
-      <section className="relative pb-20 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <div className="space-y-8">
-            {achievements.map((achievement, index) => {
-              const Icon = achievement.icon;
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {impactHighlights.map((item, index) => {
+              const Icon = item.icon;
+
               return (
                 <motion.div
-                  key={achievement.title}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  key={`${item.value}-${item.context}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="relative group"
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className={`${frostedCard} ${frostedOverlay} group p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30`}
                 >
-                  {achievement.highlight && (
-                    <div
-                      className={`absolute -inset-1 bg-gradient-to-r ${achievement.color} rounded-xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity duration-300`}
-                    />
-                  )}
-
-                  <div
-                    className={`relative glass rounded-xl p-8 border ${
-                      achievement.highlight ? "border-cyan-500/30" : "border-white/10"
-                    } hover:border-cyan-500/50 transition-all duration-300`}
-                  >
-                    <div className="flex flex-col lg:flex-row gap-6">
-                      {/* Icon */}
-                      <div className="flex-shrink-0">
-                        <div
-                          className={`w-20 h-20 bg-gradient-to-r ${achievement.color} p-5 rounded-xl shadow-lg`}
-                        >
-                          <Icon className="w-full h-full text-white" />
-                        </div>
+                  <div className="relative z-10">
+                    <div className="mb-6 flex items-center justify-between">
+                      <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-200">
+                        <Icon className="h-6 w-6" />
                       </div>
-
-                      {/* Content */}
-                      <div className="flex-1">
-                        <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                          <div>
-                            <h3 className="text-2xl font-bold text-white mb-2">
-                              {achievement.title}
-                            </h3>
-                            <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400">
-                              <span className="flex items-center gap-1">
-                                <Building className="w-4 h-4" />
-                                {achievement.organization}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4" />
-                                {achievement.date}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 rounded-full text-cyan-400 text-sm border border-cyan-500/30">
-                              {achievement.type}
-                            </span>
-                            {achievement.amount && (
-                              <span className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-full text-green-400 text-sm border border-green-500/30">
-                                {achievement.amount}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <p className="text-gray-400 leading-relaxed">
-                          {achievement.description}
-                        </p>
-
-                        {achievement.highlight && (
-                          <div className="mt-4 flex items-center gap-2">
-                            <div className="flex -space-x-1">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${
-                                    i < 5 ? "text-yellow-500 fill-yellow-500" : "text-gray-600"
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-xs text-gray-500">Featured Achievement</span>
-                          </div>
-                        )}
-                      </div>
+                      <div className="h-px flex-1 bg-gradient-to-r from-cyan-300/30 to-transparent" />
                     </div>
+
+                    <div className="bg-gradient-to-r from-cyan-200 to-teal-200 bg-clip-text text-4xl font-bold text-transparent">
+                      {item.value}
+                    </div>
+                    <p className="mt-3 text-sm font-medium text-slate-200">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.22em] text-slate-500">
+                      {item.context}
+                    </p>
                   </div>
                 </motion.div>
               );
@@ -256,91 +317,185 @@ export default function Achievements() {
         </div>
       </section>
 
-      {/* ---------------------- Core Competencies ---------------------- */}
-      <section className="relative pb-24 px-4">
-        <div className="container mx-auto">
+      {/* Awards */}
+      <section className="relative px-4 pb-20">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            transition={{ duration: 0.55 }}
+            className="mb-10 text-center"
           >
-            <h2 className="text-4xl font-bold text-gradient">Core Competencies</h2>
-            <p className="mt-4 text-gray-400">
-              A balanced stack across analytics, ML, and strategy
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Awards, Competitions & Recognition
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-slate-400">
+              Recognition across entrepreneurship, digital execution, AI-enabled
+              product ideas, and technical communication.
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Radial meters */}
-            <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-6">
-              <RadialSkill label="Innovation & Entrepreneurship" level={95} ring="rgb(34 211 238)" />
-              <RadialSkill label="Data Science & Analytics" level={90} ring="rgb(20 184 166)" />
-              <RadialSkill label="Leadership & Team Mgmt" level={85} ring="rgb(59 130 246)" />
-              <RadialSkill label="Public Speaking" level={80} ring="rgb(6 182 212)" />
-              <RadialSkill label="Digital Strategy & Consulting" level={88} ring="rgb(16 185 129)" />
-              <RadialSkill label="Research & Development" level={82} ring="rgb(45 212 191)" />
-            </div>
+          <div className="space-y-6">
+            {achievements.map((achievement, index) => {
+              const Icon = achievement.icon;
 
-            {/* Toolbox chip cloud */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="glass rounded-2xl p-6 border border-white/10 h-full"
-            >
-              <h3 className="text-lg font-semibold text-white mb-4">Toolbox</h3>
+              return (
+                <motion.article
+                  key={achievement.title}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.06 }}
+                  className="group relative"
+                >
+                  {achievement.featured && (
+                    <div
+                      className={`absolute -inset-1 rounded-[2rem] bg-gradient-to-r ${achievement.gradient} opacity-20 blur-xl transition duration-300 group-hover:opacity-35`}
+                    />
+                  )}
 
-              <div className="mb-3 text-sm text-gray-400">Languages</div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {["Python", "SQL", "JavaScript", "R"].map((t) => (
-                  <span
-                    key={t}
-                    className="px-3 py-1 text-xs rounded-md bg-gradient-to-r from-cyan-500/10 to-teal-500/10 text-cyan-300 border border-cyan-500/20"
+                  <div
+                    className={`${frostedCard} ${frostedOverlay} relative p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/35 md:p-8`}
                   >
-                    {t}
-                  </span>
-                ))}
-              </div>
+                    <div className="relative z-10 grid gap-6 lg:grid-cols-[220px_1fr]">
+                      <div>
+                        <div
+                          className={`mb-5 inline-flex rounded-3xl bg-gradient-to-br ${achievement.gradient} p-4 shadow-lg shadow-cyan-950/30`}
+                        >
+                          <Icon className="h-8 w-8 text-slate-950" />
+                        </div>
 
-              <div className="mb-3 text-sm text-gray-400">Frameworks</div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {["TensorFlow", "Scikit-learn", "React", "Node.js"].map((t) => (
-                  <span
-                    key={t}
-                    className="px-3 py-1 text-xs rounded-md bg-gradient-to-r from-cyan-500/10 to-teal-500/10 text-cyan-300 border border-cyan-500/20"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+                        <div className="flex flex-wrap gap-2">
+                          <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-medium text-cyan-200">
+                            {achievement.type}
+                          </span>
+                          {achievement.metric && (
+                            <span className="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-xs font-medium text-emerald-200">
+                              {achievement.metric}
+                            </span>
+                          )}
+                        </div>
+                      </div>
 
-              <div className="mb-3 text-sm text-gray-400">Cloud & Data</div>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {["AWS", "MongoDB", "PostgreSQL", "Power BI"].map((t) => (
-                  <span
-                    key={t}
-                    className="px-3 py-1 text-xs rounded-md bg-gradient-to-r from-cyan-500/10 to-teal-500/10 text-cyan-300 border border-cyan-500/20"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+                      <div>
+                        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
+                          <div>
+                            <h3 className="text-2xl font-semibold tracking-tight text-white">
+                              {achievement.title}
+                            </h3>
 
-              <div className="mb-3 text-sm text-gray-400">Consulting & Product</div>
-              <div className="flex flex-wrap gap-2">
-                {["A/B Testing", "UX Research", "SEO", "Experimentation"].map((t) => (
-                  <span
-                    key={t}
-                    className="px-3 py-1 text-xs rounded-md bg-gradient-to-r from-cyan-500/10 to-teal-500/10 text-cyan-300 border border-cyan-500/20"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+                            <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-400">
+                              <span className="inline-flex items-center gap-2">
+                                <Building className="h-4 w-4 text-cyan-300" />
+                                {achievement.organization}
+                              </span>
+                              <span className="inline-flex items-center gap-2">
+                                <Calendar className="h-4 w-4 text-cyan-300" />
+                                {achievement.date}
+                              </span>
+                            </div>
+                          </div>
+
+                          {achievement.featured && (
+                            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-yellow-300/20 bg-yellow-300/10 px-3 py-1 text-xs font-medium text-yellow-200">
+                              <Star className="h-3.5 w-3.5 fill-yellow-200" />
+                              Featured
+                            </div>
+                          )}
+                        </div>
+
+                        <p className="mt-5 leading-8 text-slate-300">
+                          {achievement.summary}
+                        </p>
+
+                        <div className="mt-5 grid gap-3 md:grid-cols-2">
+                          {achievement.details.map((detail) => (
+                            <div
+                              key={detail}
+                              className="rounded-2xl border border-white/10 bg-slate-950/35 p-4 text-sm leading-7 text-slate-300 backdrop-blur-xl"
+                            >
+                              <div className="mb-2 flex items-center gap-2 text-cyan-200">
+                                <Star className="h-4 w-4" />
+                                <span className="text-xs uppercase tracking-[0.18em]">
+                                  Highlight
+                                </span>
+                              </div>
+                              {detail}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Competencies */}
+      <section className="relative px-4 pb-24">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="mb-10 text-center"
+          >
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Core Competencies
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-slate-400">
+              Technical strengths drawn from coursework, project work, and
+              professional experience.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {skillGroups.map((group, index) => {
+              const Icon = group.icon;
+
+              return (
+                <motion.div
+                  key={group.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className={`${frostedCard} ${frostedOverlay} p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30`}
+                >
+                  <div className="relative z-10">
+                    <div className="mb-5 flex items-start gap-4">
+                      <div className="rounded-2xl border border-teal-300/20 bg-teal-300/10 p-3 text-teal-200">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold text-white">
+                          {group.title}
+                        </h3>
+                        <p className="mt-1 text-sm text-slate-400">
+                          {group.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {group.items.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-sm text-cyan-100 shadow-sm shadow-cyan-950/20 backdrop-blur-xl"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

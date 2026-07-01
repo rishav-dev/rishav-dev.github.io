@@ -1,7 +1,11 @@
 "use client";
+
 import Image from "next/image";
-import DataScienceBackground from "@/components/DataScienceBackground";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import DataScienceBackground from "@/components/DataScienceBackground";
+import Navigation from "@/components/Navigation";
 import {
   ArrowRight,
   Database,
@@ -10,221 +14,468 @@ import {
   Github,
   Linkedin,
   Mail,
+  GraduationCap,
+  Briefcase,
+  Award,
+  Code,
+  LineChart,
+  Network,
+  Sparkles,
+  ExternalLink,
+  MapPin,
 } from "lucide-react";
-import Link from "next/link";
-import Navigation from "@/components/Navigation";
-import { useEffect, useState } from "react";
+import type { LucideIcon } from "lucide-react";
+
+type Expertise = {
+  icon: LucideIcon;
+  label: string;
+  description: string;
+  color: string;
+};
+
+type Metric = {
+  value: string;
+  label: string;
+  context: string;
+  icon: LucideIcon;
+};
+
+type SummaryCardData = {
+  title: string;
+  eyebrow: string;
+  bullets: string[];
+  href: string;
+  linkLabel: string;
+  icon: LucideIcon;
+};
+
+const frostedCard =
+  "relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.055] backdrop-blur-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_80px_rgba(2,6,23,0.45)]";
+
+const frostedOverlay =
+  "before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:bg-gradient-to-br before:from-white/10 before:via-white/[0.03] before:to-cyan-500/10 before:opacity-80";
+
+const expertise: Expertise[] = [
+  {
+    icon: Database,
+    label: "Data Analytics",
+    description:
+      "Applied statistics, SQL, exploratory analysis, dashboards, and decision-focused reporting.",
+    color: "from-cyan-300 via-teal-300 to-emerald-300",
+  },
+  {
+    icon: Brain,
+    label: "Machine Learning",
+    description:
+      "Predictive modeling, clustering, classification, model tuning, and computer vision pipelines.",
+    color: "from-violet-300 via-fuchsia-400 to-pink-400",
+  },
+  {
+    icon: BarChart,
+    label: "Digital Strategy",
+    description:
+      "Website optimization, analytics dashboards, workflow automation, client-experience design, and growth strategy.",
+    color: "from-amber-300 via-orange-400 to-rose-400",
+  },
+];
+
+const metrics: Metric[] = [
+  {
+    value: "37%",
+    label: "Increase in new client inquiries",
+    context: "Steve Fisher Consulting",
+    icon: LineChart,
+  },
+  {
+    value: "43%",
+    label: "Administrative workload reduction",
+    context: "Workflow automation",
+    icon: Briefcase,
+  },
+  {
+    value: "48%",
+    label: "Engagement boost",
+    context: "Simple Coaching analytics dashboards",
+    icon: BarChart,
+  },
+  {
+    value: "93%",
+    label: "Face-recognition model accuracy",
+    context: "Independent TensorFlow project",
+    icon: Brain,
+  },
+  {
+    value: "250",
+    label: "Survey observations analyzed",
+    context: "AI advice-seeking experiment",
+    icon: Database,
+  },
+  {
+    value: "6,429",
+    label: "Facebook friendship ties modeled",
+    context: "Copenhagen Networks Study",
+    icon: Network,
+  },
+];
+
+const summaryCards: SummaryCardData[] = [
+  {
+    title: "Education",
+    eyebrow: "Academic foundation",
+    icon: GraduationCap,
+    bullets: [
+      "M.S. in Data Analytics & Computational Social Science at UMass Amherst.",
+      "Postgraduate Diploma in Data Science & Business Analytics from UT Austin.",
+      "B.S. in Psychology with a Computer Science minor from Virginia Tech.",
+    ],
+    href: "/education",
+    linkLabel: "View education",
+  },
+  {
+    title: "Experience",
+    eyebrow: "Applied consulting",
+    icon: Briefcase,
+    bullets: [
+      "Digital Strategy & Tech Consultant at Steve Fisher Consulting.",
+      "Technical Consultant for Simple Coaching Inc.",
+      "Data Analytics Intern at Zad Holding Company Q.P.S.C.",
+    ],
+    href: "/experience",
+    linkLabel: "View experience",
+  },
+  {
+    title: "Projects",
+    eyebrow: "Research and technical work",
+    icon: Code,
+    bullets: [
+      "Face recognition software with 93% model accuracy.",
+      "Dynamic pricing model for 20k+ refurbished-device records.",
+      "Network analysis of co-presence, SMS, and Facebook friendship.",
+    ],
+    href: "/projects",
+    linkLabel: "View projects",
+  },
+  {
+    title: "Recognition",
+    eyebrow: "Awards and honors",
+    icon: Award,
+    bullets: [
+      "UPitch Spring 2026 Second Place Winner for Karnah.",
+      "KickStart VT Seed Grant Winner for CalendAI.",
+      "The Action Taker Award from LISC Massachusetts & the IXL Center.",
+    ],
+    href: "/achievements",
+    linkLabel: "View achievements",
+  },
+];
+
+const technicalStack = [
+  "Python",
+  "R",
+  "JavaScript",
+  "SQL",
+  "Power BI",
+  "React.js",
+  "Node.js",
+  "MongoDB",
+  "Pandas",
+  "NumPy",
+  "Matplotlib",
+  "Docker",
+];
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => setMounted(true), []);
 
-  /* ---------- Skills ---------- */
-  const skills = [
-    { icon: Database, label: "Data Analytics", color: "from-cyan-500 to-blue-500" },
-    { icon: Brain, label: "Machine Learning", color: "from-purple-500 to-pink-500" },
-    { icon: BarChart, label: "Data Visualization", color: "from-green-500 to-teal-500" },
-  ];
-
-  /* ---------- Snapshot data ---------- */
-  const snapshotStats = [
-    { label: "Education", sub: "degrees", value: "2" },
-    { label: "Certifications", sub: "licenses", value: "6" },
-    { label: "Experience", sub: "roles", value: "6" },
-    { label: "Projects", sub: "built", value: "6" },
-    { label: "Awards", sub: "honors", value: "3" },
-    { label: "Skills", sub: "core", value: "20+" },
-  ];
-
-  const educationBullets = [
-    "MS in DACSS @ UMass Amherst — focus in analytics & computational social science",
-    "Postgraduate Diploma in Data Science & Business Analytics — UT Austin",
-    "BS Psychology (CS minor) — Virginia Tech",
-    "+ certifications in AI/ML & systems",
-  ];
-
-  const experienceBullets = [
-    "Technical/Client Experience & Digital Strategy — consulting",
-    "Analytics & ML projects across research + business",
-    "Behavioral insights applied to product strategy",
-  ];
-
-  const projectBullets = [
-    "Interactive data products & dashboards",
-    "Experimentation / evaluation pipelines",
-    "End-to-end ML prototypes & demos",
-  ];
-
-  const achievementsBullets = [
-    "KickStart VT seed grant (CalendAI)",
-    "Leadership roles (clubs & ambassadorships)",
-    "Dean’s List / distinctions & scholarships",
-  ];
-
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <DataScienceBackground />
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(20,184,166,0.12),transparent_34%),#020617] text-white">
+      {mounted && <DataScienceBackground />}
       <Navigation />
 
-      {/* Grid Background */}
-      <div className="absolute inset-0 data-grid opacity-20" />
+      <div className="pointer-events-none absolute inset-0 data-grid opacity-20" />
+      <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-cyan-400/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-20 right-10 h-96 w-96 rounded-full bg-teal-400/10 blur-3xl" />
 
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center px-4">
-        <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative z-10"
-          >
+      <section className="relative flex min-h-screen items-center px-4 pb-20 pt-32">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr]">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="inline-block"
+              initial={{ opacity: 0, x: -32 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.75 }}
+              className={`${frostedCard} ${frostedOverlay} p-6 md:p-10`}
             >
-              <span className="px-4 py-2 glass rounded-full text-sm text-cyan-400 border border-cyan-500/30">
-                MS in DACSS @ UMass Amherst
-              </span>
+              <div className="relative z-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                  className="inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-200"
+                >
+                  <GraduationCap className="h-4 w-4" />
+                  MS in DACSS @ UMass Amherst
+                </motion.div>
+
+                <motion.h1
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 }}
+                  className="mt-6 text-5xl font-bold tracking-tight md:text-7xl"
+                >
+                  <span className="block text-white">Rishav</span>
+                  <span className="block bg-gradient-to-r from-cyan-200 via-white to-teal-200 bg-clip-text text-transparent">
+                    Chakravarty
+                  </span>
+                </motion.h1>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                  className="mt-6 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl"
+                >
+                  Data analytics and computational social science graduate
+                  student focused on machine learning, behavioral analytics,
+                  digital strategy, and evidence-based product systems.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.45 }}
+                  className="mt-6 flex flex-wrap gap-3 text-sm text-slate-300"
+                >
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">
+                    <MapPin className="h-4 w-4 text-cyan-300" />
+                    Amherst, Massachusetts
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2">
+                    <Database className="h-4 w-4 text-cyan-300" />
+                    Data · Behavior · Technology
+                  </span>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.55 }}
+                  className="mt-8 flex flex-wrap gap-4"
+                >
+                  <Link
+                    href="/projects"
+                    className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-300 to-teal-300 px-6 py-3 font-semibold text-slate-950 shadow-lg shadow-cyan-950/30 transition duration-300 hover:-translate-y-0.5"
+                  >
+                    View Projects
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+
+                  <Link
+                    href="/resume"
+                    className="inline-flex items-center gap-2 rounded-2xl border border-cyan-300/25 bg-cyan-300/10 px-6 py-3 font-medium text-cyan-100 transition hover:border-cyan-300/40 hover:bg-cyan-300/15"
+                  >
+                    View Resume
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-3 font-medium text-slate-200 transition hover:border-cyan-300/30 hover:bg-white/10"
+                  >
+                    Contact
+                  </Link>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.65 }}
+                  className="mt-8 flex gap-3"
+                >
+                  <a
+                    href="https://github.com/rishav-dev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-slate-400 transition hover:border-cyan-300/30 hover:text-cyan-200"
+                    aria-label="GitHub"
+                  >
+                    <Github className="h-5 w-5" />
+                  </a>
+
+                  <a
+                    href="https://www.linkedin.com/in/rishav-dsc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-slate-400 transition hover:border-cyan-300/30 hover:text-cyan-200"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+
+                  <a
+                    href="mailto:rishavchakra@umass.edu"
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-slate-400 transition hover:border-cyan-300/30 hover:text-cyan-200"
+                    aria-label="Email"
+                  >
+                    <Mail className="h-5 w-5" />
+                  </a>
+                </motion.div>
+              </div>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="mt-6 text-5xl lg:text-7xl font-bold"
-            >
-              <span className="block text-white">Rishav</span>
-              <span className="block text-gradient">Chakravarty</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mt-6 text-xl text-gray-400 leading-relaxed"
-            >
-              Client Experience & Digital Strategy Consultant specializing in
-              <span className="text-cyan-400"> Data Analytics</span>,
-              <span className="text-teal-400"> Computational Social Science</span>, and
-              <span className="text-green-400"> Behavioral Psychology</span>
-            </motion.p>
-
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="mt-8 flex flex-wrap gap-4"
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.75, delay: 0.2 }}
+              className="relative flex items-center justify-center"
             >
-              <Link
-                href="/projects"
-                className="group px-6 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-lg font-medium text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 flex items-center gap-2"
-              >
-                View Projects
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                href="/contact"
-                className="px-6 py-3 glass rounded-lg font-medium text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/10 transition-all duration-300"
-              >
-                Get In Touch
-              </Link>
-            </motion.div>
+              <div className="absolute h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl" />
+              <div className={`${frostedCard} ${frostedOverlay} p-6`}>
+                <div className="relative z-10">
+                  <div className="relative mx-auto h-72 w-72 overflow-hidden rounded-full border border-white/10 bg-slate-950/50 shadow-2xl md:h-80 md:w-80">
+                    <Image
+                      src="/rishav.jpg"
+                      alt="Rishav Chakravarty"
+                      fill
+                      priority
+                      className="object-cover"
+                    />
+                  </div>
 
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="mt-8 flex gap-4"
-            >
-              <a
-                href="https://github.com/rishavchakra"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 glass rounded-lg text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-300"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-              <a
-                href="https://linkedin.com/in/rishavchakravarty"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 glass rounded-lg text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-300"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a
-                href="mailto:rishav.chakravarty@gmail.com"
-                className="p-3 glass rounded-lg text-gray-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all duration-300"
-              >
-                <Mail className="w-5 h-5" />
-              </a>
+                  <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-4 text-center">
+                    <p className="text-sm uppercase tracking-[0.22em] text-cyan-200">
+                      Portfolio
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-300">
+                      Building data systems that connect technical analysis with
+                      human behavior and practical decisions.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
-
-          {/* Right: Photo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative h-[500px] lg:h-[600px] flex items-center justify-center"
-          >
-            <div className="relative">
-              <Image
-                src="/rishav.jpg"
-                alt="Rishav Chakravarty"
-                width={300}
-                height={300}
-                priority
-                className="rounded-full object-cover shadow-2xl ring-1 ring-white/10"
-              />
-              {/* soft glow behind the avatar */}
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 blur-3xl -z-10" />
-            </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Skills */}
-      <section className="relative py-20 px-4">
-        <div className="container mx-auto">
+      {/* Expertise */}
+      <section className="relative px-4 pb-20">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            transition={{ duration: 0.55 }}
+            className="mb-10 text-center"
           >
-            <h2 className="text-4xl font-bold text-gradient">Core Expertise</h2>
-            <p className="mt-4 text-gray-400">Bridging data science with human behavior</p>
+            <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-200">
+              <Sparkles className="h-4 w-4" />
+              Core Expertise
+            </div>
+
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Data, Behavior, and Strategy
+            </h2>
+
+            <p className="mx-auto mt-3 max-w-2xl text-slate-400">
+              A technical and behavioral-science foundation applied across
+              analytics, machine learning, and client-facing digital systems.
+            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {skills.map((skill, index) => {
+          <div className="grid gap-6 md:grid-cols-3">
+            {expertise.map((skill, index) => {
               const Icon = skill.icon;
+
               return (
-                <motion.div
+                <motion.article
                   key={skill.label}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 22 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
                   className="group relative"
                 >
                   <div
-                    className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"
-                    style={{ backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))` }}
+                    className={`absolute -inset-1 rounded-[2rem] bg-gradient-to-r ${skill.color} opacity-0 blur-xl transition duration-300 group-hover:opacity-25`}
                   />
-                  <div className="relative glass p-8 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300">
-                    <div className={`w-16 h-16 bg-gradient-to-r ${skill.color} p-4 rounded-lg mb-4`}>
-                      <Icon className="w-full h-full text-white" />
+
+                  <div
+                    className={`${frostedCard} ${frostedOverlay} h-full p-7 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/35`}
+                  >
+                    <div className="relative z-10">
+                      <div
+                        className={`mb-5 inline-flex rounded-3xl bg-gradient-to-br ${skill.color} p-4 shadow-lg shadow-cyan-950/30`}
+                      >
+                        <Icon className="h-7 w-7 text-slate-950" />
+                      </div>
+
+                      <h3 className="text-xl font-semibold text-white">
+                        {skill.label}
+                      </h3>
+
+                      <p className="mt-3 text-sm leading-7 text-slate-400">
+                        {skill.description}
+                      </p>
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-2">{skill.label}</h3>
-                    <p className="text-gray-400">
-                      Leveraging advanced techniques to extract meaningful insights from complex datasets
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Metrics */}
+      <section className="relative px-4 pb-20">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="mb-10 text-center"
+          >
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Evidence Snapshot
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-slate-400">
+              Selected measurable outcomes from consulting work, machine
+              learning projects, and research analysis.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {metrics.map((metric, index) => {
+              const Icon = metric.icon;
+
+              return (
+                <motion.div
+                  key={`${metric.value}-${metric.label}`}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className={`${frostedCard} ${frostedOverlay} p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/35`}
+                >
+                  <div className="relative z-10">
+                    <div className="mb-5 flex items-center justify-between">
+                      <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-200">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div className="h-px flex-1 bg-gradient-to-r from-cyan-300/30 to-transparent" />
+                    </div>
+
+                    <div className="bg-gradient-to-r from-cyan-200 to-teal-200 bg-clip-text text-4xl font-bold text-transparent">
+                      {metric.value}
+                    </div>
+                    <p className="mt-3 text-sm font-medium text-slate-200">
+                      {metric.label}
+                    </p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                      {metric.context}
                     </p>
                   </div>
                 </motion.div>
@@ -234,147 +485,159 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================= SNAPSHOT SECTION ========================= */}
-      <section className="relative py-16 px-4">
+      {/* Site Snapshot */}
+      <section className="relative px-4 pb-20">
         <div className="container mx-auto max-w-6xl">
-          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-10"
+            transition={{ duration: 0.55 }}
+            className="mb-10 text-center"
           >
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-sky-400 bg-clip-text text-transparent">
-              Snapshot
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+              Portfolio Map
             </h2>
-            <p className="mt-3 text-gray-400">A quick glance across my site</p>
+            <p className="mx-auto mt-3 max-w-2xl text-slate-400">
+              Explore the portfolio by academic background, professional work,
+              technical projects, and recognition.
+            </p>
           </motion.div>
 
-          {/* Stat tiles */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            {snapshotStats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.04 * i }}
-                className="relative rounded-2xl border border-white/10 glass p-5 text-center"
-              >
-                <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-teal-500/10 to-sky-500/10 blur-xl" />
-                <div className="relative">
-                  <div className="text-3xl font-bold text-cyan-300">{s.value}</div>
-                  <div className="mt-1 text-gray-300">{s.label}</div>
-                  <div className="text-xs text-gray-500">{s.sub}</div>
-                </div>
-              </motion.div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {summaryCards.map((card, index) => (
+              <SummaryCard key={card.title} card={card} index={index} />
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Summary cards grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-            {/* Row 1 (3 cards, each 4 columns) */}
-            <SummaryCard
-              title="Education"
-              bullets={educationBullets}
-              link={{ href: "/education", label: "View timeline →" }}
-              className="lg:col-span-4"
-            />
-            <SummaryCard
-              title="Experience"
-              bullets={experienceBullets}
-              link={{ href: "/experience", label: "See all roles →" }}
-              className="lg:col-span-4"
-            />
-            <SummaryCard
-              title="Projects"
-              bullets={projectBullets}
-              link={{ href: "/projects", label: "Browse projects →" }}
-              className="lg:col-span-4"
-            />
+      {/* Technical Stack + CTA */}
+      <section className="relative px-4 pb-24">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className={`${frostedCard} ${frostedOverlay} p-8 md:p-12`}
+          >
+            <div className="relative z-10 grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+              <div>
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-200">
+                  <Code className="h-4 w-4" />
+                  Technical Stack
+                </div>
 
-            {/* Row 2 (2 cards centered): start at col 3 and 7 */}
-            <SummaryCard
-              title="Achievements & Leadership"
-              bullets={achievementsBullets}
-              link={{ href: "/achievements", label: "See full list →" }}
-              className="lg:col-span-4 lg:col-start-3"
-            />
+                <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+                  Built for applied analytics work
+                </h2>
 
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: 0.1 }}
-              className="relative rounded-2xl border border-white/10 glass p-6 overflow-hidden lg:col-span-4 lg:col-start-7"
-            >
-              <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-teal-500/10 to-sky-500/10 blur-xl" />
-              <div className="relative">
-                <h3 className="text-xl font-semibold text-white mb-3">Let’s Connect</h3>
-                <p className="text-gray-300">
-                  Open to AI/ML, software, and technical consulting roles. Based in Massachusetts.
+                <p className="mt-4 max-w-2xl leading-8 text-slate-400">
+                  My resume emphasizes a practical technical stack across
+                  programming, analytics, dashboarding, web development, and
+                  data-science libraries.
                 </p>
-                <div className="mt-5 flex gap-3">
-                  <Link
-                    href="/resume"
-                    className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 text-white font-medium hover:brightness-110 transition"
-                  >
-                    View Resume
-                  </Link>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {technicalStack.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1.5 text-sm text-cyan-100"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-white/10 bg-slate-950/35 p-6 backdrop-blur-xl">
+                <h3 className="text-xl font-semibold text-white">
+                  Open to data-focused opportunities
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-400">
+                  Interested in roles and collaborations involving data science,
+                  machine learning, behavioral analytics, digital strategy,
+                  dashboards, and applied AI systems.
+                </p>
+
+                <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href="/contact"
-                    className="px-4 py-2 rounded-lg glass border border-white/10 text-gray-200 hover:text-white transition"
+                    className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-300 to-teal-300 px-5 py-3 font-semibold text-slate-950 shadow-lg shadow-cyan-950/30 transition hover:-translate-y-0.5"
                   >
-                    Contact
+                    Let&apos;s Connect
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+
+                  <Link
+                    href="/resume"
+                    className="inline-flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-3 font-medium text-slate-200 transition hover:border-cyan-300/30 hover:bg-white/10"
+                  >
+                    Resume
                   </Link>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>
   );
 }
 
-/* ---------- helper component ---------- */
 function SummaryCard({
-  title,
-  bullets,
-  link,
-  className = "",
+  card,
+  index,
 }: {
-  title: string;
-  bullets: string[];
-  link: { href: string; label: string };
-  className?: string;
+  card: SummaryCardData;
+  index: number;
 }) {
+  const Icon = card.icon;
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.35 }}
-      className={
-        "relative rounded-2xl border border-white/10 glass p-6 overflow-hidden " +
-        className
-      }
+      transition={{ duration: 0.45, delay: index * 0.06 }}
+      className={`${frostedCard} ${frostedOverlay} group p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300/35`}
     >
-      <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-teal-500/10 to-sky-500/10 blur-xl" />
-      <div className="relative">
-        <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
-        <ul className="space-y-2 text-gray-300">
-          {bullets.map((b) => (
-            <li key={b} className="leading-relaxed">• {b}</li>
+      <div className="relative z-10">
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-cyan-200">
+              {card.eyebrow}
+            </p>
+            <h3 className="mt-2 text-2xl font-semibold text-white">
+              {card.title}
+            </h3>
+          </div>
+
+          <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-200">
+            <Icon className="h-6 w-6" />
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          {card.bullets.map((bullet) => (
+            <div
+              key={bullet}
+              className="rounded-2xl border border-white/10 bg-slate-950/35 p-4 text-sm leading-7 text-slate-300 backdrop-blur-xl"
+            >
+              {bullet}
+            </div>
           ))}
-        </ul>
+        </div>
+
         <Link
-          href={link.href}
-          className="mt-3 inline-block text-sm text-cyan-300 hover:text-cyan-200"
+          href={card.href}
+          className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-cyan-200 transition hover:text-white"
         >
-          {link.label}
+          {card.linkLabel}
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }

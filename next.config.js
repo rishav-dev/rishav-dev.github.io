@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  output: 'export',
-  images: { unoptimized: true },
+const nextConfig = {
+  output: "export",
   trailingSlash: true,
-  basePath: '',
+  images: {
+    unoptimized: true,
+  },
 };
+
+module.exports = nextConfig;
