@@ -7,7 +7,7 @@
  * That rule is why the consulting percentages that used to be on this site are
  * gone. They were real, but they were internal figures from private companies
  * with no public record, and a portfolio full of numbers nobody can verify is
- * worth less than a portfolio with five repositories anyone can open. What is
+ * worth less than a portfolio of repositories anyone can open. What is
  * left is code you can read, datasets you can download, cheques that were
  * photographed, and degrees that can be confirmed.
  *
@@ -55,7 +55,7 @@ export const HERO = {
    * to the thing that backs it. Nothing goes here that cannot be checked.
    */
   proof: [
-    { value: "5", label: "public repositories", href: "#code" },
+    { value: "6", label: "public repositories", href: "#code" },
     { value: "$1,550", label: "in pitch prizes won", href: "#kinnovation" },
     { value: "25,886", label: "records in one analysis", href: "#projects" },
   ],
@@ -450,7 +450,7 @@ export interface Project {
   summary: string;
   detail: string[];
   stack: string[];
-  viz: "cluster" | "regression" | "network" | "vision" | "series" | "sentiment";
+  viz: "sentiment" | "series" | "corpus" | "tree";
   /** Public repository. Its presence is what allows a headline number. */
   repo?: string;
   /** Public dataset the work is built on, where there is one. */
@@ -496,6 +496,44 @@ export const PROJECTS: Project[] = [
     },
   },
   {
+    slug: "campus-safety-corpus",
+    name: "Campus Safety Alerts, Ten Universities",
+    context: "UMass Amherst, DACSS 758",
+    year: "2026",
+    result: { value: "519", label: "documents, 10 universities" },
+    summary:
+      "A scraper that builds one comparable dataset out of ten universities that all publish their crime alerts differently. 519 documents, HTML and PDF, with full provenance on every row.",
+    detail: [
+      "Every university publishes safety notices its own way, so a single generic crawler does not work. " +
+        "I wrote a dedicated scraper per institution: ASU, Ohio State, Penn State, UC Berkeley, UMass " +
+        "Amherst, UNC Chapel Hill, UT Austin, UW Madison, University of Florida and University of " +
+        "Washington.",
+      "The output is 519 documents. 473 individual alert notices, 32 from alert feeds, 11 annual security " +
+        "reports and 3 crime logs. 506 came from HTML and 13 out of PDFs through pdfminer. Not every campus " +
+        "keeps a public archive, so where one does not exist the scraper falls back to the annual security " +
+        "and fire safety report instead, and a record_family field marks which is which. Being able to " +
+        "separate those later is the difference between a dataset and a pile.",
+      "The engineering matters more than it sounds. Retry logic on transient failures, throttling between " +
+        "pages so I am not hammering a university's server, and cloudscraper as a fallback for the campuses " +
+        "that answer a normal request with 403. Every row carries the archive URL, the source URL, a content " +
+        "hash and a scrape timestamp, so any figure taken from this can be traced back to the page it came " +
+        "from and checked for drift.",
+    ],
+    stack: ["Python", "BeautifulSoup", "pdfminer.six", "cloudscraper", "requests"],
+    viz: "corpus",
+    repo: "https://github.com/rishav-dev/Project-DACSS-758",
+    table: {
+      caption: "What the scraper collected, by record family. Counts are from university_incident_reports.csv.",
+      head: ["Record family", "Documents"],
+      rows: [
+        ["Alert notices", "473"],
+        ["Alert feeds", "32"],
+        ["Annual security reports", "11"],
+        ["Crime logs", "3"],
+      ],
+    },
+  },
+  {
     slug: "billboard-hot-100",
     name: "The Evolution of the Billboard Hot 100",
     context: "UMass Amherst, DACSS 690S",
@@ -525,108 +563,29 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    slug: "copenhagen-networks",
-    name: "Copenhagen Networks Study",
-    context: "UMass Amherst, DACSS",
+    slug: "nim-agent",
+    name: "Misere Nim Agent",
+    context: "UMass Amherst",
     year: "2026",
-    result: null,
+    result: { value: "0.82s", label: "hard move budget" },
     summary:
-      "Exponential random graph modelling on Facebook friendship ties in a closed student population, with proximity and call records alongside.",
+      "An adversarial search agent for misere Nim. Iterative-deepening minimax, alpha-beta pruning, transposition caching, and a domain evaluator, all inside a one second per move limit.",
     detail: [
-      "ERGMs are the right tool for this and an unforgiving one. The model is a statement about the process " +
-        "that generated the network, so a bad specification does not fit badly. It fits confidently and " +
-        "wrong, which is worse.",
-      "I reported odds ratios with the degeneracy checks that make them believable, because without those " +
-        "checks the numbers are decoration. The underlying dataset is public and linked below if you want to " +
-        "look at what I was working with.",
-      "The coursework itself is not in a public repository, so I am not putting a headline figure on this " +
-        "one. The dataset is public; my analysis of it is not.",
+      "Misere Nim inverts the usual rule: you may take any number of sticks from one pile, and whoever takes " +
+        "the last stick loses. That inversion breaks the textbook nim-sum strategy near the end of the game, " +
+        "which is exactly what makes it worth writing a real search for.",
+      "The agent runs iterative-deepening minimax with alpha-beta pruning, a transposition table keyed on the " +
+        "sorted pile shape, and move ordering driven by a misere-specific evaluation function. Ordering is " +
+        "where most of the pruning actually comes from. Alpha-beta on unordered moves is close to plain " +
+        "minimax.",
+      "The server allows one second per action, so I budget 0.82 and check the deadline inside the search. " +
+        "Before any search begins the agent computes a known-good fallback move, so if the clock runs out it " +
+        "still returns something legal rather than timing out. Designing for the deadline first, then making " +
+        "it smarter inside that budget, is the same discipline as any latency-bound model.",
     ],
-    stack: ["R", "statnet", "ERGM", "Network analysis"],
-    viz: "network",
-    source: {
-      label: "Copenhagen Networks Study (Nature Scientific Data)",
-      href: "https://www.nature.com/articles/s41597-019-0325-x",
-    },
-  },
-  {
-    slug: "ai-advice-seeking",
-    name: "AI Advice-Seeking Experiment",
-    context: "UMass Amherst, DACSS",
-    year: "2026",
-    result: null,
-    summary:
-      "A designed survey experiment on when people accept advice from a model instead of a person, analysed with ANOVA.",
-    detail: [
-      "This is the question I care most about at the moment. Every deployed model is a piece of advice that " +
-        "somebody has to decide whether to take, and the literature on that decision is far thinner than the " +
-        "literature on the models themselves.",
-      "I ran it as a pre-specified design and analysed it with ANOVA. Pre-specified matters here. It is very " +
-        "easy to go looking through a survey until something is significant, and I did not want to be able " +
-        "to do that to myself.",
-      "Coursework, not published, and not in a public repository, so there is no headline number on this " +
-        "card. I will happily walk through the design and the results in an interview.",
-    ],
-    stack: ["R", "ANOVA", "Experimental design", "Survey methods"],
-    viz: "regression",
-  },
-  {
-    slug: "face-recognition",
-    name: "Face Recognition System",
-    context: "Independent",
-    year: "2024",
-    result: null,
-    summary:
-      "A TensorFlow face detection system for live video and stills, tuned for a real-time latency budget rather than accuracy alone.",
-    detail: [
-      "I built this on my own time to understand what real-time actually costs. The accuracy gains came from " +
-        "hyperparameter tuning rather than any architectural cleverness, which is where they usually are and " +
-        "where nobody wants them to be.",
-      "The part I would point at is inference time. Real-time is a latency budget, not an accuracy target. " +
-        "A model that is right and late is wrong. Moving the pipeline onto GPU acceleration is what made it " +
-        "usable at all.",
-      "This one predates my habit of putting everything in a public repository, so I am not printing a " +
-        "figure I cannot show you the code for.",
-    ],
-    stack: ["Python", "TensorFlow", "OpenCV", "CUDA"],
-    viz: "vision",
-  },
-  {
-    slug: "recell-pricing",
-    name: "Dynamic Pricing for ReCell",
-    context: "UT Austin",
-    year: "2024",
-    result: null,
-    summary:
-      "A regression model over refurbished device sales to find what actually drives resale value, and which features the business only believed mattered.",
-    detail: [
-      "The useful output was not the model. It was the list of features the business was confident about " +
-        "that turned out to carry nothing. Telling people that is harder than building the model and it is " +
-        "the part that changes a decision.",
-      "Most of my time went on exploratory analysis before any modelling. The refurbished market has messy, " +
-        "structurally missing data, and I wanted to earn the right to fit a model before I fitted one.",
-      "Coursework at UT Austin, not a public repository.",
-    ],
-    stack: ["Python", "scikit-learn", "Linear regression", "EDA"],
-    viz: "regression",
-  },
-  {
-    slug: "stock-clustering",
-    name: "S&P 500 Clustering",
-    context: "UT Austin",
-    year: "2024",
-    result: null,
-    summary:
-      "k-means and hierarchical clustering over S&P 500 time series, looking for groups that move together past the sector labels.",
-    detail: [
-      "I ran both methods on purpose. Where they agreed told me something about the data. Where they " +
-        "disagreed told me something about my distance metric, and that was the more useful lesson.",
-      "Running two methods and reporting the disagreement is a habit I picked up here and have kept. It is " +
-        "slower and it is the only way I trust an unsupervised result.",
-      "Coursework at UT Austin, not a public repository.",
-    ],
-    stack: ["Python", "k-means", "Hierarchical clustering", "Time series"],
-    viz: "cluster",
+    stack: ["Python", "Minimax", "Alpha-beta pruning", "Memoisation"],
+    viz: "tree",
+    repo: "https://github.com/rishav-dev/nim-agent",
   },
 ];
 
@@ -661,16 +620,26 @@ export const REPOS: Repo[] = [
     project: "billboard-hot-100",
   },
   {
+    name: "Project-DACSS-758",
+    href: "https://github.com/rishav-dev/Project-DACSS-758",
+    language: "Python",
+    blurb:
+      "Ten universities, ten bespoke scrapers, one comparable dataset of campus safety alerts. HTML and PDF, with provenance on every row.",
+    project: "campus-safety-corpus",
+  },
+  {
+    name: "nim-agent",
+    href: "https://github.com/rishav-dev/nim-agent",
+    language: "Python",
+    blurb:
+      "Adversarial search for misere Nim. Iterative-deepening minimax, alpha-beta, transposition caching, inside a one second move budget.",
+    project: "nim-agent",
+  },
+  {
     name: "nutri-navigator-app",
     href: "https://github.com/rishav-dev/nutri-navigator-app",
     language: "Dart",
     blurb: "The NutriNavigator client, built in Flutter.",
-  },
-  {
-    name: "StressMap",
-    href: "https://github.com/rishav-dev/StressMap",
-    language: "Jupyter Notebook",
-    blurb: "Level of Traffic Stress from OpenStreetMap data. Forked from UMassCDS and worked on there.",
   },
   {
     name: "rishav-dev.github.io",
@@ -733,7 +702,9 @@ export const VENTURES: Venture[] = [
       "that is working this week. Trendify reads what is trending, indexes the library you already own and " +
       "puts the two together. The hard problem is finding the right eight seconds inside forty thousand files.",
     hue: "--amber",
-    href: "https://kinnovationgroup.com/trendify",
+    /* No href on purpose. Trendify is the one venture with no page on
+       kinnovationgroup.com yet, and a "Read more" that lands on a 404 is worse
+       than no link at all. Add the URL here once the page is published. */
   },
   {
     slug: "calendai",

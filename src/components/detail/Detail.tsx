@@ -19,8 +19,6 @@ export interface DetailProps {
   stack: string[];
   /** Outbound links: the repo, the source dataset, the organisation's site. */
   links?: { label: string; href: string; kind: "repo" | "site" | "data" }[];
-  /** Shown when there is no public repository, instead of saying nothing. */
-  noRepoNote?: string;
   /** Real figures, rendered as a table. Never invented for layout. */
   table?: { caption: string; head: string[]; rows: (string | number)[][] };
   /** Previous/next within the same collection, for reading straight through. */
@@ -157,11 +155,6 @@ export default function Detail(props: DetailProps) {
             ))}
           </div>
 
-          {props.noRepoNote && (
-            <p className="dt__norepo" data-reveal>
-              {props.noRepoNote}
-            </p>
-          )}
 
           {props.table && (
             <figure className="dt__figure" data-reveal>
@@ -340,20 +333,6 @@ export default function Detail(props: DetailProps) {
           height: 5px;
           border-radius: 50%;
           background: rgb(var(--hue));
-        }
-
-        /* --- no public repo ----------------------------------------------- */
-
-        .dt__norepo {
-          margin-top: 2rem;
-          padding: 1rem 1.25rem;
-          border: 1px solid var(--line);
-          border-left: 2px solid rgb(var(--amber) / 0.6);
-          border-radius: 0 0.75rem 0.75rem 0;
-          max-width: 40rem;
-          font-size: 0.9375rem;
-          line-height: 1.6;
-          color: var(--text-dim);
         }
 
         /* --- table --------------------------------------------------------

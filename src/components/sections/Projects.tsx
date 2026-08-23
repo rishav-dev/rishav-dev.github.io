@@ -7,18 +7,20 @@ import { PROJECTS } from "@/data/profile";
 import ProjectViz from "./ProjectViz";
 
 /* One hue per project, walked along the same spectrum the rest of the site
-   uses so the grid reads as a set rather than seven unrelated accents.
-   Assigned by position and never cycled per-render, so a project keeps its
-   colour between the card, its detail page and the repo list. */
-const HUES = ["--cyan", "--indigo", "--violet", "--lime", "--amber", "--magenta", "--cyan"];
+   uses so the grid reads as a set rather than four unrelated accents. Assigned
+   by position and never cycled, so a project keeps its colour across the card,
+   its detail page and the repo list. */
+const HUES = ["--cyan", "--amber", "--indigo", "--lime"];
 
 /**
  * Projects.
  *
- * Asymmetric on purpose: the first card spans two columns because the face
- * recognition system is the one with a headline number worth reading from
- * across the room. A uniform grid would give five equal-weight cards and no
- * point of entry.
+ * Asymmetric on purpose: the first card spans two columns because the Reddit
+ * study is the one to read first and the one with the strongest number. A
+ * uniform grid would give four equal-weight cards and no point of entry.
+ *
+ * Every project here has a public repository. That is now the entry condition:
+ * work that cannot be opened and checked does not get a card.
  */
 export default function Projects() {
   return (
@@ -27,16 +29,16 @@ export default function Projects() {
         <header className="proj__head" data-reveal>
           <p className="t-label">What I&rsquo;ve built</p>
           <h2 className="t-section">
-            Seven problems.
+            Four projects.
             <br />
-            No two solved the same way.
+            Four repositories.
           </h2>
           <p className="t-body proj__intro">
-            The drawing on each card is generated live from the method that
-            project actually used: two distributions pulling apart, clustering
-            converging on its centroids, a fitted line with its residuals, a
-            graph breathing, a detector locking on. They are motifs, not
-            results; the numbers are in the write-ups.
+            Everything here is public. Clone it, run it, check my numbers
+            against my data. The drawing on each card is generated live from
+            the method that project used: two distributions pulling apart, ten
+            sources feeding one pile, a search tree going dark as alpha-beta
+            prunes it. Motifs, not results. The numbers are in the write-ups.
           </p>
         </header>
 
@@ -83,10 +85,8 @@ export default function Projects() {
                       ))}
                     </ul>
 
-                    {/* GitHub is the primary action wherever there is a repo.
-                        The write-up explains the work; the repo proves it, and
-                        proof goes first. Where there is no public repo the card
-                        says so plainly instead of quietly hiding the link. */}
+                    {/* GitHub first. The write-up explains the work, the repo
+                        proves it, and proof goes first. */}
                     <p className="card__links">
                       {p.repo ? (
                         <>
@@ -100,17 +100,7 @@ export default function Projects() {
                             Write-up
                           </Link>
                         </>
-                      ) : (
-                        <>
-                          <Link className="card__link" href={`/projects/${p.slug}`}>
-                            Read the write-up
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                              <path d="M3 8h10M9 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </Link>
-                          <span className="card__norepo">no public repo</span>
-                        </>
-                      )}
+                      ) : null}
                     </p>
                   </div>
                 </article>
@@ -307,18 +297,6 @@ export default function Projects() {
         }
         .card__links :global(a.card__second):hover {
           color: var(--text);
-        }
-
-        /* Said out loud rather than left as an absence. A missing link that is
-           explained reads as honesty. A missing link that is not explained
-           reads as a claim with nothing behind it. */
-        .card__norepo {
-          font-family: var(--mono);
-          font-size: 0.6875rem;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--text-ghost);
-          white-space: nowrap;
         }
 
         @media (max-width: 900px) {

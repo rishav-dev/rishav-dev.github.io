@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><title>stats</title>
+<style>
+  /* Rendered to the profile repo's assets/stats.png. Hand-rendered rather than
+     pulled from a stats service: those all query the GitHub API through one
+     shared token and spend most of the day rate-limited, which shows up on a
+     profile as a broken image. This never breaks. */
+  @font-face { font-family:"Inter Tight Variable"; src:url("./fonts/inter-tight.woff2") format("woff2-variations"); font-weight:100 900; }
+  @font-face { font-family:"IBM Plex Mono"; src:url("./fonts/plex-mono.woff2") format("woff2"); font-weight:500; }
+  *{box-sizing:border-box;margin:0}
+  html,body{width:1280px;height:220px;overflow:hidden}
+  body{background:#050509;color:#f3f3f7;font-family:"Inter Tight Variable",system-ui,sans-serif;
+       display:flex;align-items:center;gap:0;padding:0 64px;isolation:isolate;position:relative}
+  .bloom{position:absolute;border-radius:50%;filter:blur(70px);z-index:-1}
+  .b1{width:420px;height:420px;left:-80px;top:-160px;background:radial-gradient(circle,rgba(34,217,255,.3),transparent 68%)}
+  .b2{width:380px;height:380px;left:44%;top:-140px;background:radial-gradient(circle,rgba(255,176,46,.24),transparent 68%)}
+  .b3{width:380px;height:380px;right:-60px;bottom:-160px;background:radial-gradient(circle,rgba(178,255,62,.22),transparent 68%)}
+  .cell{flex:1;padding-left:28px;border-left:1px solid rgba(255,255,255,.14)}
+  .cell:first-child{padding-left:0;border-left:0}
+  b{display:block;font-weight:600;font-size:58px;line-height:1;letter-spacing:-.045em}
+  span{display:block;margin-top:12px;font-family:"IBM Plex Mono",monospace;font-size:13px;
+       letter-spacing:.14em;text-transform:uppercase;color:rgba(243,243,247,.42)}
+  .c1 b{color:#22d9ff} .c2 b{color:#ffb02e} .c3 b{color:#b2ff3e} .c4 b{color:#6258ff}
+</style></head>
+<body>
+  <span class="bloom b1"></span><span class="bloom b2"></span><span class="bloom b3"></span>
+  <div class="cell c1"><b>6</b><span>Public repositories</span></div>
+  <div class="cell c2"><b>$1,550</b><span>Pitch prizes, won with Kinjal</span></div>
+  <div class="cell c3"><b>25,886</b><span>Records in one analysis</span></div>
+  <div class="cell c4"><b>519</b><span>Documents, 10 universities</span></div>
+</body></html>

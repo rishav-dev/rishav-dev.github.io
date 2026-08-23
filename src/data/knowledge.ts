@@ -48,7 +48,7 @@ export const ENTRIES: Entry[] = [
     ],
     answer: [
       "Three things sit together in his record that usually do not. Four years of behavioural research and clinical data collection, including hands-on ABA work under HIPAA. Formal quantitative training across UT Austin and the UMass DACSS programme. And a habit of finishing: the analysis, the dashboard, the app, whatever it takes for the finding to reach someone who acts on it.",
-      "He also puts his work where people can check it. Five public repositories, including one with 25,886 Reddit records, three sentiment methods and three classifiers, raw data included so you can re-run it yourself.",
+      "He also puts his work where people can check it. Six public repositories, including one with 25,886 Reddit records, three sentiment methods and three classifiers, raw data included so you can re-run it yourself.",
       "The practical version: he can design the study, build the model, and then build the thing that acts on it. Most candidates do one of those three.",
     ],
   },
@@ -91,7 +91,7 @@ export const ENTRIES: Entry[] = [
     answer: [
       "Start with the two you can read the code for. He pulled 25,886 posts and comments out of three mental health subreddits, scored them three ways, and put logistic regression, a linear SVM and a random forest against each other. The topic clusters that came out are mostly about money and housing rather than mental health, which is the finding he would defend in a room.",
       "The other is a D3 and Three.js scrollytelling piece on how the Billboard Hot 100 changed between 2000 and 2023, built on chart data joined to Spotify audio features.",
-      "Then the coursework: ERGM modelling on the Copenhagen Networks Study, a designed experiment on when people take advice from a model instead of a person, a TensorFlow face detection system, a regression pricing model, and clustering across S&P 500 time series. Those are not in public repositories, so he does not put headline figures on them.",
+      "Then two more, also public. A scraper that builds one comparable dataset out of ten universities that each publish campus safety alerts differently, 519 documents across HTML and PDF with provenance on every row. And an adversarial search agent for misere Nim: iterative-deepening minimax with alpha-beta pruning and transposition caching, inside a one second per move budget.",
     ],
   },
   {
@@ -104,7 +104,7 @@ export const ENTRIES: Entry[] = [
     ],
     answer: [
       "Supervised and unsupervised, applied rather than research-track. The clearest example is public: TF-IDF features into logistic regression, a linear SVM and a random forest over 25,886 Reddit records, with three separate sentiment methods underneath. Logistic regression and the random forest tied at 91.25 percent accuracy and 0.871 F1. Every figure is in the repository.",
-      "Beyond that: computer vision in TensorFlow, ERGMs for network data, ANOVA against designed experiments, k-means and hierarchical clustering on financial time series. He tends to run more than one method and report where they disagree.",
+      "Beyond that: ERGMs for network data, ANOVA against designed experiments, clustering on financial time series, and classical adversarial search in the Nim agent. He tends to run more than one method and report where they disagree.",
     ],
   },
   {
