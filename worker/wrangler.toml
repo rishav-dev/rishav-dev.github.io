@@ -1,0 +1,31 @@
+name = "rishav-assistant"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# Workers AI. This is what lets the Worker run a model with no API key of any
+# kind. Cloudflare bills it against the account's free daily allocation.
+[ai]
+binding = "AI"
+
+# ---------------------------------------------------------------------------
+# Optional: per-visitor rate limiting.
+#
+# Left commented out so the first deploy cannot fail on it. The rate limiting
+# binding is still marked unstable by Cloudflare and rejects the deploy on some
+# accounts, which is a miserable thing to hit on your first try.
+#
+# Once `wrangler deploy` has succeeded once, uncomment this and deploy again.
+# 12 calls per 60 seconds is generous for a person and useless for a script, so
+# nobody can burn the daily allocation on your behalf.
+#
+# The Worker checks for the binding at runtime and simply skips the limit when
+# it is absent, so both states work.
+# ---------------------------------------------------------------------------
+
+# [[ratelimits]]
+# name = "RATE_LIMITER"
+# namespace_id = "1001"
+#
+#   [ratelimits.simple]
+#   limit = 12
+#   period = 60

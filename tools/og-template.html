@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>og</title>
+<style>
+  /* Rendered at exactly 1200x630 by tools/make-og.mjs and saved to
+     public/og.png. Editing this file and re-running the script is how you
+     change the link preview that shows up on LinkedIn, in Slack, in iMessage
+     and in email — for a job search, that image is seen far more often than
+     the site itself. */
+
+  @font-face {
+    font-family: "Inter Tight Variable";
+    src: url("./fonts/inter-tight.woff2") format("woff2-variations");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "IBM Plex Mono";
+    src: url("./fonts/plex-mono.woff2") format("woff2");
+    font-weight: 500;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+
+  html, body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+  }
+
+  body {
+    position: relative;
+    background: #050509;
+    color: #f3f3f7;
+    font-family: "Inter Tight Variable", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 64px 72px;
+    isolation: isolate;
+  }
+
+  /* Same three-bloom lighting as the hero. */
+  .bloom {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    z-index: -2;
+    pointer-events: none;
+  }
+  .b1 { width: 620px; height: 620px; left: -140px; top: -160px;
+        background: radial-gradient(circle, rgba(98,88,255,.62), transparent 68%); }
+  .b2 { width: 460px; height: 460px; right: -80px; top: 90px;
+        background: radial-gradient(circle, rgba(34,217,255,.34), transparent 68%); }
+  .b3 { width: 380px; height: 380px; left: 480px; bottom: -180px;
+        background: radial-gradient(circle, rgba(255,56,152,.3), transparent 68%); }
+
+  /* A faint point field, echoing the boot sequence. Drawn with repeating
+     radial gradients rather than an image so this file stays self-contained. */
+  .field {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: .34;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, rgba(34,217,255,.9), transparent),
+      radial-gradient(1.5px 1.5px at 70% 20%, rgba(178,255,62,.8), transparent),
+      radial-gradient(1.5px 1.5px at 42% 62%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.5px 1.5px at 88% 55%, rgba(98,88,255,.9), transparent),
+      radial-gradient(1.2px 1.2px at 12% 78%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1.2px 1.2px at 60% 88%, rgba(34,217,255,.6), transparent),
+      radial-gradient(1.2px 1.2px at 33% 12%, rgba(255,255,255,.45), transparent),
+      radial-gradient(1.2px 1.2px at 78% 78%, rgba(178,255,62,.5), transparent);
+    background-size: 340px 300px;
+    background-repeat: repeat;
+  }
+
+  header { display: flex; align-items: center; gap: 14px; }
+
+  .mark { width: 38px; height: 38px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 15px;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: rgba(34,217,255,.95);
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 92px;
+    line-height: .92;
+    letter-spacing: -.045em;
+  }
+
+  h1 .grad {
+    background: linear-gradient(100deg, #6258ff, #22d9ff 44%, #b2ff3e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    margin-top: 26px;
+    font-size: 27px;
+    line-height: 1.42;
+    letter-spacing: -.015em;
+    color: rgba(243,243,247,.66);
+    max-width: 22ch;
+  }
+
+  footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; max-width: 720px; }
+
+  .chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 15px;
+    padding: 8px 15px;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,.16);
+    color: rgba(243,243,247,.72);
+  }
+
+  .who {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .who img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,.18);
+  }
+
+  .who div { text-align: right; }
+  .who b { display: block; font-size: 21px; font-weight: 600; letter-spacing: -.02em; }
+  .who span {
+    display: block;
+    margin-top: 4px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    color: rgba(243,243,247,.42);
+  }
+</style>
+</head>
+<body>
+  <span class="bloom b1"></span>
+  <span class="bloom b2"></span>
+  <span class="bloom b3"></span>
+  <span class="field"></span>
+
+  <header>
+    <svg class="mark" viewBox="0 0 32 32">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#6258ff"/>
+          <stop offset="55%" stop-color="#22d9ff"/>
+          <stop offset="100%" stop-color="#b2ff3e"/>
+        </linearGradient>
+      </defs>
+      <path d="M5 24 L12 14 L20 19 L27 7" fill="none" stroke="url(#g)"
+            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="5" cy="24" r="2.6" fill="#6258ff"/>
+      <circle cx="27" cy="7" r="2.6" fill="#b2ff3e"/>
+    </svg>
+    <span class="eyebrow">Data Science · ML · Behavioural Analytics</span>
+  </header>
+
+  <div>
+    <h1>Behaviour<br /><span class="grad">into systems</span></h1>
+    <p class="lede">
+      Data science and applied ML, built on four years of behavioural research.
+    </p>
+  </div>
+
+  <footer>
+    <div class="chips">
+      <span class="chip">M.S. DACSS · UMass Amherst</span>
+      <span class="chip">Python · TensorFlow · SQL</span>
+      <span class="chip">Co-founder, Kinnovation</span>
+    </div>
+    <div class="who">
+      <div>
+        <b>Rishav Chakravarty</b>
+        <span>rishavchakravarty.com</span>
+      </div>
+      <img src="./fonts/photo.jpg" alt="" />
+    </div>
+  </footer>
+</body>
+</html>
