@@ -5,7 +5,7 @@ import { PROJECTS } from "@/data/profile";
 
 /* Same hue order as the project grid on the index, so a card and its page are
    the same colour. */
-const HUES = ["--cyan", "--indigo", "--violet", "--lime", "--amber"];
+const HUES = ["--cyan", "--amber", "--indigo", "--lime"];
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -66,11 +66,6 @@ export default async function ProjectDetail({
           ? [{ label: project.source.label, href: project.source.href, kind: "data" as const }]
           : []),
       ]}
-      noRepoNote={
-        project.repo
-          ? undefined
-          : "This one is coursework and is not in a public repository, so there is no headline figure on it. Happy to walk through the design and the results directly."
-      }
       siblings={[
         ...(prev ? [{ href: `/projects/${prev.slug}`, label: prev.name, dir: "prev" as const }] : []),
         ...(next ? [{ href: `/projects/${next.slug}`, label: next.name, dir: "next" as const }] : []),

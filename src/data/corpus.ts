@@ -71,7 +71,7 @@ chunks.push({
     `as a decision someone made rather than only as a feature that correlates. ` +
     `He pairs it with formal training: a Postgraduate Diploma in Data Science and Business Analytics from ` +
     `UT Austin and the DACSS master's at UMass Amherst. ` +
-    `He also finishes things and puts them where they can be checked. Five public repositories, including ` +
+    `He also finishes things and puts them where they can be checked. Six public repositories, including ` +
     `one holding 25,886 Reddit records, three sentiment methods, three classifiers and the raw data to ` +
     `re-run all of it. Six ventures co-founded with Kinjal Pandey, three of which have won pitch ` +
     `competitions. ` +
