@@ -1,0 +1,20 @@
+name = "rishav-assistant"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# Workers AI — this is what lets the Worker run a model with no API key of any
+# kind. Cloudflare bills it against the account's free daily allocation.
+[ai]
+binding = "AI"
+
+# Per-visitor rate limit so one person cannot burn the daily allocation.
+# 12 calls per 60s is generous for a human and useless for a script.
+# If this ever blocks a deploy, delete the whole block — the Worker checks for
+# the binding at runtime and simply skips the limit when it is absent.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 12
+  period = 60

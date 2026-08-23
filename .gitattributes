@@ -1,0 +1,9 @@
+# Normalise line endings. Without this, checking the repo out on Windows
+# rewrites every line and `git status` shows all 30-odd files as modified with
+# 13,000 insertions and 13,000 identical deletions.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.pdf binary
+*.woff2 binary

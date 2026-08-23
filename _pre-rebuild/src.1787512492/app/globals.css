@@ -1,0 +1,462 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   SIGNAL — design tokens
+   --------------------------------------------------------------------------
+   One palette, one type scale, one motion language. Everything on the site
+   pulls from here; nothing hard-codes a hex value in a component.
+
+   Colour is authored twice. The sRGB values are the floor — correct, legible,
+   what most screens show. The display-p3 block above them is the ceiling: on
+   a wide-gamut screen (any recent Mac, iPhone, iPad) the accents step outside
+   sRGB and genuinely glow. Same design, more headroom where the panel has it.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    color-scheme: dark;
+
+    /* --- surfaces --------------------------------------------------------
+       A violet bias in the black. Neutral #000 reads as "off"; this reads as
+       a room with the lights down. */
+    --void: #050509;
+    --void-2: #09090f;
+    --lift: #101018;
+    --lift-2: #16161f;
+
+    /* --- ink ------------------------------------------------------------- */
+    --text: #f3f3f7;
+    --text-dim: rgb(243 243 247 / 0.58);
+    --text-faint: rgb(243 243 247 / 0.34);
+    --text-ghost: rgb(243 243 247 / 0.16);
+
+    --line: rgb(255 255 255 / 0.08);
+    --line-strong: rgb(255 255 255 / 0.16);
+
+    /* --- the spectrum ----------------------------------------------------
+       Stored as raw channels so any of them can be used with an alpha:
+       rgb(var(--indigo) / 0.4). The ramp runs cool -> hot; sections borrow
+       from it in order so the scroll feels like a single sweep of light. */
+    --indigo: 98 88 255;
+    --violet: 168 85 247;
+    --magenta: 255 56 152;
+    --cyan: 34 217 255;
+    --lime: 178 255 62;
+    --amber: 255 176 46;
+
+    /* Semantic aliases. Components use these, not the raw hues, so the whole
+       site re-skins from six lines. */
+    --accent: var(--indigo);
+    --accent-2: var(--cyan);
+    --accent-hot: var(--magenta);
+
+    /* --- type ------------------------------------------------------------ */
+    --display: "Inter Tight Variable", "Inter Tight", -apple-system,
+      BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --ui: "Inter Variable", Inter, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* --- motion ----------------------------------------------------------
+       Two curves for everything. `--ease` is the workhorse: fast out of the
+       gate, long settle — the thing that makes motion read as physical rather
+       than animated. `--ease-io` is for anything that leaves and returns. */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* --- layout ---------------------------------------------------------- */
+    --gutter: clamp(1.25rem, 4vw, 4.5rem);
+    --measure: 62ch;
+    --bar-h: 4.5rem;
+    --radius: 1.25rem;
+  }
+
+  /* Wide-gamut upgrade. Nothing structural changes — the same six hues, at
+     saturations sRGB cannot address. This is where the "HDR" look comes from;
+     the boot shader reads these too. */
+  @supports (color: color(display-p3 1 1 1)) {
+    @media (color-gamut: p3) {
+      :root {
+        --indigo-p3: color(display-p3 0.38 0.34 1);
+        --violet-p3: color(display-p3 0.66 0.33 0.98);
+        --magenta-p3: color(display-p3 1 0.18 0.58);
+        --cyan-p3: color(display-p3 0.1 0.86 1);
+        --lime-p3: color(display-p3 0.68 1 0.2);
+        --amber-p3: color(display-p3 1 0.69 0.16);
+      }
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* The nav is fixed, so an anchor jump would otherwise park the section's
+     first line underneath it. */
+  :target,
+  [id] {
+    scroll-margin-top: calc(var(--bar-h) + 1rem);
+  }
+
+  html {
+    background: var(--void);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Native smooth scroll is jarring against scroll-driven animation —
+       the sections are choreographed to real scroll position. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--void);
+    color: var(--text);
+    font-family: var(--ui);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.6;
+    overflow-x: clip;
+    /* Numerals line up in tables, metrics and the console. */
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  img,
+  canvas,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.45);
+    color: #fff;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent-2) / 0.9);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 0.1);
+    border-radius: 99px;
+    border: 3px solid var(--void);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--accent) / 0.5);
+  }
+}
+
+/* ==========================================================================
+   Typography primitives
+   ========================================================================== */
+
+@layer components {
+  /* Display type is set tight and optically negative-tracked. The larger it
+     gets the tighter it goes — the thing that separates considered type from
+     default type. */
+  .t-display {
+    font-family: var(--display);
+    font-weight: 600;
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .t-hero {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2.75rem, 9.5vw, 9rem);
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .t-section {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5.5vw, 4.25rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  /* The small uppercase label that anchors every section. Deliberately the
+     only uppercase on the site, so it always reads as chrome, never content. */
+  .t-label {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .t-mono {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    letter-spacing: -0.01em;
+  }
+
+  .t-lede {
+    font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+    line-height: 1.55;
+    color: var(--text-dim);
+    max-width: var(--measure);
+    text-wrap: pretty;
+  }
+
+  .t-body {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: var(--measure);
+    text-wrap: pretty;
+  }
+
+  /* --- layout helpers -------------------------------------------------- */
+
+  .shell {
+    width: 100%;
+    max-width: 96rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--line-strong) 12%,
+      var(--line-strong) 88%,
+      transparent
+    );
+  }
+
+  /* --- surfaces ---------------------------------------------------------
+     One card treatment, used sparingly. The old site put this on everything,
+     which is exactly why every page looked like the same page. */
+  .panel {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.045),
+      rgb(255 255 255 / 0.012)
+    );
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+
+  /* A one-pixel highlight along the top edge. Reads as a light source above
+     the surface, which is most of what makes glass look like glass. */
+  .panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.22),
+      transparent 40%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* --- buttons ----------------------------------------------------------
+     Two weights only: one primary per screen, everything else quiet. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 1.15rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 99px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    background: rgb(255 255 255 / 0.02);
+    transition:
+      background 0.35s var(--ease),
+      border-color 0.35s var(--ease),
+      transform 0.35s var(--ease);
+  }
+
+  .btn:hover {
+    background: rgb(255 255 255 / 0.07);
+    border-color: rgb(255 255 255 / 0.28);
+    transform: translateY(-1px);
+  }
+
+  .btn--primary {
+    border-color: transparent;
+    color: #06060b;
+    background: linear-gradient(
+      100deg,
+      rgb(var(--cyan)),
+      rgb(var(--indigo)) 55%,
+      rgb(var(--violet))
+    );
+    /* The glow is what sells the wide-gamut look — a saturated shadow in the
+       button's own hue, not a neutral drop shadow. */
+    box-shadow: 0 6px 30px -8px rgb(var(--indigo) / 0.8);
+  }
+
+  .btn--primary:hover {
+    background: linear-gradient(
+      100deg,
+      rgb(var(--cyan)),
+      rgb(var(--indigo)) 45%,
+      rgb(var(--violet))
+    );
+    box-shadow: 0 10px 40px -8px rgb(var(--indigo) / 0.95);
+  }
+
+  /* --- the spectral bloom ------------------------------------------------
+     The single most-used effect on the site: a soft, wide, saturated light
+     behind content. Position it with --x/--y, tint it with --hue. */
+  .bloom {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    background: radial-gradient(
+      circle at center,
+      rgb(var(--hue, var(--accent)) / 0.85),
+      transparent 68%
+    );
+  }
+}
+
+/* ==========================================================================
+   Film grain
+   --------------------------------------------------------------------------
+   A static SVG noise field at very low opacity, fixed over everything. It
+   costs nothing, and it stops the large flat black areas and wide gradients
+   from banding on 8-bit panels.
+   ========================================================================== */
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Reveal on scroll
+   --------------------------------------------------------------------------
+   Set by an IntersectionObserver in lib/reveal.ts. Kept in CSS rather than
+   JS-animated so it costs one compositor layer and no main-thread work.
+   ========================================================================== */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Character-level reveal for headlines. */
+.split-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0, 0.5em, 0) rotateX(-40deg);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+[data-reveal="in"] .split-char {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Reduced motion
+   --------------------------------------------------------------------------
+   Everything still arrives, nothing travels. The boot sequence checks this
+   directly and skips to its final frame rather than animating faster.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal],
+  .split-char {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

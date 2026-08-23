@@ -1,6 +1,6 @@
 {
-  "name": "Rishav Chakravarty",
-  "version": "0.1.0",
+  "name": "rishav-chakravarty-site",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev -H 0.0.0.0 --turbopack",
@@ -8,46 +8,31 @@
     "start": "next start",
     "preview": "npx serve out -p 4173",
     "clean": "node -e \"try{require('fs').rmSync('.next',{recursive:true,force:true})}catch{};try{require('fs').rmSync('out',{recursive:true,force:true})}catch{}\"",
-    "lint": "tsc --noEmit && next lint",
-    "format": "biome format --write"
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run clean && tsc --noEmit",
+    "format": "biome format --write src",
+    "shots": "node tools/shoot-sections.mjs",
+    "shots:boot": "node tools/shoot-boot.mjs"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
-    "@tsparticles/react": "^4.3.0",
-    "@tsparticles/slim": "^4.3.0",
-    "@types/three": "^0.185.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.42.2",
-    "gsap": "^3.15.0",
-    "lucide-react": "^0.542.0",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/inter-tight": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.8",
     "next": "^16.2.9",
     "react": "19.2.7",
-    "react-dom": "19.2.7",
-    "react-intersection-observer": "^10.0.3",
-    "react-typed": "^2.0.12",
-    "recharts": "^3.9.1",
-    "same-runtime": "^0.0.1",
-    "tailwind-merge": "^3.6.0",
-    "tailwindcss-animate": "^1.0.7",
-    "three": "^0.185.0"
+    "react-dom": "19.2.7"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.1",
-    "@eslint/eslintrc": "^3.3.5",
     "@types/node": "^26.0.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.6.0",
-    "eslint-config-next": "16.2.9",
     "postcss": "^8.5.16",
     "tailwindcss": "^3.4.17",
     "typescript": "5.9.3"
   },
   "allowScripts": {
-    "@tsparticles/engine@4.3.0": true,
     "sharp@0.34.5": true,
-    "unrs-resolver@1.12.2": true,
-    "es5-ext@0.10.64": true
+    "unrs-resolver@1.12.2": true
   }
 }
