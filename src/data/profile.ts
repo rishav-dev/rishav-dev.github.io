@@ -155,6 +155,36 @@ export interface Role {
 
 export const ROLES: Role[] = [
   {
+    slug: "prodose",
+    org: "ProDose",
+    title: "Product Manager",
+    start: "Sep 2026",
+    end: "Present",
+    order: 202609,
+    place: "Amherst, MA",
+    summary:
+      "A senior capstone team building a smart dispenser for scheduled medication. I run product on the physical side.",
+    detail: [
+      "ProDose automates scheduled dispensing of tablets and capsules. I joined a five-person Mechanical & " +
+        "Industrial Engineering capstone team out of UMass Amherst to run product development on it, which in " +
+        "this case means the physical build, not a backlog.",
+      "Most of the work so far is CAD, 3D modelling and a run of printed prototypes, each one there to answer " +
+        "a specific question about the dispensing mechanism before the next revision gets cut. Translating a " +
+        "product requirement into something that has to survive being an actual mechanical part is a " +
+        "different discipline than translating it into a feature, and I like that it is.",
+      "The rest is coordination: keeping the design decisions, manufacturability constraints and technical " +
+        "requirements consistent across the team as the dispensing architecture gets refined.",
+    ],
+    did: [
+      "Product development for a smart medication dispenser",
+      "3D modelling, CAD and iterative printed prototypes",
+      "Design refinement and manufacturability review",
+      "Coordinating technical requirements across a five-person capstone team",
+    ],
+    stack: ["CAD", "3D printing", "Prototyping", "Product management"],
+    kind: "work",
+  },
+  {
     slug: "steve-fisher",
     org: "Steve Fisher Consulting",
     title: "Data & Behavioural Insights Associate",
