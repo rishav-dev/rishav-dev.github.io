@@ -21,15 +21,16 @@ export default function Work() {
         <header className="work__head" data-reveal>
           <p className="t-label">Where</p>
           <h2 className="t-section">
-            Eight roles.
+            Nine roles.
             <br />
             Three countries.
           </h2>
           <p className="t-body work__intro">
-            Law, wellness, clinical therapy, telecoms, and a dining hall I ran
-            for five and a half years while earning the degree that got me the
-            rest. Different rooms, same job underneath. Find the behaviour in
-            the data, then build the thing that acts on it.
+            Law, wellness, clinical therapy, telecoms, a medical device
+            capstone, and a dining hall I ran for five and a half years while
+            earning the degree that got me the rest. Different rooms, same
+            job underneath. Find the behaviour in the data, then build the
+            thing that acts on it.
           </p>
         </header>
 
