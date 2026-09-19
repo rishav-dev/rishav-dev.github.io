@@ -65,19 +65,19 @@ chunks.push({
   ],
   text:
     `What separates Rishav from other data science candidates is the route in. He has a B.S. in Psychology ` +
-    `with a Computer Science minor from Virginia Tech, and worked as a Behavioural Health Technician ` +
-    `delivering Applied Behaviour Analysis to autistic children, collecting and acting on real-time data ` +
-    `under HIPAA. That is four years of behavioural research before the modelling work, so he reads a metric ` +
+    `with a Computer Science minor from Virginia Tech, and worked as a Behavioral Health Technician ` +
+    `delivering Applied Behavior Analysis to autistic children, collecting and acting on real-time data ` +
+    `under HIPAA. That is four years of behavioral research before the modeling work, so he reads a metric ` +
     `as a decision someone made rather than only as a feature that correlates. ` +
     `He pairs it with formal training: a Postgraduate Diploma in Data Science and Business Analytics from ` +
     `UT Austin and the DACSS master's at UMass Amherst. ` +
-    `He also finishes things and puts them where they can be checked. Six public repositories, including ` +
+    `He also finishes things and puts them where they can be checked. Five public repositories, including ` +
     `one holding 25,886 Reddit records, three sentiment methods, three classifiers and the raw data to ` +
     `re-run all of it. Six ventures co-founded with Kinjal Pandey, three of which have won pitch ` +
     `competitions. ` +
     `Note on numbers: this site deliberately does not quote performance percentages from his consulting ` +
     `work. Those figures were real but they were internal to private companies and no visitor can verify ` +
-    `them, so they were removed in favour of claims anyone can click through and check.`,
+    `them, so they were removed in favor of claims anyone can click through and check.`,
 });
 
 chunks.push({
@@ -246,7 +246,7 @@ chunks.push({
   ],
   text:
     STACK.map((g) => `${g.label}: ${g.items.join(", ")}.`).join(" ") +
-    ` He is strongest in Python and SQL for analysis, TensorFlow for modelling, and Power BI for delivery.`,
+    ` He is strongest in Python and SQL for analysis, TensorFlow for modeling, and Power BI for delivery.`,
 });
 
 /* --- practical ----------------------------------------------------------- */
@@ -306,7 +306,7 @@ const SYNONYMS: Record<string, string[]> = {
   psych: ["psychology", "behavioural", "behavioral"],
   behavioral: ["behavioural", "psychology", "aba"],
   behavioural: ["behavioral", "psychology", "aba"],
-  aba: ["applied", "behaviour", "analysis", "intercare"],
+  aba: ["applied", "behavior", "behaviour", "analysis", "intercare"],
   job: ["role", "work", "experience", "position"],
   jobs: ["role", "work", "experience", "position"],
   hire: ["hiring", "recruit", "employ", "candidate"],

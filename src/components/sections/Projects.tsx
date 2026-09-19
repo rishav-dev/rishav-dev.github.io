@@ -29,16 +29,15 @@ export default function Projects() {
         <header className="proj__head" data-reveal>
           <p className="t-label">What I&rsquo;ve built</p>
           <h2 className="t-section">
-            Four projects.
+            Projects I&rsquo;m
             <br />
-            Four repositories.
+            proudest of.
           </h2>
           <p className="t-body proj__intro">
-            Everything here is public. Clone it, run it, check my numbers
-            against my data. The drawing on each card is generated live from
-            the method that project used: two distributions pulling apart, ten
-            sources feeding one pile, a search tree going dark as alpha-beta
-            prunes it. Motifs, not results. The numbers are in the write-ups.
+            Every project here has a public repository, so you can read the
+            code, run it and check the numbers yourself. The graphic on each
+            card is drawn from the method the project used, so it&rsquo;s an
+            illustration, not a result. The real numbers are in each write-up.
           </p>
         </header>
 

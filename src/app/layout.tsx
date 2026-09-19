@@ -20,7 +20,7 @@ import "@fontsource/ibm-plex-mono/latin-500.css";
 import "./globals.css";
 
 const DESCRIPTION =
-  "Data scientist and ML engineer with a behavioural science background. " +
+  "Data scientist and ML engineer with a behavioral science background. " +
   "DACSS master's candidate at UMass Amherst, co-founder of Kinnovation.";
 
 export const metadata: Metadata = {
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     "machine learning",
     "data analytics",
     "computational social science",
-    "behavioural analytics",
+    "behavioral analytics",
     "UMass Amherst",
     "DACSS",
     PERSON.name,
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: `${PERSON.name}, data science, machine learning and behavioural analytics`,
+        alt: `${PERSON.name}, data science, machine learning and behavioral analytics`,
       },
     ],
   },
@@ -103,7 +103,7 @@ const JSON_LD = {
   knowsAbout: [
     "Data science",
     "Machine learning",
-    "Behavioural analytics",
+    "Behavioral analytics",
     "Computational social science",
     "Network analysis",
   ],

@@ -29,14 +29,14 @@ export default function Repos() {
       <div className="shell">
         <header className="code__head" data-reveal>
           <p className="t-label">On GitHub</p>
-          <h2 className="t-section">Open the source.</h2>
+          <h2 className="t-section">All my public code.</h2>
           <p className="t-body code__intro">
-            Not a curated highlight reel. This is everything public on{" "}
+            This is everything public on{" "}
             <a href={PERSON.github} target="_blank" rel="noreferrer">
               @rishav-dev
             </a>
-            , including the coursework. The interesting ones have write-ups; the
-            rest you can just read.
+            , including coursework, not just the highlights. The bigger
+            projects have write-ups here, and the rest you can just read.
           </p>
         </header>
 

@@ -20,18 +20,18 @@ export default function Pitches() {
     <section className="pitch" aria-labelledby="pitch-heading">
       <header className="pitch__head" data-reveal>
         <h3 className="pitch__title" id="pitch-heading">
-          Three pitches. Three cheques.
+          Three pitch competitions.
         </h3>
         <p className="pitch__total">
           <b>
             <CountUp value={PITCH_TOTAL} duration={1800} />
           </b>
           <span>
-            in prize money, across two universities. All of it won with{" "}
+            in prize money across two universities, all won with{" "}
             <a href={KINNOVATION.cofounder.href} target="_blank" rel="noreferrer">
               {KINNOVATION.cofounder.name}
             </a>
-            . Neither of us has ever pitched alone.
+            . We pitch together every time.
           </span>
         </p>
       </header>
