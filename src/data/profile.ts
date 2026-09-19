@@ -151,6 +151,8 @@ export interface Role {
   did: string[];
   stack: string[];
   kind: "work" | "speaking";
+  /** Extra links on the detail page. "demo" is an on-site page. */
+  links?: { label: string; href: string; kind: "repo" | "site" | "data" | "demo" }[];
 }
 
 export const ROLES: Role[] = [
@@ -183,6 +185,7 @@ export const ROLES: Role[] = [
     ],
     stack: ["CAD", "3D printing", "Prototyping", "Product management"],
     kind: "work",
+    links: [{ label: "Try the dispenser simulation", href: "/work/prodose/simulation/", kind: "demo" }],
   },
   {
     slug: "steve-fisher",

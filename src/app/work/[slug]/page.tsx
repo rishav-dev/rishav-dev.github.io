@@ -59,11 +59,10 @@ export default async function WorkDetail({
       did={role.did}
       body={role.detail}
       stack={role.stack}
-      links={
-        role.orgHref
-          ? [{ label: role.org, href: role.orgHref, kind: "site" as const }]
-          : []
-      }
+      links={[
+        ...(role.links ?? []),
+        ...(role.orgHref ? [{ label: role.org, href: role.orgHref, kind: "site" as const }] : []),
+      ]}
       siblings={[
         ...(prev ? [{ href: `/work/${prev.slug}`, label: prev.org, dir: "prev" as const }] : []),
         ...(next ? [{ href: `/work/${next.slug}`, label: next.org, dir: "next" as const }] : []),
