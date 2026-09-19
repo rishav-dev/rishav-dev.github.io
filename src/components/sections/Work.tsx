@@ -19,18 +19,14 @@ export default function Work() {
     <section className="work" id="work">
       <div className="shell">
         <header className="work__head" data-reveal>
-          <p className="t-label">Where</p>
-          <h2 className="t-section">
-            Nine roles.
-            <br />
-            Three countries.
-          </h2>
+          <p className="t-label">Experience</p>
+          <h2 className="t-section">Where I&rsquo;ve worked.</h2>
           <p className="t-body work__intro">
-            Law, wellness, clinical therapy, telecoms, a medical device
-            capstone, and a dining hall I ran for five and a half years while
-            earning the degree that got me the rest. Different rooms, same
-            job underneath. Find the behaviour in the data, then build the
-            thing that acts on it.
+            A law firm, a wellness practice, a therapy clinic, a telecom
+            company, a medical device capstone, and a university dining hall I
+            helped run for five and a half years while finishing my degrees.
+            The industries are different, but the work is the same: find the
+            behavior in the data, then build something that puts it to use.
           </p>
         </header>
 

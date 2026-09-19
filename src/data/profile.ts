@@ -11,7 +11,7 @@
  * left is code you can read, datasets you can download, cheques that were
  * photographed, and degrees that can be confirmed.
  *
- * Voice: first person, plain, no em dashes. Write it the way he would say it.
+ * Voice: first person, plain, no em dashes. Write it the way he would say it out loud.
  */
 
 /* ==========================================================================
@@ -32,30 +32,28 @@ export const PERSON = {
 } as const;
 
 export const THESIS = {
-  line: "Curiosity is the part you cannot teach. Everything else I went and learned.",
+  line: "I got into data because I wanted to understand people.",
   body:
-    "I started in psychology because I wanted to know why people do what they do. " +
-    "Four years in, I realised the answers I wanted were sitting inside datasets nobody had bothered to " +
-    "build properly. So I went and learned that too: a postgraduate diploma at UT Austin, then the DACSS " +
-    "master's at UMass Amherst. " +
-    "I am not the person who stops when something works. I am the person who asks what it would take to " +
-    "make it right, and then goes and does that part as well.",
+    "I started in psychology because I wanted to know why people do what they do. Somewhere along the way " +
+    "I realized a lot of the answers were sitting in data, so I taught myself to work with it. That led to a " +
+    "postgraduate diploma at UT Austin and now the DACSS master's at UMass Amherst. " +
+    "When something works, I like to keep going until I know it will hold up.",
 } as const;
 
 export const HERO = {
   /* Two lines. The second takes the gradient. */
   lines: ["Built on data.", "Driven by curiosity."],
   kicker:
-    "Data scientist and ML engineer, currently finishing a master's in Data Analytics and Computational " +
-    "Social Science at UMass Amherst. I came in through psychology, so I start with why people behave " +
-    "the way they do and build the system from there.",
+    "I'm a data scientist and ML engineer finishing a master's in Data Analytics and Computational Social " +
+    "Science at UMass Amherst. I started in psychology, so I begin with why people behave the way they do " +
+    "and build from there.",
   role: "Data Science · Machine Learning · Founder",
   /**
    * The proof strip under the hero. Three claims, each one clickable through
    * to the thing that backs it. Nothing goes here that cannot be checked.
    */
   proof: [
-    { value: "6", label: "public repositories", href: "#code" },
+    { value: "5", label: "public repositories", href: "#code" },
     { value: "$1,550", label: "in pitch prizes won", href: "#kinnovation" },
     { value: "25,886", label: "records in one analysis", href: "#projects" },
   ],
@@ -77,15 +75,14 @@ export interface Stage {
 
 export const PIPELINE: Stage[] = [
   {
-    id: "behaviour",
+    id: "behavior",
     index: "01",
-    title: "Behaviour",
+    title: "Behavior",
     verb: "Observe",
     body:
-      "I spent months doing Applied Behaviour Analysis with autistic children, recording every prompt and " +
-      "every response, session after session, under HIPAA. That job taught me something no course did. " +
-      "The data you end up with is a product of the question you asked and the room you asked it in. " +
-      "I have never been able to look at a dataset the same way since.",
+      "Before I wrote any analysis code, I spent months doing Applied Behavior Analysis with autistic children, " +
+      "recording every prompt and response, session after session, under HIPAA. It taught me that a dataset only " +
+      "reflects the question you asked and the situation you asked it in. I check that first on every project now.",
     hue: "--violet",
     tools: ["ABA", "Experimental design", "Survey instruments"],
   },
@@ -95,10 +92,9 @@ export const PIPELINE: Stage[] = [
     title: "Data",
     verb: "Build",
     body:
-      "Most of the work is here, and most people skip it. Pulling 25,886 Reddit posts and comments through " +
-      "the API. Joining Billboard chart history to Spotify audio features. Assembling source tables in Doha " +
-      "so a monthly report could run itself. I like this part. Nothing downstream is any better than what " +
-      "you built here.",
+      "Most of the work happens here. I pulled 25,886 Reddit posts and comments through the API, joined " +
+      "Billboard chart history to Spotify audio features, and built the source tables in Doha that let a " +
+      "monthly report run on its own. Everything downstream depends on this step, so it gets the most care.",
     hue: "--cyan",
     tools: ["Python", "SQL", "PRAW", "Pandas", "Power BI"],
   },
@@ -108,9 +104,9 @@ export const PIPELINE: Stage[] = [
     title: "Model",
     verb: "Test",
     body:
-      "Regression, clustering, classification, computer vision, exponential random graph models. I do not " +
-      "have a favourite method. I have a habit of running three and reporting where they disagree, because " +
-      "the disagreement is usually the interesting result and it is the one most people leave out.",
+      "I've used regression, clustering, classification, computer vision and exponential random graph models. " +
+      "I usually run a few different methods on the same problem and look at where they disagree, because " +
+      "that's often the most interesting part of the result.",
     hue: "--indigo",
     tools: ["scikit-learn", "TensorFlow", "R", "statnet", "Transformers"],
   },
@@ -120,9 +116,8 @@ export const PIPELINE: Stage[] = [
     title: "Decision",
     verb: "Ship",
     body:
-      "A model nobody opens is a hobby. I build the dashboard, the scrollytelling piece, the app, whatever " +
-      "it takes for the finding to reach the person who has to act on it. If the work stops at a notebook, " +
-      "I have not finished.",
+      "A model nobody uses doesn't help anyone. So I build the dashboard, the interactive story or the app " +
+      "that gets the result in front of the person who has to act on it.",
     hue: "--lime",
     tools: ["D3.js", "Three.js", "Plotly Dash", "React", "Flutter"],
   },
@@ -165,21 +160,21 @@ export const ROLES: Role[] = [
     order: 202609,
     place: "Amherst, MA",
     summary:
-      "A senior capstone team building a smart dispenser for scheduled medication. I run product on the physical side.",
+      "Product manager for a smart pill dispenser, working with a five-person senior capstone team.",
     detail: [
-      "ProDose automates scheduled dispensing of tablets and capsules. I joined a five-person Mechanical & " +
-        "Industrial Engineering capstone team out of UMass Amherst to run product development on it, which in " +
-        "this case means the physical build, not a backlog.",
-      "Most of the work so far is CAD, 3D modelling and a run of printed prototypes, each one there to answer " +
-        "a specific question about the dispensing mechanism before the next revision gets cut. Translating a " +
-        "product requirement into something that has to survive being an actual mechanical part is a " +
-        "different discipline than translating it into a feature, and I like that it is.",
-      "The rest is coordination: keeping the design decisions, manufacturability constraints and technical " +
-        "requirements consistent across the team as the dispensing architecture gets refined.",
+      "ProDose is a smart dispenser that automatically dispenses scheduled doses of tablets and capsules. " +
+        "I'm the product manager, working with a five-person Mechanical & Industrial Engineering senior " +
+        "capstone team at UMass Amherst.",
+      "Right now that mostly means the physical design. I model parts in CAD and we 3D print prototypes, and " +
+        "each round is built to answer a specific question about the dispensing mechanism before we change " +
+        "the design again. You can try a physics simulation of the two dispensing concepts we're comparing " +
+        "on this site.",
+      "The rest is keeping the team lined up, so that design decisions, manufacturing constraints and " +
+        "technical requirements stay consistent as the design develops.",
     ],
     did: [
       "Product development for a smart medication dispenser",
-      "3D modelling, CAD and iterative printed prototypes",
+      "3D modeling, CAD and iterative printed prototypes",
       "Design refinement and manufacturability review",
       "Coordinating technical requirements across a five-person capstone team",
     ],
@@ -190,23 +185,22 @@ export const ROLES: Role[] = [
   {
     slug: "steve-fisher",
     org: "Steve Fisher Consulting",
-    title: "Data & Behavioural Insights Associate",
+    title: "Data & Behavioral Insights Associate",
     start: "May 2025",
     end: "Apr 2026",
     order: 202505,
     place: "Menifee, CA",
-    summary:
-      "A year building the analytics for a legal practice, and rebuilding the site that fed it.",
+    summary: "Analytics and a website rebuild for a law firm.",
     detail: [
-      "A law firm is a strange place to do behavioural work, which is why I wanted it. People arrive at a " +
-        "lawyer anxious, mid-problem, scanning fast for whether this person handles their specific thing. " +
-        "I rebuilt the site around that state of mind instead of around the firm's org chart.",
-      "The half I am prouder of is quieter. I took the recurring admin, the intake, the scheduling, the " +
-        "reports nobody had time to run, and automated it. Nothing about that is glamorous. It gave a small " +
-        "team back a serious amount of their week.",
-      "Underneath both, I ran the statistical analysis on client data to find where engagement was actually " +
-        "breaking, built the dashboards so the partners could see it without asking me, and put together " +
-        "predictive models to flag which matters were likely to need attention early.",
+      "Steve Fisher Consulting is a law firm, which made it an interesting place to apply behavioral science. " +
+        "People usually contact a lawyer when they're stressed and want a quick answer on whether this person " +
+        "handles their kind of problem. I redesigned the website around that, instead of around how the firm " +
+        "is organized internally.",
+      "I also automated routine admin work like intake, scheduling and reports that nobody had time to run, " +
+        "which gave a small team a good part of their week back.",
+      "On the analytics side, I ran statistical analysis on client data to find where engagement was " +
+        "dropping off, built dashboards so the partners could see it themselves, and built predictive models " +
+        "to flag which matters were likely to need attention early.",
     ],
     did: [
       "Statistical analysis of client engagement and conversion data",
@@ -225,18 +219,15 @@ export const ROLES: Role[] = [
     end: "Aug 2025",
     order: 202503,
     place: "Remote",
-    summary:
-      "A wellness practice that was good at the work and bad at explaining it. I fixed the explaining.",
+    summary: "Redesigned a wellness practice's website and added analytics to show what was working.",
     detail: [
-      "They were genuinely good at what they did and nobody could tell from the outside. I reworked the " +
-        "service pages, the event galleries and the testimonial flow, which are the three places a nervous " +
+      "Simple Coaching is a wellness practice that was good at its work but didn't come across that way " +
+        "online. I reworked the service pages, event galleries and testimonials, which are where a nervous " +
         "first-time client decides whether to trust you.",
-      "Then I instrumented all of it. That is the step that turned a redesign into a feedback loop. Once we " +
-        "could see which workshops people were finishing and which ones they were abandoning halfway, the " +
-        "next decisions made themselves.",
-      "I also helped shape new workshop formats out of what the data and the client feedback were saying, " +
-        "and set up intern roles for design and social so the marketing would keep running after I left. " +
-        "Building something that outlives your involvement is the actual test.",
+      "Then I added analytics, so we could see which workshops people finished and which ones they dropped " +
+        "partway through. That turned the redesign into something we could keep improving.",
+      "I also helped design new workshop formats based on client feedback and the data, and set up design " +
+        "and social media intern roles so the marketing could keep going after I left.",
     ],
     did: [
       "Client journey analysis and service page redesign",
@@ -251,24 +242,22 @@ export const ROLES: Role[] = [
     slug: "intercare",
     org: "Intercare Therapy",
     orgHref: "https://www.intercaretherapy.com/",
-    title: "Behavioural Health Technician",
+    title: "Behavioral Health Technician",
     start: "Jan 2025",
     end: "Jun 2025",
     order: 202501,
     place: "San Diego, CA",
     summary:
-      "Applied Behaviour Analysis with autistic children. The hardest job I have had, and the one that shaped everything after.",
+      "Applied Behavior Analysis with autistic children. It shaped how I think about data more than any course has.",
     detail: [
-      "I delivered ABA to children with developmental disorders alongside Board Certified Behaviour Analysts. " +
-        "Reinforcement scheduling, prompt fading, task analysis. I collected data on every single trial, " +
-        "because the plan gets adjusted from that data or it does not get adjusted at all.",
-      "When your dataset is a child's afternoon, you stop treating measurement as paperwork. You learn " +
-        "exactly what a noisy signal costs. You learn that the instrument changes the reading. You learn how " +
-        "fast a model falls apart when the conditions shift, because you are watching it happen in front of " +
-        "you and a real person is on the other end of it.",
-      "I also worked with caregivers so the strategies held up at home, handled de-escalation when they did " +
-        "not, and stayed HIPAA compliant throughout. I will never describe an individual case. That is the " +
-        "point of the standard.",
+      "I delivered ABA therapy to children with developmental disorders, working alongside Board Certified " +
+        "Behavior Analysts. That meant reinforcement scheduling, prompt fading and task analysis, with data " +
+        "recorded on every trial, because the treatment plan gets adjusted based on that data.",
+      "When your dataset is a child's afternoon, measurement stops being paperwork. You see what a noisy " +
+        "signal costs, how the act of measuring changes what you measure, and how quickly a plan stops " +
+        "working when conditions change.",
+      "I also trained caregivers so the strategies carried over at home, handled de-escalation when " +
+        "things got hard, and followed HIPAA throughout.",
     ],
     did: [
       "Trial-by-trial data collection and plan adjustment",
@@ -288,12 +277,13 @@ export const ROLES: Role[] = [
     end: "May 2026",
     order: 202603,
     place: "Greenfield, MA",
-    summary: "Selected for the Spring 2026 cohort. Ten weeks of having my assumptions taken apart.",
+    summary: "Selected for the Spring 2026 cohort of an accelerator for early-stage founders.",
     detail: [
-      "I applied and got in. The training was useful. The mentorship was the real thing: people who had " +
-        "already made the mistakes I was lining up to make, telling me which ones were worth making anyway.",
-      "I came out with a much sharper read on positioning and a much shorter list of next steps. Both of " +
-        "those are worth more than a longer list.",
+      "I applied and was accepted into the Spring 2026 Entrepreneurs Accelerator Program at the Franklin " +
+        "County Community Development Corporation. It combined entrepreneurial training with mentorship and " +
+        "feedback on my venture.",
+      "I used it to tighten my business strategy and market positioning and to work out concrete next " +
+        "steps for the startup.",
     ],
     did: [
       "Selected for the Spring 2026 cohort",
@@ -312,16 +302,17 @@ export const ROLES: Role[] = [
     end: "Nov 2023",
     order: 202308,
     place: "Blacksburg, VA",
-    summary: "Invited to speak on machine learning for personalised mental health intervention.",
+    summary: "Invited to speak about machine learning for personalized mental health care.",
     detail: [
-      "My argument was that the model is the easy part. Mental health data is small, deeply personal, and " +
-        "collected under conditions that break most of the assumptions you get taught. Anyone can fit a " +
-        "classifier. Knowing whether you are allowed to believe it is the skill.",
-      "I built the supporting analytics in Power BI so the claims were something the room could look at " +
-        "rather than take on my word. That felt important given what I was arguing.",
+      "I gave a talk on using machine learning to personalize mental health interventions, especially for " +
+        "neurodivergent people, and on why that work needs people from different fields working together.",
+      "My main point was that the model is the easy part. Mental health data is small, personal and " +
+        "collected in conditions that break a lot of standard assumptions, so the hard question is whether " +
+        "you can trust the result. I built the supporting analytics in Power BI so the audience could see " +
+        "the data behind what I was saying.",
     ],
     did: [
-      "Invited talk on ML for personalised therapeutic intervention",
+      "Invited talk on ML for personalized therapeutic intervention",
       "Built the supporting analytics in Power BI",
     ],
     stack: ["Machine learning", "Power BI", "Public speaking"],
@@ -336,14 +327,13 @@ export const ROLES: Role[] = [
     end: "Aug 2021",
     order: 202103,
     place: "Doha, Qatar",
-    summary: "Six months building datasets from scratch and the automated reporting that ran on them.",
+    summary: "Six-month internship building datasets from scratch and the automated reporting on top of them.",
     detail: [
-      "I built the database structures and then the Power BI reporting on top of them. This was the first " +
-        "time I saw analytics change how a week actually felt for the people doing the work, rather than " +
-        "just producing a nicer chart. That stuck with me.",
-      "I also ran a cost-benefit analysis on the final approach, which is where I learned that the " +
-        "statistically best answer and the answer a business will actually adopt are frequently not the " +
-        "same answer. Getting people to use the thing is part of the job, not somebody else's problem.",
+      "I built the database structures and the Power BI reporting on top of them. It was the first time I " +
+        "saw analytics change how someone's work week actually went, not just produce a nicer chart.",
+      "I also ran a cost-benefit analysis on the final approach. It taught me that the statistically best " +
+        "answer and the one a business will actually adopt aren't always the same, and that getting people " +
+        "to use the result is part of the job.",
     ],
     did: [
       "Built datasets and database structures from scratch",
@@ -363,22 +353,21 @@ export const ROLES: Role[] = [
     order: 201808,
     place: "Blacksburg, VA",
     summary:
-      "Five and a half years running shifts in a high-volume dining hall, through the whole degree and the diploma.",
+      "Student manager in a high-volume dining hall for five and a half years, alongside my degrees.",
     detail: [
-      "I ran daily operations at D2 and DX, trained and mentored staff, gave performance feedback, and " +
-        "enforced food safety standards. It is not a data job and I am putting it on here on purpose.",
-      "I did this the entire time I was earning a psychology degree, picking up a computer science minor, " +
-        "and then starting a postgraduate diploma. Nobody handed me the runway. I built it while working, " +
-        "and I would rather someone hiring me knew that than not.",
-      "Managing a team through a dinner rush also taught me something about analytics I could not have got " +
-        "from a course. A recommendation is worthless if the people who have to act on it are already at " +
-        "capacity. I think about that every time I design a dashboard.",
+      "I ran daily operations at D2 and DX, trained and mentored staff, gave performance feedback and " +
+        "enforced food safety standards. It isn't a data job, and I've kept it on here on purpose.",
+      "I worked this job the whole time I was earning a psychology degree with a computer science minor, " +
+        "and then a postgraduate diploma. I'd want an employer to know that.",
+      "Managing a team through a dinner rush also taught me something about analytics: a recommendation is " +
+        "no use if the people who have to act on it are already stretched thin. I think about that whenever " +
+        "I design a dashboard.",
     ],
     did: [
       "Ran daily operations at a high-volume dining hall",
       "Trained and mentored staff, gave ongoing performance feedback",
       "Enforced food safety law and service standards",
-      "Held it down for five and a half years alongside full-time study",
+      "Worked five and a half years alongside full-time study",
     ],
     stack: ["Team leadership", "Operations", "Training"],
     kind: "work",
@@ -392,13 +381,11 @@ export const ROLES: Role[] = [
     end: "Aug 2021",
     order: 202102,
     place: "Doha, Qatar",
-    summary: "Designed a mobile data plan from how customers actually used their phones.",
+    summary: "Designed a mobile data plan based on how customers actually use their phones.",
     detail: [
-      "Telecoms pricing is a behaviour problem wearing a spreadsheet. I built a model on real usage data and " +
-        "used statistical inference to design a plan around what people were genuinely doing, instead of " +
-        "around what the existing tier structure assumed they were doing.",
-      "I was nineteen and nobody expected an intern to question the tier structure. I did it anyway. It is " +
-        "the same instinct I still work from.",
+      "I built a model on real customer usage data and used statistical inference to design a data plan " +
+        "around what people actually do, instead of what the existing tiers assumed they do.",
+      "I was nineteen, and nobody expected an intern to question the tier structure. I did anyway.",
     ],
     did: [
       "Usage model built on real customer data",
@@ -435,9 +422,9 @@ export const DEGREES: Degree[] = [
     end: "2027",
     place: "Amherst, MA",
     note:
-      "I chose DACSS specifically because it refuses to treat the social science as decoration. Network " +
-      "analysis, experimental design and causal inference sit alongside the modelling, which is exactly the " +
-      "combination I had been trying to assemble on my own.",
+      "I picked DACSS because it treats the social science as a real part of the work. Network analysis, " +
+      "experimental design and causal inference sit alongside the modeling, which is the mix I'd been " +
+      "trying to piece together on my own.",
   },
   {
     school: "The University of Texas at Austin",
@@ -448,8 +435,8 @@ export const DEGREES: Degree[] = [
     end: "2024",
     place: "Austin, TX",
     note:
-      "Eight months, applied end to end, taken while I was still finishing at Virginia Tech. I wanted the " +
-      "quantitative foundation properly rather than picked up in pieces.",
+      "An eight-month applied program, taken while I was still finishing at Virginia Tech. I wanted a " +
+      "solid quantitative foundation instead of picking it up piece by piece.",
   },
   {
     school: "Virginia Tech",
@@ -460,8 +447,7 @@ export const DEGREES: Degree[] = [
     end: "2024",
     place: "Blacksburg, VA",
     note:
-      "The computer science minor started as curiosity and turned into the other half of what I do. I have " +
-      "stopped thinking of them as two subjects.",
+      "The computer science minor started out of curiosity and became the other half of what I do.",
   },
 ];
 
@@ -494,26 +480,26 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     slug: "reddit-mental-health",
-    name: "Mental Health Signal on Reddit",
+    name: "What People Say About Mental Health on Reddit",
     context: "UMass Amherst",
     year: "2026",
-    result: { value: "25,886", label: "posts and comments" },
+    result: { value: "25,886", label: "posts and comments analyzed" },
     summary:
-      "I pulled 6,398 posts and 19,488 comments out of three mental health subreddits and put three classifiers against each other on the sentiment labels. Every file is in the repo.",
+      "I collected about 26,000 posts and comments from three mental health subreddits, then compared how three sentiment tools and three classifiers read them. The code and data are all in the repo.",
     detail: [
-      "This is the project I would hand someone first, because you can check all of it. The repository has " +
-        "the collection script, the raw CSVs, the scored CSVs, the model results and the dashboard.",
-      "PRAW pulls posts and comments from r/Anxiety, r/depression and r/mentalhealth. Every item gets scored " +
-        "three separate ways: VADER, TextBlob, and a HuggingFace transformer. I used three because " +
-        "lexicon-based sentiment and a fine-tuned model disagree in genuinely interesting places on text " +
-        "this personal, and I wanted to see where.",
-      "Then classification. TF-IDF features into logistic regression, a linear SVM and a random forest. " +
-        "Logistic regression and the random forest tied at 91.25 percent accuracy and 0.871 F1. The SVM came " +
-        "in at 90.63 and 0.868. Those three are closer to each other than any of them is to a careful reading " +
-        "of what the labels actually mean, and I think that is the honest thing to say about this kind of work.",
-      "The finding I would defend in a room is from the topic modelling. The clusters that came out are " +
-        "mostly not about mental health at all. They are about money, housing, politics and social media. " +
-        "The subreddit is where people go to talk about anxiety, and what they talk about is rent.",
+      "I built this to see what people actually talk about in online mental health communities. It's also " +
+        "the easiest project to check: the repository has the collection script, the raw and scored data, " +
+        "the model results and the dashboard.",
+      "I used the Reddit API to collect 6,398 posts and 19,488 comments from r/Anxiety, r/depression and " +
+        "r/mentalhealth, then scored every item with three sentiment methods: VADER, TextBlob and a " +
+        "HuggingFace transformer. I used three because lexicon-based tools and fine-tuned models often " +
+        "disagree on text this personal, and I wanted to see where.",
+      "Then I trained three classifiers on TF-IDF features. Logistic regression and the random forest tied " +
+        "at 91.25% accuracy (0.871 F1), and the linear SVM came in at 90.63% (0.868 F1). Those results are " +
+        "close enough that which model you pick matters less than what the labels actually capture.",
+      "The most interesting result came from the topic modeling. Most of the topics that came out weren't " +
+        "about mental health directly. They were about money, housing, politics and social media. People " +
+        "go to these subreddits to talk about anxiety, and a lot of what they talk about is rent.",
     ],
     stack: ["Python", "PRAW", "scikit-learn", "NLTK VADER", "Transformers", "Plotly Dash"],
     viz: "sentiment",
@@ -530,27 +516,25 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "campus-safety-corpus",
-    name: "Campus Safety Alerts, Ten Universities",
+    name: "Campus Safety Alerts Dataset",
     context: "UMass Amherst, DACSS 758",
     year: "2026",
-    result: { value: "519", label: "documents, 10 universities" },
+    result: { value: "519", label: "safety documents from 10 universities" },
     summary:
-      "A scraper that builds one comparable dataset out of ten universities that all publish their crime alerts differently. 519 documents, HTML and PDF, with full provenance on every row.",
+      "Every university publishes its crime alerts differently, so I wrote a scraper for each of ten schools and combined the results into one dataset you can compare across campuses.",
     detail: [
-      "Every university publishes safety notices its own way, so a single generic crawler does not work. " +
-        "I wrote a dedicated scraper per institution: ASU, Ohio State, Penn State, UC Berkeley, UMass " +
+      "Every university publishes safety notices in its own way, so a single crawler doesn't work. I wrote " +
+        "a separate scraper for each of ten schools: ASU, Ohio State, Penn State, UC Berkeley, UMass " +
         "Amherst, UNC Chapel Hill, UT Austin, UW Madison, University of Florida and University of " +
         "Washington.",
-      "The output is 519 documents. 473 individual alert notices, 32 from alert feeds, 11 annual security " +
-        "reports and 3 crime logs. 506 came from HTML and 13 out of PDFs through pdfminer. Not every campus " +
-        "keeps a public archive, so where one does not exist the scraper falls back to the annual security " +
-        "and fire safety report instead, and a record_family field marks which is which. Being able to " +
-        "separate those later is the difference between a dataset and a pile.",
-      "The engineering matters more than it sounds. Retry logic on transient failures, throttling between " +
-        "pages so I am not hammering a university's server, and cloudscraper as a fallback for the campuses " +
-        "that answer a normal request with 403. Every row carries the archive URL, the source URL, a content " +
-        "hash and a scrape timestamp, so any figure taken from this can be traced back to the page it came " +
-        "from and checked for drift.",
+      "The dataset has 519 documents: 473 individual alert notices, 32 from alert feeds, 11 annual " +
+        "security reports and 3 crime logs. 506 came from web pages and 13 from PDFs. Some campuses don't " +
+        "keep a public archive of alerts, so for those the scraper falls back to the annual security " +
+        "report, and a record_family column marks which kind each row is so they can be analyzed separately.",
+      "It also had to be dependable. The scraper retries failed requests, waits between pages so it " +
+        "doesn't overload university servers, and uses cloudscraper for sites that block ordinary " +
+        "requests. Every row stores the source URL, the archive URL, a content hash and a timestamp, so " +
+        "any number taken from the dataset can be traced back to the page it came from.",
     ],
     stack: ["Python", "BeautifulSoup", "pdfminer.six", "cloudscraper", "requests"],
     viz: "corpus",
@@ -568,24 +552,23 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "billboard-hot-100",
-    name: "The Evolution of the Billboard Hot 100",
+    name: "How Pop Music Changed, 2000 to 2023",
     context: "UMass Amherst, DACSS 690S",
     year: "2026",
-    result: { value: "24", label: "years of charts, scrollytold" },
+    result: { value: "24", label: "years of Billboard charts" },
     summary:
-      "A D3 and Three.js scrollytelling piece on how pop music changed across 24 years, built on Billboard chart data joined to Spotify audio features.",
+      "An interactive scroll-through of how the Billboard Hot 100 changed over 24 years, built from chart data joined to Spotify audio features, using D3 and Three.js.",
     detail: [
-      "I wanted to build an argument you scroll through rather than a dashboard you poke at. As you move, " +
-        "the case builds: long-term trends in danceability, energy, acousticness and valence, then how the " +
-        "distribution of what makes a song chart has shifted, then a 3D pass through the feature space for " +
-        "the point where two dimensions genuinely stop being enough.",
-      "The data is Billboard Hot 100 entries from 2000 to 2023 joined to Spotify audio features. I " +
-        "preprocessed it into three cleaned JSON layers, track level, year level and artist level, so the " +
-        "front end can change granularity without going back to the network. Missing numerics are normalised " +
-        "to null and filtered rather than imputed. A quietly imputed audio feature is a lie you then plot.",
-      "D3 does the 2D work, scroll triggers run off an IntersectionObserver, and Three.js takes the " +
-        "multi-dimensional views. There are artist deep dives too, Taylor Swift, Drake, The Weeknd, which is " +
-        "where most people actually start clicking.",
+      "I wanted to make something you scroll through and follow as an argument, not a dashboard you click " +
+        "around in. As you scroll, it covers long-term trends in danceability, energy, acousticness and " +
+        "valence, how what makes a song chart has shifted, and then a 3D view of the feature space for the " +
+        "point where two dimensions stop being enough.",
+      "The data is Billboard Hot 100 entries from 2000 to 2023, joined to Spotify audio features. I cleaned " +
+        "it into three JSON layers (by track, by year and by artist) so the page can switch between levels " +
+        "of detail without more network requests. Missing values are dropped instead of filled in, because " +
+        "an estimated audio feature would just be made-up data on the chart.",
+      "D3 draws the 2D charts, an IntersectionObserver triggers the scroll steps, and Three.js handles the " +
+        "multi-dimensional views. There are also artist pages for Taylor Swift, Drake and The Weeknd.",
     ],
     stack: ["D3.js", "Three.js", "JavaScript", "Python"],
     viz: "series",
@@ -597,26 +580,25 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "nim-agent",
-    name: "Misere Nim Agent",
+    name: "Misere Nim Game Agent",
     context: "UMass Amherst",
     year: "2026",
-    result: { value: "0.82s", label: "hard move budget" },
+    result: { value: "0.82s", label: "search time per move" },
     summary:
-      "An adversarial search agent for misere Nim. Iterative-deepening minimax, alpha-beta pruning, transposition caching, and a domain evaluator, all inside a one second per move limit.",
+      "A game-playing agent for misere Nim, where whoever takes the last stick loses. It searches ahead with minimax and alpha-beta pruning and always answers within the one-second move limit.",
     detail: [
-      "Misere Nim inverts the usual rule: you may take any number of sticks from one pile, and whoever takes " +
-        "the last stick loses. That inversion breaks the textbook nim-sum strategy near the end of the game, " +
-        "which is exactly what makes it worth writing a real search for.",
-      "The agent runs iterative-deepening minimax with alpha-beta pruning, a transposition table keyed on the " +
-        "sorted pile shape, and move ordering driven by a misere-specific evaluation function. Ordering is " +
-        "where most of the pruning actually comes from. Alpha-beta on unordered moves is close to plain " +
-        "minimax.",
-      "The server allows one second per action, so I budget 0.82 and check the deadline inside the search. " +
-        "Before any search begins the agent computes a known-good fallback move, so if the clock runs out it " +
-        "still returns something legal rather than timing out. Designing for the deadline first, then making " +
-        "it smarter inside that budget, is the same discipline as any latency-bound model.",
+      "In misere Nim you can take any number of sticks from one pile, and whoever takes the last stick " +
+        "loses. That flips the standard strategy near the end of the game, which is why a proper search is " +
+        "worth writing.",
+      "The agent uses iterative-deepening minimax with alpha-beta pruning and a transposition table keyed " +
+        "on the sorted pile sizes. Move ordering comes from an evaluation function I wrote for misere play, " +
+        "and it does most of the pruning, since alpha-beta without good ordering is close to plain minimax.",
+      "The server allows one second per move, so the agent stops searching at 0.82 seconds and checks the " +
+        "clock as it goes. Before searching, it works out a safe fallback move, so if time runs out it " +
+        "still returns a legal move instead of timing out. Building around the deadline first and then " +
+        "making it smarter within that budget is the same approach you'd take with any latency-bound model.",
     ],
-    stack: ["Python", "Minimax", "Alpha-beta pruning", "Memoisation"],
+    stack: ["Python", "Minimax", "Alpha-beta pruning", "Memoization"],
     viz: "tree",
     repo: "https://github.com/rishav-dev/nim-agent",
   },
@@ -642,14 +624,14 @@ export const REPOS: Repo[] = [
     href: "https://github.com/rishav-dev/MentalHealthResearch-SocialMedia",
     language: "Python",
     blurb:
-      "Reddit collection, three sentiment methods, three classifiers, topic modelling and a Dash dashboard. Raw data included so you can re-run it.",
+      "Reddit data collection, sentiment scoring, classifiers, topic modeling and a dashboard. The raw data is included so you can re-run everything.",
     project: "reddit-mental-health",
   },
   {
     name: "690s-final",
     href: "https://github.com/rishav-dev/690s-final",
     language: "JavaScript",
-    blurb: "The Billboard Hot 100 scrollytelling piece. D3 for the 2D charts, Three.js for the feature space.",
+    blurb: "The Billboard Hot 100 scroll story, with D3 for the 2D charts and Three.js for the 3D feature space.",
     project: "billboard-hot-100",
   },
   {
@@ -657,7 +639,7 @@ export const REPOS: Repo[] = [
     href: "https://github.com/rishav-dev/Project-DACSS-758",
     language: "Python",
     blurb:
-      "Ten universities, ten bespoke scrapers, one comparable dataset of campus safety alerts. HTML and PDF, with provenance on every row.",
+      "Scrapers for ten universities' campus safety alerts, combined into one dataset with the source recorded for every row.",
     project: "campus-safety-corpus",
   },
   {
@@ -665,20 +647,14 @@ export const REPOS: Repo[] = [
     href: "https://github.com/rishav-dev/nim-agent",
     language: "Python",
     blurb:
-      "Adversarial search for misere Nim. Iterative-deepening minimax, alpha-beta, transposition caching, inside a one second move budget.",
+      "A misere Nim agent using minimax, alpha-beta pruning and caching, within a one-second move limit.",
     project: "nim-agent",
   },
   {
     name: "nutri-navigator-app",
     href: "https://github.com/rishav-dev/nutri-navigator-app",
     language: "Dart",
-    blurb: "The NutriNavigator client, built in Flutter.",
-  },
-  {
-    name: "rishav-dev.github.io",
-    href: "https://github.com/rishav-dev/rishav-dev.github.io",
-    language: "TypeScript",
-    blurb: "This site. Next.js, a WebGL boot sequence, and an assistant with no API key anywhere.",
+    blurb: "The Flutter client for NutriNavigator.",
   },
 ];
 
@@ -691,11 +667,11 @@ export const KINNOVATION = {
   role: "Co-founder",
   cofounder: { name: "Kinjal Pandey", href: "https://kinjalpandey.com/" },
   site: "https://kinnovationgroup.com",
-  line: "Six ventures. Three prizes. One partner I have never built anything without.",
+  line: "Six ventures and three pitch prizes, all built with my co-founder Kinjal Pandey.",
   body:
-    "Kinnovation is what Kinjal Pandey and I do outside the day job. We are not an incubator and we are not " +
-    "a consultancy. We build the things ourselves, we take them into rooms full of judges, and we keep the " +
-    "ones that survive it. Every venture below is joint work and every prize was won together.",
+    "Kinnovation is what Kinjal Pandey and I work on outside our jobs and classes. We're not an incubator or " +
+    "a consultancy. We build the products ourselves, pitch them to judges, and keep working on the ones that " +
+    "hold up. Every venture below is joint work, and every prize was won together.",
 } as const;
 
 export interface Venture {
@@ -714,26 +690,27 @@ export const VENTURES: Venture[] = [
   {
     slug: "karnah",
     name: "Karnah",
-    line: "In-kind giving you can trace from your door to the person who needed it.",
+    line: "Donate items and see where they end up.",
     stage: "In development",
     award: "$750, second place at UPitch Spring 2026",
     body:
-      "AI verification of an item's condition and fair market value from photos, matched to charities that " +
-      "actually need that item, with an audit-ready tax receipt at the end. Nonprofits drown in the wrong " +
-      "donations while the right ones never find them. Karnah closes that gap.",
+      "Karnah uses AI to check an item's condition and fair market value from photos, matches it with a " +
+      "charity that needs that item, and produces a tax receipt that's ready for an audit. Charities often " +
+      "get donations they can't use while the ones they need never reach them, and Karnah is meant to close " +
+      "that gap.",
     hue: "--magenta",
     href: "https://kinnovationgroup.com/karnah",
   },
   {
     slug: "trendify",
     name: "Trendify AI",
-    line: "You already shot it. You just cannot find it.",
+    line: "Find the right clip in the footage you already have.",
     stage: "Conceptual architecture",
     award: "$300, Minute Pitch winner",
     body:
-      "Nobody has nothing to post. They have eleven thousand photos and no idea which one fits the format " +
-      "that is working this week. Trendify reads what is trending, indexes the library you already own and " +
-      "puts the two together. The hard problem is finding the right eight seconds inside forty thousand files.",
+      "Most people have thousands of photos and videos and no idea which one fits what's trending this week. " +
+      "Trendify tracks what's trending, indexes your library and matches the two. The hard part is finding " +
+      "the right eight seconds inside forty thousand files.",
     hue: "--amber",
     /* No href on purpose. Trendify is the one venture with no page on
        kinnovationgroup.com yet, and a "Read more" that lands on a 404 is worse
@@ -742,37 +719,38 @@ export const VENTURES: Venture[] = [
   {
     slug: "calendai",
     name: "CalendAI",
-    line: "A calendar that reschedules itself when the day breaks.",
+    line: "A calendar that reschedules itself when your day falls apart.",
     stage: "In development",
     award: "$500, Apex Center for Entrepreneurs",
     body:
-      "Intelligent scheduling built on behavioural modelling instead of calendar rules. I worked as its " +
-      "behavioural data analyst, doing the predictive modelling and the A/B testing on smart-calendar " +
-      "features, on AWS, MongoDB, Node and React.",
+      "Scheduling based on behavioral modeling instead of fixed calendar rules. I worked on it as the " +
+      "behavioral data analyst, doing the predictive modeling and A/B testing of smart-calendar features " +
+      "on AWS, MongoDB, Node and React.",
     hue: "--indigo",
     href: "https://kinnovationgroup.com/calendai",
   },
   {
     slug: "measmi",
     name: "MeAsmi",
-    line: "Finding what actually worked for children whose symptoms match yours, not whose diagnosis does.",
+    line: "Find what worked for children with similar symptoms, not just the same diagnosis.",
     stage: "In development",
     body:
-      "A machine learning platform for neurodivergent support. I co-led the interdisciplinary team, using " +
-      "clustering and supervised methods to surface therapy-efficacy signal. It is the question every parent " +
-      "asks and almost no dataset is arranged to answer, which is exactly why I wanted to work on it.",
+      "A machine learning platform for supporting neurodivergent children. I co-led the interdisciplinary " +
+      "team, using clustering and supervised models to find which therapies worked for whom. It's the " +
+      "question every parent asks and hardly any dataset is set up to answer, which is why I wanted to " +
+      "work on it.",
     hue: "--violet",
     href: "https://kinnovationgroup.com/measmi",
   },
   {
     slug: "nutri-navigator",
     name: "NutriNavigator",
-    line: "What to eat, when and where, from your body, your calendar and what is within walking distance.",
+    line: "What to eat, based on your body, your schedule and what's nearby.",
     stage: "In development",
     body:
-      "A nutrition guidance app in Dart and Flutter. It is constraint satisfaction more than recommendation. " +
-      "The hard part was never knowing what is healthy. It is what is healthy, open, affordable and " +
-      "reachable in the forty minutes you actually have.",
+      "A nutrition app built in Dart and Flutter. It's less about recommending foods and more about " +
+      "constraints: what's healthy, open, affordable and close enough to reach in the forty minutes you " +
+      "actually have.",
     hue: "--lime",
     href: "https://kinnovationgroup.com/nutri-navigator",
     repo: "https://github.com/rishav-dev/nutri-navigator-app",
@@ -780,13 +758,13 @@ export const VENTURES: Venture[] = [
   {
     slug: "witness-platform",
     name: "Witness",
-    line: "A record of what people saw, kept sealed until the person it happened to asks for it.",
+    line: "A neutral record of what people saw, sealed until the person involved asks for it.",
     stage: "Concept and legal framing",
     body:
-      "Thirty people see it happen, none of them know each other, and within hours the details have blurred. " +
-      "Camera footage is overwritten in a day. Witness holds accounts while they are still accurate and " +
-      "releases them only with consent from everyone involved. A neutral evidence vault, deliberately not a " +
-      "reputational database.",
+      "When something happens, thirty strangers might see it and the details fade within hours, while " +
+      "camera footage often gets overwritten within a day. Witness stores accounts while they're still " +
+      "fresh and only releases them with consent from everyone involved. It's meant to be a neutral " +
+      "evidence vault, not a reputation database.",
     hue: "--cyan",
     href: "https://kinnovationgroup.com/witness-platform",
   },
@@ -877,16 +855,14 @@ export interface Honor {
 export const HONORS: Honor[] = [
   {
     name: "The Action Taker Award",
-    body:
-      "Given for leading the digital upgrades through the LISC Digital Growth Accelerator. The name of the " +
-      "award is the part I liked. It was for executing, not for proposing.",
+    body: "Awarded for leading the digital upgrades through the LISC Digital Growth Accelerator.",
     by: "LISC Massachusetts and the IXL Center",
     byHref: "https://www.lisc.org/massachusetts/",
     year: "2025",
   },
   {
     name: "Entrepreneurs Accelerator Program",
-    body: "Selected for the Spring 2026 cohort out of an open application round.",
+    body: "Selected for the Spring 2026 cohort from an open application round.",
     by: "Franklin County CDC",
     byHref: "https://www.fccdc.org/",
     year: "2026",
@@ -916,7 +892,7 @@ export const STACK: SkillGroup[] = [
     label: "ML and analysis",
     items: ["TensorFlow", "scikit-learn", "Pandas", "NumPy", "Transformers", "NLTK", "ERGM", "Time series"],
   },
-  { label: "Visualisation", items: ["D3.js", "Three.js", "Plotly Dash", "Power BI", "Matplotlib"] },
+  { label: "Visualization", items: ["D3.js", "Three.js", "Plotly Dash", "Power BI", "Matplotlib"] },
   {
     label: "Platforms and engineering",
     items: ["MongoDB", "Microsoft SQL Server", "Google Cloud", "React", "Node.js", "Flutter", "Docker", "Git"],
@@ -925,11 +901,11 @@ export const STACK: SkillGroup[] = [
 
 export const COURSEWORK = [
   "Applied Statistics",
-  "Regression & Predictive Modelling",
+  "Regression & Predictive Modeling",
   "Machine Learning",
   "Exploratory Data Analysis",
   "SQL & Database Management",
-  "Data Visualisation",
+  "Data Visualization",
   "Time Series Forecasting",
   "Model Tuning & Validation",
 ];
@@ -940,12 +916,11 @@ export const COURSEWORK = [
 
 export const AVAILABILITY = {
   status:
-    "I finish the DACSS master's at UMass Amherst in May 2027 and I am looking for data science, machine " +
-    "learning and analytics work in the meantime. I would rather join something where the problem is hard " +
-    "than something where the title is impressive.",
+    "I finish the DACSS master's at UMass Amherst in May 2027, and I'm looking for data science, machine " +
+    "learning and analytics roles. I'd rather work on a hard problem than have an impressive title.",
   interests: [
     "Data science and applied machine learning",
-    "Behavioural and experimental research",
+    "Behavioral and experimental research",
     "Analytics engineering and BI",
     "Early-stage product work",
   ],

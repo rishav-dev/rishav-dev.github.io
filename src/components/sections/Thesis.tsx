@@ -4,7 +4,7 @@ import { THESIS } from "@/data/profile";
 import { useScrollProgress } from "@/lib/scroll";
 
 /**
- * The argument.
+ * About me.
  *
  * One sentence, set very large on a nearly empty screen, revealed word by word
  * against scroll position rather than on a timer, so the reading pace is the
@@ -26,7 +26,7 @@ export default function Thesis() {
     <section className="thesis" id="thesis" ref={ref}>
       <div className="thesis__sticky">
         <div className="shell">
-          <p className="t-label thesis__label">The argument</p>
+          <p className="t-label thesis__label">About me</p>
 
           <p className="thesis__line" aria-label={THESIS.line}>
             {words.map((word, i) => {

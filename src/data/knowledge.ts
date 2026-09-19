@@ -35,7 +35,7 @@ export const ENTRIES: Entry[] = [
     ],
     answer: [
       "Rishav Chakravarty is a data scientist and ML engineer based in Amherst, Massachusetts. He is finishing an M.S. in Data Analytics & Computational Social Science at UMass Amherst in May 2027.",
-      "He came in through psychology. A B.S. from Virginia Tech, then clinical work delivering Applied Behaviour Analysis, which is why he starts from the behaviour rather than the metric. He is also co-founder of Kinnovation, a venture studio.",
+      "He came in through psychology. A B.S. from Virginia Tech, then clinical work delivering Applied Behavior Analysis, which is why he starts from the behavior rather than the metric. He is also co-founder of Kinnovation, a venture studio.",
     ],
   },
   {
@@ -47,9 +47,9 @@ export const ENTRIES: Entry[] = [
       "different", "stand", "value", "candidate", "best", "good", "suited",
     ],
     answer: [
-      "Three things sit together in his record that usually do not. Four years of behavioural research and clinical data collection, including hands-on ABA work under HIPAA. Formal quantitative training across UT Austin and the UMass DACSS programme. And a habit of finishing: the analysis, the dashboard, the app, whatever it takes for the finding to reach someone who acts on it.",
-      "He also puts his work where people can check it. Six public repositories, including one with 25,886 Reddit records, three sentiment methods and three classifiers, raw data included so you can re-run it yourself.",
-      "The practical version: he can design the study, build the model, and then build the thing that acts on it. Most candidates do one of those three.",
+      "A few things stand out. He has four years of behavioral research and clinical data collection, including hands-on ABA work under HIPAA. He has formal quantitative training from UT Austin and the UMass DACSS program. And he follows a project through to the end: the analysis, the dashboard, the app, whatever it takes for the result to reach the person who needs it.",
+      "His work is public, so you can check it. He has five public repositories, including one with 25,886 Reddit records, three sentiment methods and three classifiers, raw data included so you can re-run it yourself.",
+      "In practice, he can design the study, build the model, and then build the tool that puts the result to use.",
     ],
   },
   {
@@ -63,7 +63,7 @@ export const ENTRIES: Entry[] = [
     ],
     answer: [
       "Three, in order. B.S. in Psychology with a Computer Science minor from Virginia Tech (2021–2024). Postgraduate Diploma in Data Science & Business Analytics from UT Austin (2024). M.S. in Data Analytics & Computational Social Science from UMass Amherst (2025–2027).",
-      "DACSS is the unusual one. It takes the social science as seriously as the computation, so the coursework runs through network analysis, experimental design and causal inference as well as the modelling.",
+      "DACSS is the unusual one. It takes the social science as seriously as the computation, so the coursework runs through network analysis, experimental design and causal inference as well as the modeling.",
     ],
   },
   {
@@ -75,8 +75,8 @@ export const ENTRIES: Entry[] = [
       "history", "where", "position", "company",
     ],
     answer: [
-      "Most recently: Data & Behavioural Insights Associate at Steve Fisher Consulting (2025–2026), and Client Experience & Digital Strategy Consultant at Simple Coaching Inc. (2025).",
-      "Before that: Behavioural Health Technician at Intercare Therapy, featured speaker for Google Developer Student Clubs, and data analytics internships at Zad Holding Company and Ooredoo in Doha, Qatar. He was also selected for the Franklin County CDC Entrepreneurs Accelerator in 2026.",
+      "Most recently: Data & Behavioral Insights Associate at Steve Fisher Consulting (2025–2026), and Client Experience & Digital Strategy Consultant at Simple Coaching Inc. (2025).",
+      "Before that: Behavioral Health Technician at Intercare Therapy, featured speaker for Google Developer Student Clubs, and data analytics internships at Zad Holding Company and Ooredoo in Doha, Qatar. He was also selected for the Franklin County CDC Entrepreneurs Accelerator in 2026.",
       "Ask about any one of them by name and I will go deeper.",
     ],
   },
@@ -89,9 +89,9 @@ export const ENTRIES: Entry[] = [
       "sample", "work sample",
     ],
     answer: [
-      "Start with the two you can read the code for. He pulled 25,886 posts and comments out of three mental health subreddits, scored them three ways, and put logistic regression, a linear SVM and a random forest against each other. The topic clusters that came out are mostly about money and housing rather than mental health, which is the finding he would defend in a room.",
-      "The other is a D3 and Three.js scrollytelling piece on how the Billboard Hot 100 changed between 2000 and 2023, built on chart data joined to Spotify audio features.",
-      "Then two more, also public. A scraper that builds one comparable dataset out of ten universities that each publish campus safety alerts differently, 519 documents across HTML and PDF with provenance on every row. And an adversarial search agent for misere Nim: iterative-deepening minimax with alpha-beta pruning and transposition caching, inside a one second per move budget.",
+      "The one to start with is his Reddit analysis. He collected 25,886 posts and comments from three mental health subreddits, scored them with three sentiment methods, and compared logistic regression, a linear SVM and a random forest. The topics that came out were mostly about money and housing, not mental health directly.",
+      "He also built an interactive scroll story with D3 and Three.js on how the Billboard Hot 100 changed between 2000 and 2023, using chart data joined to Spotify audio features.",
+      "Two more are public too: a set of scrapers that combines campus safety alerts from ten universities into one dataset (519 documents, with the source recorded for every row), and a misere Nim agent that uses minimax with alpha-beta pruning and stays inside a one-second move limit.",
     ],
   },
   {
@@ -148,7 +148,7 @@ export const ENTRIES: Entry[] = [
     answer: [
       "Languages: Python, R, SQL, JavaScript, Java, MATLAB, Bash. ML and analysis: TensorFlow, Pandas, NumPy, scikit-learn, Matplotlib, ERGM, time series methods.",
       "Data platforms: Power BI, MongoDB, Microsoft SQL Server, Google Cloud. Engineering: React, Node.js, Docker, Git, JUnit.",
-      "Strongest in Python and SQL for the analysis, TensorFlow for the modelling, Power BI for getting it in front of people who make decisions.",
+      "Strongest in Python and SQL for the analysis, TensorFlow for the modeling, Power BI for getting it in front of people who make decisions.",
     ],
   },
   {
@@ -156,12 +156,12 @@ export const ENTRIES: Entry[] = [
     question: "Why does the psychology background matter?",
     suggest: true,
     keywords: [
-      "psychology", "psych", "behaviour", "behavior", "behavioural", "behavioral",
+      "psychology", "psych", "behavior", "behaviour", "behavioral", "behavioural",
       "aba", "intercare", "therapy", "clinical", "autism", "neurodivergent",
       "matter", "relevant",
     ],
     answer: [
-      "Because it changes what he does when a number moves. Applied Behaviour Analysis work at Intercare meant collecting data on every trial of a session with an autistic child, under HIPAA, and adjusting the intervention from that data in real time.",
+      "Because it changes what he does when a number moves. Applied Behavior Analysis work at Intercare meant collecting data on every trial of a session with an autistic child, under HIPAA, and adjusting the intervention from that data in real time.",
       "When your dataset is a child's afternoon you stop treating measurement as paperwork. You learn what a noisy signal costs, why the instrument changes the reading, and how fast a model falls apart when conditions shift. That is the habit he brings to analytics work.",
     ],
   },
@@ -192,7 +192,7 @@ export const ENTRIES: Entry[] = [
     question: "What did he do at Steve Fisher Consulting?",
     keywords: ["steve", "fisher", "consulting", "legal", "law", "menifee", "37", "43"],
     answer: [
-      "He was Data and Behavioural Insights Associate there from May 2025 to April 2026. He rebuilt the firm's website around how people actually arrive at a lawyer, which is anxious, mid-problem and scanning fast for relevance, rather than around the firm's org chart.",
+      "He was Data and Behavioral Insights Associate there from May 2025 to April 2026. He rebuilt the firm's website around how people actually arrive at a lawyer, which is anxious, mid-problem and scanning fast for relevance, rather than around the firm's org chart.",
       "The quieter half mattered more. He automated the intake, the scheduling and the recurring reporting, which gave a small team back a serious amount of their week. Underneath both: statistical analysis of client engagement data, KPI dashboards for the partners, and predictive models to flag matters likely to need attention early.",
     ],
   },
@@ -208,7 +208,7 @@ const SYNONYMS: Record<string, string[]> = {
   cv: ["computer", "vision"],
   uni: ["university", "school"],
   grad: ["graduate", "master"],
-  psych: ["psychology", "behavioural"],
+  psych: ["psychology", "behavioral", "behavioural"],
   vt: ["virginia", "tech"],
   umass: ["massachusetts", "amherst"],
   job: ["work", "role", "experience"],
