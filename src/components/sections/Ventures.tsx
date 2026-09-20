@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import Tilt from "@/components/fx/Tilt";
 import Pitches from "@/components/sections/Pitches";
 import { KINNOVATION, VENTURES } from "@/data/profile";
 
 /**
- * Kinnovation, the venture studio Rishav co-founded with Kinjal Pandey.
+ * Kinnovation Group, the venture studio Rishav co-founded with Kinjal Pandey.
  *
  * This is the one saturated section on the site, and that is a deliberate
  * budget decision: everything else runs on near-black with a single accent, so
@@ -100,6 +101,14 @@ export default function Ventures() {
                         </svg>
                       </a>
                     )}
+                    {v.internal?.map((l) => (
+                      <Link key={l.href} href={l.href}>
+                        {l.label}
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <path d="M3 8h10M9 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </Link>
+                    ))}
                     {v.repo && (
                       <a href={v.repo} target="_blank" rel="noreferrer">
                         Source
@@ -160,7 +169,7 @@ export default function Ventures() {
           margin-top: 1.25rem;
           font-family: var(--display);
           font-weight: 700;
-          font-size: clamp(2.75rem, 11vw, 9rem);
+          font-size: clamp(2.5rem, 8.5vw, 7.5rem);
           line-height: 0.86;
           letter-spacing: -0.055em;
           background: linear-gradient(
@@ -316,7 +325,8 @@ export default function Ventures() {
           margin-top: auto;
           padding-top: 1.1rem;
         }
-        .vent__links a {
+        .vent__links a,
+        .vent__links :global(a) {
           display: inline-flex;
           align-items: center;
           gap: 0.35rem;
@@ -325,7 +335,8 @@ export default function Ventures() {
           color: rgb(var(--hue));
           transition: opacity 0.3s var(--ease);
         }
-        .vent__links a:hover {
+        .vent__links a:hover,
+        .vent__links :global(a):hover {
           opacity: 0.72;
         }
 

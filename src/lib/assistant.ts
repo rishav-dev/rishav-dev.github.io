@@ -165,7 +165,7 @@ async function askLocal(
     ? match.entry.answer
     : [
         "That one isn't in my notes.",
-        "I can cover his background, education, roles, projects, machine learning work, Kinnovation and the ventures, awards, technical stack, or how to reach him. Type `help` for the full list.",
+        "I can cover his background, education, roles, projects, machine learning work, Kinnovation Group and the ventures, awards, technical stack, or how to reach him. Type `help` for the full list.",
       ];
 
   /* Typed out word by word so the offline path has the same rhythm as the

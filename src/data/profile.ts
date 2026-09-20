@@ -22,8 +22,7 @@ export const PERSON = {
   name: "Rishav Chakravarty",
   short: "Rishav",
   location: "Amherst, Massachusetts",
-  email: "rishavchakra@umass.edu",
-  emailAlt: "rishavchakravarty18@gmail.com",
+  email: "rishavchakravarty18@gmail.com",
   phone: "443-214-4881",
   linkedin: "https://www.linkedin.com/in/rishav-dsc",
   github: "https://github.com/rishav-dev",
@@ -160,7 +159,7 @@ export const ROLES: Role[] = [
     order: 202609,
     place: "Amherst, MA",
     summary:
-      "Product manager for a smart pill dispenser, working with a five-person senior capstone team.",
+      "Product manager for a smart pill dispenser, working with a five-person senior capstone team. There's a physics simulation of the design you can try here.",
     detail: [
       "ProDose is a smart dispenser that automatically dispenses scheduled doses of tablets and capsules. " +
         "I'm the product manager, working with a five-person Mechanical & Industrial Engineering senior " +
@@ -663,15 +662,15 @@ export const REPOS: Repo[] = [
    ========================================================================== */
 
 export const KINNOVATION = {
-  name: "Kinnovation",
+  name: "Kinnovation Group",
   role: "Co-founder",
   cofounder: { name: "Kinjal Pandey", href: "https://kinjalpandey.com/" },
   site: "https://kinnovationgroup.com",
-  line: "Six ventures and three pitch prizes, all built with my co-founder Kinjal Pandey.",
+  line: "Seven ventures and three pitch prizes, built with my co-founder Kinjal Pandey.",
   body:
-    "Kinnovation is what Kinjal Pandey and I work on outside our jobs and classes. We're not an incubator or " +
-    "a consultancy. We build the products ourselves, pitch them to judges, and keep working on the ones that " +
-    "hold up. Every venture below is joint work, and every prize was won together.",
+    "Kinnovation Group is what Kinjal Pandey and I work on outside our jobs and classes. We're not an " +
+    "incubator or a consultancy. We build the products ourselves, pitch them to judges, and keep working on " +
+    "the ones that hold up. The three pitch prizes below were all won together.",
 } as const;
 
 export interface Venture {
@@ -684,6 +683,8 @@ export interface Venture {
   hue: string;
   href?: string;
   repo?: string;
+  /** Pages on this site, for ventures without one on kinnovationgroup.com. */
+  internal?: { label: string; href: string }[];
 }
 
 export const VENTURES: Venture[] = [
@@ -767,6 +768,21 @@ export const VENTURES: Venture[] = [
       "evidence vault, not a reputation database.",
     hue: "--cyan",
     href: "https://kinnovationgroup.com/witness-platform",
+  },
+  {
+    slug: "prodose",
+    name: "ProDose",
+    line: "A smart dispenser for scheduled medication.",
+    stage: "In development",
+    body:
+      "ProDose automatically dispenses scheduled doses of tablets and capsules. I'm the product manager, " +
+      "working with a five-person UMass Amherst senior capstone team on the physical design: CAD, 3D printed " +
+      "prototypes, and a physics simulation comparing two dispensing concepts that you can try on this site.",
+    hue: "--lime",
+    internal: [
+      { label: "Read more", href: "/work/prodose/" },
+      { label: "Try the simulation", href: "/work/prodose/simulation/" },
+    ],
   },
 ];
 

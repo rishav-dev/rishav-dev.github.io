@@ -78,7 +78,7 @@ export default function ResumeView() {
             <div>
               <h1 className="rs__name">{PERSON.name}</h1>
               <p className="rs__role">
-                Data Scientist · ML Engineer · Co-founder, Kinnovation
+                Data Scientist · ML Engineer · Co-founder, Kinnovation Group
               </p>
               <ul className="rs__contact">
                 <li>
