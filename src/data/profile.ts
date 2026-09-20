@@ -82,7 +82,7 @@ export const PIPELINE: Stage[] = [
       "Before I wrote any analysis code, I spent months doing Applied Behavior Analysis with autistic children, " +
       "recording every prompt and response, session after session, under HIPAA. It taught me that a dataset only " +
       "reflects the question you asked and the situation you asked it in. I check that first on every project now.",
-    hue: "--violet",
+    hue: "--indigo",
     tools: ["ABA", "Experimental design", "Survey instruments"],
   },
   {
@@ -117,7 +117,7 @@ export const PIPELINE: Stage[] = [
     body:
       "A model nobody uses doesn't help anyone. So I build the dashboard, the interactive story or the app " +
       "that gets the result in front of the person who has to act on it.",
-    hue: "--lime",
+    hue: "--cyan",
     tools: ["D3.js", "Three.js", "Plotly Dash", "React", "Flutter"],
   },
 ];
@@ -699,7 +699,7 @@ export const VENTURES: Venture[] = [
       "charity that needs that item, and produces a tax receipt that's ready for an audit. Charities often " +
       "get donations they can't use while the ones they need never reach them, and Karnah is meant to close " +
       "that gap.",
-    hue: "--magenta",
+    hue: "--indigo",
     href: "https://kinnovationgroup.com/karnah",
   },
   {
@@ -712,7 +712,7 @@ export const VENTURES: Venture[] = [
       "Most people have thousands of photos and videos and no idea which one fits what's trending this week. " +
       "Trendify tracks what's trending, indexes your library and matches the two. The hard part is finding " +
       "the right eight seconds inside forty thousand files.",
-    hue: "--amber",
+    hue: "--cyan",
     /* No href on purpose. Trendify is the one venture with no page on
        kinnovationgroup.com yet, and a "Read more" that lands on a 404 is worse
        than no link at all. Add the URL here once the page is published. */
@@ -740,7 +740,7 @@ export const VENTURES: Venture[] = [
       "team, using clustering and supervised models to find which therapies worked for whom. It's the " +
       "question every parent asks and hardly any dataset is set up to answer, which is why I wanted to " +
       "work on it.",
-    hue: "--violet",
+    hue: "--cyan",
     href: "https://kinnovationgroup.com/measmi",
   },
   {
@@ -752,7 +752,7 @@ export const VENTURES: Venture[] = [
       "A nutrition app built in Dart and Flutter. It's less about recommending foods and more about " +
       "constraints: what's healthy, open, affordable and close enough to reach in the forty minutes you " +
       "actually have.",
-    hue: "--lime",
+    hue: "--indigo",
     href: "https://kinnovationgroup.com/nutri-navigator",
     repo: "https://github.com/rishav-dev/nutri-navigator-app",
   },
@@ -778,7 +778,7 @@ export const VENTURES: Venture[] = [
       "ProDose automatically dispenses scheduled doses of tablets and capsules. I'm the product manager, " +
       "working with a five-person UMass Amherst senior capstone team on the physical design: CAD, 3D printed " +
       "prototypes, and a physics simulation comparing two dispensing concepts that you can try on this site.",
-    hue: "--lime",
+    hue: "--indigo",
     internal: [
       { label: "Read more", href: "/work/prodose/" },
       { label: "Try the simulation", href: "/work/prodose/simulation/" },
@@ -821,7 +821,7 @@ export const PITCHES: Pitch[] = [
     institution: "UMass Amherst",
     date: "2026-04-24",
     dateLabel: "April 2026",
-    hue: "--magenta",
+    hue: "--indigo",
   },
   {
     ventureSlug: "trendify",
@@ -833,7 +833,7 @@ export const PITCHES: Pitch[] = [
     institution: "UMass Amherst",
     date: "2025-10-16",
     dateLabel: "October 2025",
-    hue: "--amber",
+    hue: "--cyan",
   },
   {
     ventureSlug: "calendai",

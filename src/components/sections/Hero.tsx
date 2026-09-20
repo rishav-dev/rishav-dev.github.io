@@ -176,12 +176,7 @@ export default function Hero() {
         /* The second line takes the gradient. One coloured line, not two.
            The restraint is what makes the colour land. */
         .hero__line--grad {
-          background: linear-gradient(
-            100deg,
-            rgb(var(--indigo)),
-            rgb(var(--cyan)) 42%,
-            rgb(var(--lime))
-          );
+          background: linear-gradient(100deg, rgb(var(--indigo)), rgb(var(--cyan)));
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;

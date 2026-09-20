@@ -106,15 +106,7 @@ export default function Pitches() {
           font-size: clamp(2.25rem, 5vw, 3.5rem);
           line-height: 1;
           letter-spacing: -0.045em;
-          background: linear-gradient(
-            100deg,
-            rgb(var(--amber)),
-            rgb(var(--magenta)) 60%,
-            rgb(var(--violet))
-          );
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
+          color: rgb(var(--cyan));
         }
         .pitch__total span {
           font-size: 1rem;

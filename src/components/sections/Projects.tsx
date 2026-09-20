@@ -10,7 +10,7 @@ import ProjectViz from "./ProjectViz";
    uses so the grid reads as a set rather than four unrelated accents. Assigned
    by position and never cycled, so a project keeps its colour across the card,
    its detail page and the repo list. */
-const HUES = ["--cyan", "--amber", "--indigo", "--lime"];
+const HUES = ["--cyan", "--indigo"];
 
 /**
  * Projects.

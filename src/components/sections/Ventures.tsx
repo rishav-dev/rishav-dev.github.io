@@ -20,9 +20,8 @@ export default function Ventures() {
   return (
     <section className="kin" id="kinnovation">
       <div className="kin__field" aria-hidden="true">
-        <span className="bloom" style={{ ["--hue" as string]: "var(--magenta)", width: "52vw", height: "52vw", left: "-10vw", top: "-14vh", opacity: 0.42 }} />
-        <span className="bloom" style={{ ["--hue" as string]: "var(--violet)", width: "44vw", height: "44vw", right: "-8vw", top: "18vh", opacity: 0.36 }} />
-        <span className="bloom" style={{ ["--hue" as string]: "var(--amber)", width: "30vw", height: "30vw", left: "44vw", bottom: "-10vh", opacity: 0.18 }} />
+        <span className="bloom" style={{ ["--hue" as string]: "var(--indigo)", width: "52vw", height: "52vw", left: "-10vw", top: "-14vh", opacity: 0.32 }} />
+        <span className="bloom" style={{ ["--hue" as string]: "var(--cyan)", width: "44vw", height: "44vw", right: "-8vw", top: "18vh", opacity: 0.16 }} />
       </div>
 
       <div className="shell kin__inner">
@@ -136,13 +135,7 @@ export default function Ventures() {
           /* A hairline top and bottom so the colour field reads as a distinct
              chapter rather than a gradient that leaked. */
           border-block: 1px solid var(--line);
-          background: linear-gradient(
-            180deg,
-            var(--void),
-            #0b0512 35%,
-            #0d0616 65%,
-            var(--void)
-          );
+          background: var(--void);
         }
 
         .kin__field {
@@ -172,12 +165,7 @@ export default function Ventures() {
           font-size: clamp(2.5rem, 8.5vw, 7.5rem);
           line-height: 0.86;
           letter-spacing: -0.055em;
-          background: linear-gradient(
-            96deg,
-            rgb(var(--amber)),
-            rgb(var(--magenta)) 42%,
-            rgb(var(--violet))
-          );
+          background: linear-gradient(96deg, rgb(var(--cyan)), rgb(var(--indigo)));
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
