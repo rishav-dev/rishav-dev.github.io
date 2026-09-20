@@ -35,7 +35,7 @@ export const ENTRIES: Entry[] = [
     ],
     answer: [
       "Rishav Chakravarty is a data scientist and ML engineer based in Amherst, Massachusetts. He is finishing an M.S. in Data Analytics & Computational Social Science at UMass Amherst in May 2027.",
-      "He came in through psychology. A B.S. from Virginia Tech, then clinical work delivering Applied Behavior Analysis, which is why he starts from the behavior rather than the metric. He is also co-founder of Kinnovation, a venture studio.",
+      "He came in through psychology. A B.S. from Virginia Tech, then clinical work delivering Applied Behavior Analysis, which is why he starts from the behavior rather than the metric. He is also co-founder of Kinnovation Group, a venture studio.",
     ],
   },
   {
@@ -109,15 +109,15 @@ export const ENTRIES: Entry[] = [
   },
   {
     id: "kinnovation",
-    question: "What is Kinnovation?",
+    question: "What is Kinnovation Group?",
     suggest: true,
     keywords: [
       "kinnovation", "studio", "venture", "startup", "founder", "cofounder",
       "co-founder", "entrepreneur", "company", "kinjal", "pandey",
     ],
     answer: [
-      "Kinnovation is a venture studio Rishav co-founded with Kinjal Pandey. Not an incubator and not a consultancy. They build the things themselves and keep the ones that survive a room full of judges.",
-      "Six ventures, all joint work: Karnah (traceable in-kind donation matching), Trendify AI (finds the clip in your camera roll that fits what is trending), CalendAI (a calendar that reschedules itself), MeAsmi (ML for neurodivergent support), NutriNavigator (nutrition guidance in Flutter), and Witness (a sealed evidence vault). Three of them have won pitch competitions.",
+      "Kinnovation Group is a venture studio Rishav co-founded with Kinjal Pandey. Not an incubator and not a consultancy. They build the things themselves and keep the ones that survive a room full of judges.",
+      "Seven ventures. Six are joint work with Kinjal: Karnah (traceable in-kind donation matching), Trendify AI (finds the clip in your camera roll that fits what is trending), CalendAI (a calendar that reschedules itself), MeAsmi (ML for neurodivergent support), NutriNavigator (nutrition guidance in Flutter), and Witness (a sealed evidence vault). The seventh is ProDose, a smart medication dispenser where Rishav is product manager on a UMass Amherst senior capstone team; there is a physics simulation of it on this site. Three of the ventures have won pitch competitions.",
       "All are in development or at concept stage. None is a launched commercial product, none has disclosed revenue or users, and none is fundraising.",
     ],
   },
@@ -175,7 +175,7 @@ export const ENTRIES: Entry[] = [
       "looking", "connect", "message",
     ],
     answer: [
-      "Email rishavchakra@umass.edu. He is on LinkedIn at linkedin.com/in/rishav-dsc and GitHub at github.com/rishav-dev, and his resume is downloadable from the bottom of this page.",
+      "Email rishavchakravarty18@gmail.com. He is on LinkedIn at linkedin.com/in/rishav-dsc and GitHub at github.com/rishav-dev, and his resume is downloadable from the bottom of this page.",
       "He finishes the DACSS master's in May 2027 and is open to data science, ML and analytics roles and internships in the meantime.",
     ],
   },

@@ -245,15 +245,18 @@ export default function Console({
           )}
         </div>
 
-        {messages.length <= 1 && (
-          <div className="cx__suggest">
-            {SUGGESTIONS.map((s) => (
-              <button key={s.id} onClick={() => void submit(s.question)}>
-                {s.question}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="cx__suggest" data-compact={messages.length > 1 ? "" : undefined}>
+          {SUGGESTIONS.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              disabled={thinking}
+              onClick={() => void submit(s.question)}
+            >
+              {s.question}
+            </button>
+          ))}
+        </div>
 
         <form
           className="cx__form"
@@ -529,7 +532,23 @@ export default function Console({
             border-color 0.3s var(--ease),
             background 0.3s var(--ease);
         }
-        .cx__suggest button:hover {
+        /* Once a conversation is under way the chips collapse to one
+           scrollable row, so they stay reachable without eating the log. */
+        .cx__suggest[data-compact] {
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          padding-bottom: 0.75rem;
+          scrollbar-width: thin;
+        }
+        .cx__suggest[data-compact] button {
+          flex: none;
+          white-space: nowrap;
+        }
+        .cx__suggest button:disabled {
+          opacity: 0.45;
+          cursor: default;
+        }
+        .cx__suggest button:not(:disabled):hover {
           color: var(--text);
           border-color: rgb(var(--cyan) / 0.5);
           background: rgb(var(--cyan) / 0.08);

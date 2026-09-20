@@ -6,7 +6,7 @@ import { useScrolled } from "@/lib/scroll";
    slash to get back there first. Written absolute so both cases behave. */
 const LINKS = [
   { href: "/#work", label: "Work" },
-  { href: "/#kinnovation", label: "Kinnovation" },
+  { href: "/#kinnovation", label: "Kinnovation Group" },
   { href: "/#projects", label: "Projects" },
   { href: "/#code", label: "Code" },
   { href: "/resume", label: "Resume" },

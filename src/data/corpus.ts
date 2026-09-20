@@ -52,7 +52,7 @@ chunks.push({
     `${PERSON.name} is a data scientist and machine learning engineer based in ${PERSON.location}. ` +
     `He is currently a master's candidate in Data Analytics and Computational Social Science (DACSS) at ` +
     `UMass Amherst, graduating May 2027. ${THESIS.body} ` +
-    `He is also co-founder of Kinnovation, a venture studio. ` +
+    `He is also co-founder of Kinnovation Group, a venture studio. ` +
     `Reach him at ${PERSON.email}.`,
 });
 
@@ -73,7 +73,7 @@ chunks.push({
     `UT Austin and the DACSS master's at UMass Amherst. ` +
     `He also finishes things and puts them where they can be checked. Five public repositories, including ` +
     `one holding 25,886 Reddit records, three sentiment methods, three classifiers and the raw data to ` +
-    `re-run all of it. Six ventures co-founded with Kinjal Pandey, three of which have won pitch ` +
+    `re-run all of it. Seven ventures under Kinnovation Group, six of them co-founded with Kinjal Pandey, three of which have won pitch ` +
     `competitions. ` +
     `Note on numbers: this site deliberately does not quote performance percentages from his consulting ` +
     `work. Those figures were real but they were internal to private companies and no visitor can verify ` +
@@ -172,13 +172,13 @@ chunks.push({
 
 chunks.push({
   id: "kinnovation",
-  title: "Kinnovation",
+  title: "Kinnovation Group",
   tags: [
     "kinnovation", "studio", "venture", "startup", "founder", "cofounder",
     "co-founder", "entrepreneur", "company", "business", "kinjal", "pandey",
   ],
   text:
-    `Kinnovation is a venture studio Rishav co-founded with ${KINNOVATION.cofounder.name}. ` +
+    `Kinnovation Group is a venture studio Rishav co-founded with ${KINNOVATION.cofounder.name}. ` +
     `${KINNOVATION.line} ${KINNOVATION.body} ` +
     `The studio's site is ${KINNOVATION.site}. ` +
     `The ventures Rishav works on: ` +
@@ -196,7 +196,7 @@ for (const v of VENTURES) {
     text:
       `${v.name}: ${v.line} ${v.body} Stage: ${v.stage}. ` +
       (v.award ? `Recognition: ${v.award}. ` : "") +
-      `It is part of the Kinnovation portfolio, the studio Rishav co-founded with ${KINNOVATION.cofounder.name}.`,
+      `It is part of the Kinnovation Group portfolio, the studio Rishav co-founded with ${KINNOVATION.cofounder.name}.`,
   });
 }
 

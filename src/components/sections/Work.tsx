@@ -46,6 +46,9 @@ export default function Work() {
                     {role.kind === "speaking" && (
                       <em className="row__tag">talk</em>
                     )}
+                    {role.links?.some((l) => l.kind === "demo") && (
+                      <em className="row__tag row__tag--demo">simulation</em>
+                    )}
                   </span>
                   <span className="row__title">{role.title}</span>
                   <span className="row__summary">{role.summary}</span>
@@ -189,6 +192,11 @@ export default function Work() {
           border-radius: 4px;
           color: rgb(var(--amber));
           background: rgb(var(--amber) / 0.12);
+        }
+
+        .row__tag--demo {
+          color: rgb(var(--lime));
+          background: rgb(var(--lime) / 0.12);
         }
 
         .row__title {

@@ -21,7 +21,7 @@ import "./globals.css";
 
 const DESCRIPTION =
   "Data scientist and ML engineer with a behavioral science background. " +
-  "DACSS master's candidate at UMass Amherst, co-founder of Kinnovation.";
+  "DACSS master's candidate at UMass Amherst, co-founder of Kinnovation Group.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(PERSON.site),
