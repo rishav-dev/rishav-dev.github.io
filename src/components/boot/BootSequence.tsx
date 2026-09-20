@@ -214,12 +214,7 @@ export default function BootSequence({
           display: block;
           height: 100%;
           transform-origin: 0 50%;
-          background: linear-gradient(
-            90deg,
-            rgb(var(--indigo)),
-            rgb(var(--cyan)),
-            rgb(var(--lime))
-          );
+          background: linear-gradient(90deg, rgb(var(--indigo)), rgb(var(--cyan)));
         }
 
         @keyframes fadeUp {

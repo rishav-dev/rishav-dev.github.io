@@ -133,19 +133,11 @@ export default function Contact({ onOpenConsole }: { onOpenConsole: () => void }
           letter-spacing: -0.045em;
           /* Break at the @ rather than overflowing on a phone. */
           overflow-wrap: anywhere;
-          background: linear-gradient(
-            100deg,
-            var(--text),
-            rgb(var(--cyan)) 60%,
-            rgb(var(--indigo))
-          );
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          transition: opacity 0.3s var(--ease);
+          color: var(--text);
+          transition: color 0.3s var(--ease);
         }
         .ct__email:hover {
-          opacity: 0.75;
+          color: rgb(var(--cyan));
         }
 
         .ct__avail {

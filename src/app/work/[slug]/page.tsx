@@ -8,7 +8,7 @@ import { ROLES } from "@/data/profile";
 const ordered = [...ROLES].sort((a, b) => b.order - a.order);
 
 /* One hue per role, walked along the site's spectrum. */
-const HUES = ["--cyan", "--indigo", "--violet", "--lime", "--amber", "--magenta"];
+const HUES = ["--cyan", "--indigo"];
 
 export function generateStaticParams() {
   return ROLES.map((r) => ({ slug: r.slug }));

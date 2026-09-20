@@ -5,7 +5,7 @@ import { PROJECTS } from "@/data/profile";
 
 /* Same hue order as the project grid on the index, so a card and its page are
    the same colour. */
-const HUES = ["--cyan", "--amber", "--indigo", "--lime"];
+const HUES = ["--cyan", "--indigo"];
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));

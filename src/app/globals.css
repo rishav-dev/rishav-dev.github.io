@@ -35,16 +35,20 @@
     --line: rgb(255 255 255 / 0.08);
     --line-strong: rgb(255 255 255 / 0.16);
 
-    /* --- the spectrum ----------------------------------------------------
-       Stored as raw channels so any of them can be used with an alpha:
-       rgb(var(--indigo) / 0.4). The ramp runs cool -> hot; sections borrow
-       from it in order so the scroll feels like a single sweep of light. */
+    /* --- the palette -----------------------------------------------------
+       Two colours: indigo and cyan. Stored as raw channels so either can be
+       used with an alpha: rgb(var(--indigo) / 0.4).
+
+       The site used to carry six hues. That read as busy and unrelated, so
+       the other four are now aliases: violet and magenta resolve to indigo,
+       lime and amber resolve to cyan. Existing components keep working and
+       everything lands on the same two colours. */
     --indigo: 98 88 255;
-    --violet: 168 85 247;
-    --magenta: 255 56 152;
     --cyan: 34 217 255;
-    --lime: 178 255 62;
-    --amber: 255 176 46;
+    --violet: var(--indigo);
+    --magenta: var(--indigo);
+    --lime: var(--cyan);
+    --amber: var(--cyan);
 
     /* Semantic aliases. Components use these, not the raw hues, so the whole
        site re-skins from six lines. */
@@ -81,11 +85,7 @@
     @media (color-gamut: p3) {
       :root {
         --indigo-p3: color(display-p3 0.38 0.34 1);
-        --violet-p3: color(display-p3 0.66 0.33 0.98);
-        --magenta-p3: color(display-p3 1 0.18 0.58);
         --cyan-p3: color(display-p3 0.1 0.86 1);
-        --lime-p3: color(display-p3 0.68 1 0.2);
-        --amber-p3: color(display-p3 1 0.69 0.16);
       }
     }
   }
@@ -345,25 +345,13 @@
   .btn--primary {
     border-color: transparent;
     color: #06060b;
-    background: linear-gradient(
-      100deg,
-      rgb(var(--cyan)),
-      rgb(var(--indigo)) 55%,
-      rgb(var(--violet))
-    );
-    /* The glow is what sells the wide-gamut look, a saturated shadow in the
-       button's own hue, not a neutral drop shadow. */
-    box-shadow: 0 6px 30px -8px rgb(var(--indigo) / 0.8);
+    background: linear-gradient(100deg, rgb(var(--cyan)), rgb(var(--indigo)));
+    box-shadow: 0 6px 24px -10px rgb(var(--indigo) / 0.6);
   }
 
   .btn--primary:hover {
-    background: linear-gradient(
-      100deg,
-      rgb(var(--cyan)),
-      rgb(var(--indigo)) 45%,
-      rgb(var(--violet))
-    );
-    box-shadow: 0 10px 40px -8px rgb(var(--indigo) / 0.95);
+    background: linear-gradient(100deg, rgb(var(--cyan)), rgb(var(--indigo)) 80%);
+    box-shadow: 0 10px 32px -10px rgb(var(--indigo) / 0.75);
   }
 
   /* --- the spectral bloom ------------------------------------------------
@@ -377,7 +365,7 @@
     opacity: 0.5;
     background: radial-gradient(
       circle at center,
-      rgb(var(--hue, var(--accent)) / 0.85),
+      rgb(var(--hue, var(--accent)) / 0.6),
       transparent 68%
     );
   }

@@ -55,9 +55,9 @@ out float vAlpha;
    that stop at 1.0 give a flat, chalky cloud instead of light. */
 const vec3 C_DIM     = vec3(0.62, 0.68, 1.15);
 const vec3 C_CYAN    = vec3(0.20, 1.45, 1.75);
-const vec3 C_MAGENTA = vec3(1.80, 0.32, 1.00);
+const vec3 C_MAGENTA = vec3(0.70, 0.62, 1.90);
 const vec3 C_INDIGO  = vec3(0.70, 0.62, 1.90);
-const vec3 C_LIME    = vec3(1.25, 1.85, 0.42);
+const vec3 C_LIME    = vec3(0.20, 1.45, 1.75);
 
 void main() {
   /* --- position ------------------------------------------------------- */
