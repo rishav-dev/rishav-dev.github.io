@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodose: Design decision</title>
+<meta name="description" content="Design alternatives, rationale, failure modes, test procedures and recommendations for the Prodose pill dispensing module.">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="design.html">
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Alternatives · rationale · failure modes · recommendation</div>
+    <h1>Which design should the capstone build?</h1>
+    <p class="lede">Six concepts, eleven criteria. Seven criteria come straight from the bench (reliability, size range, pill safety, throughput, repeatability, fill-level robustness, forgiveness of the adjustment); four are engineering judgement and are marked as such, with the reason given. Move the weights, the ranking and its stability are recomputed.</p>
+  </div>
+
+  <section class="block" id="matrix">
+    <h2>1 · Decision matrix</h2>
+    <p class="sub">Scores are 0–10. Computed scores update if the bench data is regenerated; judged scores are the team's to challenge, click a score for its rationale.</p>
+    <div class="grid2" style="align-items:start">
+      <div class="card"><h3>Weights</h3><div id="weights" class="kv" style="grid-template-columns:1fr; gap:8px"></div>
+        <p class="btn-row" style="margin-top:12px"><button class="btn" id="wReset" type="button">Reset to default</button><button class="btn" id="wEqual" type="button">Equal weights</button><button class="btn" id="wSafety" type="button">Safety first</button><button class="btn" id="wCost" type="button">Cost first</button></p>
+      </div>
+      <div><div id="chRank"></div><div class="note" id="rankNote" style="margin-top:12px"></div></div>
+    </div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblMatrix"></table></div>
+  </section>
+
+  <section class="block" id="stability">
+    <h2>2 · How sure is the ranking?</h2>
+    <p class="sub">Each of 2 000 trials multiplies every weight by a random factor between 0.4 and 2.2 and re-ranks the concepts. A concept that wins only under one particular set of weights is a preference, not a result.</p>
+    <div class="grid2"><div id="chWins"></div><div id="chRank2"></div></div>
+  </section>
+
+  <section class="block" id="alts">
+    <h2>3 · The alternatives and why each exists</h2>
+    <div class="cards" id="altCards"></div>
+  </section>
+
+  <section class="block" id="fmea">
+    <h2>4 · Failure modes</h2>
+    <p class="sub">What goes wrong, why (the physics), how often it happened on the bench, and what catches or prevents it.</p>
+    <div class="tbl-wrap"><table class="tbl" id="tblFmea"></table></div>
+  </section>
+
+  <section class="block" id="procedure">
+    <h2>5 · Test procedures and acceptance criteria</h2>
+    <p class="sub">Every metric named in the concept statement, where it is measured, and the bar a module has to clear. Pass/fail is computed from the bench data for each concept.</p>
+    <div class="tbl-wrap"><table class="tbl" id="tblCrit"></table></div>
+  </section>
+
+  <section class="block" id="reco">
+    <h2>6 · Recommendations</h2>
+    <div id="recoBox"></div>
+  </section>
+</main>
+<footer class="foot">Prodose design lab · scores computed in your browser from <code>data/bench.js</code>.</footer>
+
+<script src="js/site.js"></script>
+<script src="js/charts.js"></script>
+<script src="data/bench.js"></script>
+<script src="data/sensing.js"></script>
+<script src="js/bench-lib.js"></script>
+<script src="js/design-page.js"></script>
+</body>
+</html>

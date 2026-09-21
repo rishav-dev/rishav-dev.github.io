@@ -15,7 +15,7 @@ const W = Number(process.argv[2] || 1440);
    width alone gave a 390x242 viewport, which is not a device and made every
    sticky section look broken. */
 const H = Number(process.argv[4] || (W < 700 ? 844 : Math.round(W * 0.62)));
-const OUT = process.argv[3] || "/home/claude/shots/sections";
+const OUT = process.argv[3] || "./shots/sections";
 mkdirSync(OUT, { recursive: true });
 
 const browser = await chromium.launch({

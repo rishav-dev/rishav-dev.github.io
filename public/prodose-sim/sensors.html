@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodose: Sensing lab</title>
+<meta name="description" content="Can a break-beam prove exactly one pill? Six confirmation methods tested against overlapping pills with real physics.">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="sensors.html">
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Dispensing confirmation</div>
+    <h1>A beam break does not prove one pill</h1>
+    <p class="lede">The concept statement warns that a break-beam sensor cannot be assumed to prove exactly one pill when pills overlap. We tested that claim: six ways of confirming a dispense, driven by the same falling-pill physics, under five release patterns from a clean single pill to two pills leaving side by side.</p>
+  </div>
+
+  <section class="block" id="live">
+    <h2>Try a drop</h2>
+    <p class="sub">Pills are released just above the exit barrier and fall through the chute into the tray. The barrier reports how much of its line is shadowed (a photodiode array, overlapping shadows are merged, not added); the tray load cell reports mass with 12 mg of noise and the ring-down from each landing. Then every method has to say how many pills it thinks passed.</p>
+    <div class="card">
+      <div class="btn-row">
+        <label class="inline">Pill <select id="lvPill"></select></label>
+        <label class="inline">Pills released <select id="lvN"><option>1</option><option selected>2</option><option>3</option><option>0</option></select></label>
+        <label class="inline">Release pattern <select id="lvPat"></select></label>
+        <label class="inline">Seed <input id="lvSeed" type="number" value="7" style="width:70px"></label>
+        <button class="btn primary" id="lvGo" type="button">Drop</button>
+        <span class="chip" id="lvStatus">ready</span>
+      </div>
+      <div class="grid2" style="margin-top:14px"><div id="lvBeam"></div><div id="lvLoad"></div></div>
+      <div class="tbl-wrap" style="margin-top:14px"><table class="tbl" id="lvTbl"></table></div>
+    </div>
+  </section>
+
+  <section class="block" id="mc">
+    <h2>How often is each method right?</h2>
+    <p class="sub" id="mcSub"></p>
+    <div class="grid2"><div id="chFalse"></div><div id="chConfirm"></div></div>
+    <div style="height:14px"></div>
+    <div id="chPattern"></div>
+    <div style="height:14px"></div>
+    <div id="chExact"></div>
+  </section>
+
+  <section class="block" id="conf">
+    <h2>Confusion matrix</h2>
+    <p class="sub">Rows are how many pills were really released; columns what the method reported. “flag” means the fused method saw disagreement and refused to confirm.</p>
+    <div class="btn-row" role="group" aria-label="Method" id="cmBtns" style="margin-bottom:10px"></div>
+    <div id="chConf"></div>
+  </section>
+
+  <section class="block" id="methods">
+    <h2>The six methods</h2>
+    <div class="tbl-wrap"><table class="tbl" id="tblMethods"></table></div>
+    <div class="note" style="margin-top:14px"><b>Recommendation.</b> Use the beam as a <em>trigger and timer</em>, not as the proof. Confirm a dose by agreement of three independent physical views, shadow area from a light curtain, speed-corrected length from the dual barrier, and settled tray mass, and refuse to release the dose (re-dispense or flag) whenever they disagree. In these tests the fused method never confirmed a wrong count and confirmed every good single-pill drop; when two or three pills leave together it flags the dose instead of guessing a count (so its “exact count” score is lower by design, a flagged double is a caught double). Load-cell weight alone was just as safe here, but it only speaks after the pills have settled, and it cannot see a pill that did not fall.</div>
+  </section>
+</main>
+<footer class="foot">Prodose design lab · generated with <code>node bench/sensing.js</code> · rig and methods in <code>js/sensing.js</code>.</footer>
+
+<script src="js/lib/matter.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/actuators.js"></script>
+<script src="js/concepts.js"></script>
+<script src="js/trial.js"></script>
+<script src="js/sensing.js"></script>
+<script src="js/site.js"></script>
+<script src="js/charts.js"></script>
+<script src="data/sensing.js"></script>
+<script src="js/sensors-page.js"></script>
+</body>
+</html>

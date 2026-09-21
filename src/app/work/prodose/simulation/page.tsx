@@ -4,7 +4,7 @@ import SimulationFrame from "@/components/detail/SimulationFrame";
 export const metadata: Metadata = {
   title: "ProDose dispenser simulation",
   description:
-    "A browser physics simulation comparing two pill-dispensing concepts for ProDose: an inverted bottle with a sorting wheel, and a bottom dock with a robotic arm.",
+    "The ProDose design lab: a browser physics simulation of six ways to dispense exactly one pill, with a test bench, a sensing lab and a design recommendation.",
 };
 
 export default function ProdoseSimulation() {

@@ -7,7 +7,7 @@
  */
 import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
-const OUT = "/home/claude/shots"; mkdirSync(OUT, { recursive: true });
+const OUT = "./shots"; mkdirSync(OUT, { recursive: true });
 const b = await chromium.launch({ args:["--use-gl=angle","--use-angle=swiftshader","--enable-unsafe-swiftshader","--ignore-gpu-blocklist"] });
 
 for (const at of [300, 900, 1500, 2100, 2600, 3100, 3600, 4300]) {
