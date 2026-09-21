@@ -1,22 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prodose: Simulator</title>
-<meta name="description" content="Live rigid-body physics simulation of six pill-dispensing concepts.">
-<link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/sim.css">
-</head>
-<body class="sim" data-page="simulator.html">
-
 <div class="concepts">
   <div class="tablist" role="tablist" aria-label="Dispensing concept" id="designTabs"></div>
   <p class="blurb" id="blurb"></p>
   <div class="status" id="statusBox" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Loading…</span></div>
 </div>
 
-<main class="layout">
+<div class="layout">
   <!-- ================= controls ================= -->
   <aside class="panel left" id="controls" aria-label="Controls">
     <details open>
@@ -174,18 +162,4 @@
       <ol class="log" id="log" aria-live="off"></ol>
     </section>
   </aside>
-</main>
-
-<script src="js/lib/matter.min.js"></script>
-<script src="js/config.js"></script>
-<script src="js/contact.js"></script>
-<script src="js/physics.js"></script>
-<script src="js/actuators.js"></script>
-<script src="js/concepts.js"></script>
-<script src="js/render.js"></script>
-<script src="js/render-concepts.js"></script>
-<script src="js/scope.js"></script>
-<script src="js/site.js"></script>
-<script src="js/app.js"></script>
-</body>
-</html>
+</div>

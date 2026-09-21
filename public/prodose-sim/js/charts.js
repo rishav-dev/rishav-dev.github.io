@@ -8,7 +8,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const css = (n, fb) => (getComputedStyle(document.documentElement).getPropertyValue(n).trim() || fb);
+  const css = (n, fb) => (getComputedStyle(document.querySelector('.lab') || document.documentElement).getPropertyValue(n).trim() || fb);
 
   // ---- wilson score interval for a binomial proportion ----
   function wilson(k, n, z) {

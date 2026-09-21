@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { PERSON, PROJECTS, ROLES } from "@/data/profile";
+import { LAB_PAGES } from "@/lab/pages";
 
 /**
  * Generated at build time into out/sitemap.xml.
@@ -21,6 +22,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "yearly" as const,
       priority: 0.7,
+    })),
+    ...LAB_PAGES.map((p) => ({
+      url: `${PERSON.site}${p.route}`,
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
     })),
     ...PROJECTS.map((p) => ({
       url: `${PERSON.site}/projects/${p.slug}/`,
