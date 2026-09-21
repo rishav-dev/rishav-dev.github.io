@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodose: Simulator</title>
+<meta name="description" content="Live rigid-body physics simulation of six pill-dispensing concepts.">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/sim.css">
+</head>
+<body class="sim" data-page="simulator.html">
+
+<div class="concepts">
+  <div class="tablist" role="tablist" aria-label="Dispensing concept" id="designTabs"></div>
+  <p class="blurb" id="blurb"></p>
+  <div class="status" id="statusBox" role="status" aria-live="polite"><span class="dot" id="statusDot"></span><span id="statusText">Loading…</span></div>
+</div>
+
+<main class="layout">
+  <!-- ================= controls ================= -->
+  <aside class="panel left" id="controls" aria-label="Controls">
+    <details open>
+      <summary>Product</summary>
+      <label class="field"><span>Preset (real-world sizes)</span><select id="preset"></select></label>
+    </details>
+
+    <details open>
+      <summary>Pill</summary>
+      <label class="field"><span>Shape</span><select id="shape"></select></label>
+      <label class="row"><span>Length</span><output id="o_L"></output><input type="range" id="L" min="3" max="32" step="0.5"></label>
+      <label class="row" id="rowW"><span>Width / thickness</span><output id="o_W"></output><input type="range" id="W" min="2.5" max="18" step="0.5"></label>
+      <label class="field"><span>Colour</span><select id="color"></select></label>
+    </details>
+
+    <details>
+      <summary>Bottle</summary>
+      <label class="field"><span>Style</span><select id="bstyle"></select></label>
+      <label class="row"><span>Diameter</span><output id="o_D"></output><input type="range" id="D" min="25" max="95" step="1"></label>
+      <label class="row"><span>Height</span><output id="o_H"></output><input type="range" id="H" min="45" max="200" step="1"></label>
+      <label class="row"><span>Mouth opening</span><output id="o_mouth"></output><input type="range" id="mouth" min="14" max="66" step="1"></label>
+      <label class="field"><span>Colour</span><select id="bcolor"></select></label>
+      <label class="row"><span>Fill level</span><output id="o_fill"></output><input type="range" id="fill" min="10" max="100" step="5"></label>
+    </details>
+
+    <details open data-for="wheel shuttle lane belt vacdisc">
+      <summary>Bottle interface &amp; hopper</summary>
+      <label class="check"><input type="checkbox" id="cap"><span>Sealed adapter cap (flip without spilling)</span></label>
+      <label class="check"><input type="checkbox" id="vibe"><span>Vibration assist</span></label>
+    </details>
+
+    <details open data-for="wheel" id="secWheel">
+      <summary>A · Sorting wheel</summary>
+      <label class="field"><span>Slot size setting</span><select id="pocket"></select></label>
+      <label class="row"><span>Wheel speed</span><output id="o_wheelSpeed"></output><input type="range" id="wheelSpeed" min="60" max="400" step="10"></label>
+      <label class="check"><input type="checkbox" id="scraperAuto"><span>Auto-tune scraper gap to the pill</span></label>
+      <label class="row" id="rowScraper"><span>Scraper clearance</span><output id="o_scraper"></output><input type="range" id="scraper" min="0.5" max="3.5" step="0.1"></label>
+    </details>
+
+    <details open data-for="arm vacdisc">
+      <summary>Vacuum system</summary>
+      <label class="row"><span>Vacuum (gauge)</span><output id="o_vacuum"></output><input type="range" id="vacuum" min="5" max="60" step="1"></label>
+      <p class="hint">Hold force = vacuum × cup / port area × seal quality; the pill is held only up to that force.</p>
+    </details>
+
+    <details open data-for="arm">
+      <summary>B · Robotic arm</summary>
+      <label class="row"><span>Arm speed</span><output id="o_armSpeed"></output><input type="range" id="armSpeed" min="0.5" max="2.5" step="0.1"></label>
+      <p class="hint">Vacuum cup size is chosen from the pill width and the bottle mouth.</p>
+    </details>
+
+    <details open data-for="shuttle">
+      <summary>C · Shuttle pocket</summary>
+      <label class="check"><input type="checkbox" id="pocketAuto"><span>Auto-size pocket to the pill</span></label>
+      <label class="row"><span>Pocket length</span><output id="o_pocketLen"></output><input type="range" id="pocketLen" min="3" max="40" step="0.5"></label>
+      <label class="row"><span>Pocket depth</span><output id="o_pocketDepth"></output><input type="range" id="pocketDepth" min="2" max="28" step="0.5"></label>
+      <label class="check"><input type="checkbox" id="compliantLip"><span>Compliant silicone wiper lip</span></label>
+      <label class="row"><span>Shuttle speed</span><output id="o_shuttleSpeed"></output><input type="range" id="shuttleSpeed" min="60" max="600" step="10"></label>
+    </details>
+
+    <details open data-for="lane">
+      <summary>D · Lane &amp; escapement</summary>
+      <label class="row"><span>Lane slope</span><output id="o_laneAngle"></output><input type="range" id="laneAngle" min="8" max="36" step="1"></label>
+      <label class="check"><input type="checkbox" id="chamberAuto"><span>Auto-size trapdoor chamber</span></label>
+      <label class="row"><span>Chamber length</span><output id="o_chamberLen"></output><input type="range" id="chamberLen" min="3" max="40" step="0.5"></label>
+    </details>
+
+    <details open data-for="belt">
+      <summary>E · Belts &amp; counting</summary>
+      <label class="row"><span>Feed belt speed</span><output id="o_beltV1"></output><input type="range" id="beltV1" min="5" max="80" step="1"></label>
+      <label class="row"><span>Spacing belt ratio</span><output id="o_beltRatio"></output><input type="range" id="beltRatio" min="1.5" max="12" step="0.5"></label>
+      <label class="field"><span>Counting method</span><select id="beltSensing"><option value="width">Length-aware count (belt encoder + barrier)</option><option value="edge">Edge counting (naive)</option></select></label>
+    </details>
+
+    <details open data-for="vacdisc">
+      <summary>F · Vacuum disc</summary>
+      <label class="check"><input type="checkbox" id="portAuto"><span>Auto port diameter</span></label>
+      <label class="row"><span>Port diameter</span><output id="o_portDia"></output><input type="range" id="portDia" min="1.2" max="6" step="0.1"></label>
+      <label class="row"><span>Disc speed</span><output id="o_discSpeed"></output><input type="range" id="discSpeed" min="20" max="240" step="5"></label>
+    </details>
+
+    <details data-for="wheel shuttle lane vacdisc">
+      <summary>Motor limits</summary>
+      <label class="check"><input type="checkbox" id="motorAuto"><span>Size motor to 25 % of the pill's crush strength</span></label>
+      <label class="row" data-for="shuttle lane"><span>Current limit (force)</span><output id="o_motorF"></output><input type="range" id="motorF" min="1.5" max="80" step="0.5"></label>
+      <label class="row" data-for="wheel vacdisc"><span>Torque limit</span><output id="o_motorT"></output><input type="range" id="motorT" min="30" max="900" step="10"></label>
+      <p class="hint">A pill trapped in the mechanism stalls the motor at this limit, that is the jam signal, and the squeeze force a pill sees.</p>
+    </details>
+
+    <button class="ghost" id="btnShare" type="button">Copy settings link</button>
+  </aside>
+
+  <!-- ================= stage ================= -->
+  <section class="stage" aria-label="Simulation">
+    <div class="view">
+      <canvas id="cv" aria-label="Physics simulation canvas" role="img"></canvas>
+      <ol class="phases" id="phases"></ol>
+      <div class="hintbar">drag to pan · scroll to zoom · double-click to fit</div>
+      <div class="loading" id="loading">Filling bottle…</div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="btnDock" type="button">Flip &amp; dock bottle</button>
+      <div class="dose">
+        <button class="stepper" id="qMinus" type="button" aria-label="Fewer pills">−</button>
+        <input type="number" id="qty" min="1" max="30" value="5" aria-label="Pills to dispense">
+        <button class="stepper" id="qPlus" type="button" aria-label="More pills">+</button>
+        <button class="btn primary" id="btnDispense" type="button">Dispense</button>
+      </div>
+      <button class="btn" id="btnTake" type="button">Take dose from tray</button>
+      <span class="sep"></span>
+      <button class="btn" id="btnPause" type="button" title="Pause / resume (space)">Pause</button>
+      <label class="speed">Speed
+        <select id="speed"><option value="0.25">¼×</option><option value="0.5">½×</option><option value="1">1×</option><option value="2" selected>2×</option><option value="4">4×</option><option value="8">8×</option></select>
+      </label>
+      <button class="btn" id="btnLabels" type="button" title="Toggle part labels">Labels</button>
+      <button class="btn" id="btnReset" type="button" title="Rebuild the bottle and reset">Reset</button>
+    </div>
+  </section>
+
+  <!-- ================= results ================= -->
+  <aside class="panel right" aria-label="Results">
+    <section class="card">
+      <h3>Dose</h3>
+      <div class="big"><span id="sDispensed">0</span><small> / <span id="sTarget">0</span> pills dispensed</small></div>
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="tiles">
+        <div class="tile"><b id="sCollected">0</b><span>in tray</span></div>
+        <div class="tile"><b id="sBottle">0</b><span>in bottle</span></div>
+        <div class="tile"><b id="sMachine">0</b><span>in machine</span></div>
+        <div class="tile"><b id="sTime">0.0</b><span>seconds</span></div>
+      </div>
+    </section>
+    <section class="card">
+      <h3>Faults &amp; pill safety</h3>
+      <div class="tiles">
+        <div class="tile" id="tMiss"><b id="sMiss">0</b><span>empty / failed picks</span></div>
+        <div class="tile" id="tDbl"><b id="sDbl">0</b><span>multiples</span></div>
+        <div class="tile" id="tJam"><b id="sJam">0</b><span>jams cleared</span></div>
+        <div class="tile" id="tDmg"><b id="sDmg">0</b><span>pills damaged</span></div>
+        <div class="tile" id="tStr"><b id="sStr">0</b><span>pills stressed</span></div>
+        <div class="tile" id="tSpill"><b id="sSpill">0</b><span>escaped / spilled</span></div>
+      </div>
+    </section>
+    <section class="card" id="scopeCard">
+      <h3>Sensor scope <span id="scopeSpan" style="font-weight:400;text-transform:none;letter-spacing:0"></span></h3>
+      <canvas id="scope" aria-label="Sensor signals: break-beam, load cell, vacuum"></canvas>
+      <div class="scope-legend" id="scopeLegend"></div>
+    </section>
+    <section class="card">
+      <h3>Compatibility check</h3>
+      <ul class="checks" id="checks"></ul>
+    </section>
+    <section class="card grow">
+      <h3>Event log</h3>
+      <ol class="log" id="log" aria-live="off"></ol>
+    </section>
+  </aside>
+</main>
+
+<script src="js/lib/matter.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/actuators.js"></script>
+<script src="js/concepts.js"></script>
+<script src="js/render.js"></script>
+<script src="js/render-concepts.js"></script>
+<script src="js/scope.js"></script>
+<script src="js/site.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

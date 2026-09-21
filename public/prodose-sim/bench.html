@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodose: Test bench</title>
+<meta name="description" content="Single-pill success, multiples, misses, jams and damage for six dispensing concepts, measured in a physics simulation.">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="bench.html">
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Test bench · simulated, seeded, repeatable</div>
+    <h1>Which concept actually dispenses one pill?</h1>
+    <p class="lede">Every concept was run through the same six test protocols on the same physics engine, thousands of dispensing cycles with a ground-truth pill count from the simulator, so a miss, a double and a damaged pill are counted exactly, not inferred. All charts have a table view; tooltips show the counts behind every number.</p>
+    <p class="btn-row"><span class="chip" id="metaChip"></span><a class="btn" id="dlJson" href="data/bench.json" download>Download raw trials (JSON)</a><a class="btn" href="simulator.html">Watch a concept run →</a></p>
+  </div>
+
+  <section class="block" id="headline">
+    <h2>1 · Single-pill success</h2>
+    <p class="sub">Protocol P1: 8 real pills (4 mm mini-tablets to 19 mm capsules) × <span id="p1seeds">12</span> bottle fills, a dose of 5 each. <b>Single-pill success</b> = metering cycles that delivered exactly one pill. Bars carry 95 % Wilson intervals. <b>Dose exact</b> is the stricter, patient-facing number: the whole dose arrived, nothing spilled, nothing broken.</p>
+    <div class="grid2"><div id="chSingle"></div><div id="chDose"></div></div>
+    <div style="height:14px"></div>
+    <div id="chOutcome"></div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblSummary"></table></div>
+  </section>
+
+  <section class="block" id="bypill">
+    <h2>2 · What each concept does with each pill</h2>
+    <p class="sub">Dose-exact rate per real-world product. Hatched = not run. A concept that is excellent on one pill family and blind on another is a very different product from one that is merely average everywhere.</p>
+    <div id="chPill"></div>
+  </section>
+
+  <section class="block" id="range">
+    <h2>3 · Realistic design range</h2>
+    <p class="sub">Protocol P2: the machine is <em>auto-tuned</em> to each pill and the pill is swept in size (25 sizes, four families). Cell = dose-exact rate. The table under the map states the size range each concept covers at ≥ 90 %.</p>
+    <div id="chRange"></div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblRange"></table></div>
+  </section>
+
+  <section class="block" id="adjust">
+    <h2>4 · Does the adjustment mechanism work?</h2>
+    <p class="sub">Protocol P3: one adjustable setting swept per concept, everything else auto. A good adjustable mechanism has a <em>wide, findable</em> good region, not a knife edge. The concept statement asks exactly this of the adjustable pocket.</p>
+    <div class="tablist" role="tablist" aria-label="Concept" id="adjTabs"></div>
+    <div id="adjPanel"></div>
+  </section>
+
+  <section class="block" id="robust">
+    <h2>5 · Robustness: last pills, motor limits, pill safety</h2>
+    <p class="sub">P4 asks for a dose of 3 from a bottle that is 100 %, 50 % and 20 % full, at 20 % that is often the last few pills, tucked in the corners. P5 sweeps the motor's force / torque limit on a correctly tuned machine: too low and the motor stalls on ordinary friction (a “jam”). P6 is the stress test: the clearance is set 0.5 mm too tight with rigid lips, so pills really do get squeezed, the motor limit is now the only thing between a pill and the crush strength.</p>
+    <div class="grid2"><div id="chFill"></div><div id="chMotorD"></div></div>
+    <div style="height:14px"></div>
+    <div class="grid2"><div id="chMotorF"></div><div id="chMotorT"></div></div>
+    <div style="height:14px"></div>
+    <div class="grid2"><div id="chStressF"></div><div id="chStressT"></div></div>
+  </section>
+
+  <section class="block" id="live">
+    <h2>6 · Run it yourself</h2>
+    <p class="sub">The same trial code runs in your browser. Pick a concept and a pill; each trial is a fresh bottle and a dose of 5. Trials run one after another (about a second each on a laptop), leave the tab in the foreground.</p>
+    <div class="card">
+      <div class="btn-row">
+        <label class="inline">Concept <select id="liveDesign"></select></label>
+        <label class="inline">Pill <select id="livePreset"></select></label>
+        <label class="inline">Trials <input id="liveN" type="number" min="1" max="60" value="8" style="width:64px"></label>
+        <button class="btn primary" id="liveGo" type="button">Run</button>
+        <button class="btn" id="liveStop" type="button" disabled>Stop</button>
+      </div>
+      <div class="progress" style="margin:12px 0"><i id="liveBar"></i></div>
+      <div id="liveSummary" class="btn-row" style="gap:20px"></div>
+      <div class="tbl-wrap" style="margin-top:10px;max-height:260px"><table class="tbl" id="liveTbl"><thead><tr><th>#</th><th>Seed</th><th>Result</th><th class="num">Collected</th><th class="num">Cycles</th><th>Sequence</th><th class="num">Jams</th><th class="num">Damaged</th><th class="num">Sim time (s)</th></tr></thead><tbody></tbody></table></div>
+      <p class="hint" style="color:var(--muted);font-size:12px;margin:8px 0 0">Sequence: <code>o</code> one pill · <code>d</code> multiple · <code>m</code> miss.</p>
+    </div>
+  </section>
+
+  <section class="block" id="method">
+    <h2>How we measure</h2>
+    <dl class="kv" style="max-width:900px">
+      <dt>Engine</dt><dd>Matter.js 2-D rigid-body physics with a replacement sequential-impulse contact solver (Coulomb friction, restitution). 2 ms step, mm–ms–g units so forces are in newtons. The <a href="validation.html">physics check</a> page validates it against closed-form solutions.</dd>
+      <dt>Actuators</dt><dd>Motors are dynamic bodies with a force / torque limit. A pill caught in the mechanism stalls the motor, that is the jam signal, and the squeeze it sees is the applied force, checked against the pill's crush strength.</dd>
+      <dt>Pills</dt><dd>Mass from geometry × density with lot-to-lot variation per seed; crush strength scales with size (tablet 90 N at 9.5 mm, capsule 24 N, softgel 32 N); impact damage from a drop-height rating.</dd>
+      <dt>Ground truth</dt><dd>Every pill is a tracked body. Cycle outcomes are counted from bodies crossing the exit, not from the simulated sensor. How well a real sensor could confirm them is the <a href="sensors.html">sensing lab</a>.</dd>
+      <dt>Seeds</dt><dd>Each seed changes the pile in the bottle and every pill's mass. Same seed → identical run.</dd>
+    </dl>
+  </section>
+</main>
+<footer class="foot">Prodose design lab · results generated <span id="genDate"></span> with Node <span id="nodeVer"></span> · all numbers on this page come from <code>data/bench.js</code>.</footer>
+
+<script src="js/lib/matter.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/actuators.js"></script>
+<script src="js/concepts.js"></script>
+<script src="js/trial.js"></script>
+<script src="js/site.js"></script>
+<script src="js/charts.js"></script>
+<script src="data/bench.js"></script>
+<script src="js/bench-lib.js"></script>
+<script src="js/bench-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodose: Labs</title>
+<meta name="description" content="Bottle interface reliability, chute and collection experiments, air-purge cleaning model and material selection for the Prodose module.">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="labs.html">
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">The rest of the module</div>
+    <h1>Interface, chute, cleaning and materials</h1>
+    <p class="lede">The metering concept is only half the machine. These four labs cover the parts around it: how the bottle is held and sealed, how a pill gets to the tray without harm, how the machine is kept clean between products, and what it is made of. Two labs use the physics engine; two are first-principles models with their assumptions written out.</p>
+  </div>
+
+  <div class="tablist" role="tablist" aria-label="Labs" id="labTabs">
+    <button role="tab" id="tab-iface" data-tab="iface" aria-controls="p-iface" aria-selected="true">Bottle interface</button>
+    <button role="tab" id="tab-chute" data-tab="chute" aria-controls="p-chute" aria-selected="false">Chute &amp; collection</button>
+    <button role="tab" id="tab-clean" data-tab="clean" aria-controls="p-clean" aria-selected="false">Cleaning &amp; residue</button>
+    <button role="tab" id="tab-mat" data-tab="mat" aria-controls="p-mat" aria-selected="false">Materials</button>
+  </div>
+
+  <!-- ============================ interface ============================ -->
+  <section role="tabpanel" id="p-iface" aria-labelledby="tab-iface">
+    <p class="sub" style="max-width:76ch">The concept statement asks for an adjustable holder, interchangeable adapters and a compliant silicone gripper or seal. A seal must squeeze hard enough to hold vacuum and the bottle's weight, but not so hard that it crushes a thin plastic neck, and real necks vary by ±0.3–0.5 mm and are never quite round. This lab runs a Monte-Carlo over those tolerances for three interface designs.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>Set up the neck</h3>
+        <div class="kv" style="grid-template-columns:1fr; gap:10px">
+          <label>Neck outer diameter <b id="o_D">33 mm</b><br><input type="range" id="if_D" min="24" max="48" step="1" value="33" style="width:100%"></label>
+          <label>Diameter tolerance (1σ) <b id="o_sig">0.30 mm</b><br><input type="range" id="if_sig" min="0.05" max="0.6" step="0.05" value="0.3" style="width:100%"></label>
+          <label>Out-of-round <b id="o_ov">0.30 mm</b><br><input type="range" id="if_ov" min="0" max="0.8" step="0.05" value="0.3" style="width:100%"></label>
+          <label>Silicone hardness <b id="o_sh">50 Shore A</b><br><input type="range" id="if_sh" min="30" max="70" step="5" value="50" style="width:100%"></label>
+          <label>Bottle + pills, inverted <b id="o_m">300 g</b><br><input type="range" id="if_m" min="80" max="600" step="20" value="300" style="width:100%"></label>
+        </div>
+        <div id="ifTiles" class="btn-row" style="gap:18px;margin-top:14px"></div>
+      </div>
+      <div id="chIface"></div>
+    </div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblIface"></table></div>
+    <div class="note" style="margin-top:14px" id="ifNote"></div>
+  </section>
+
+  <!-- ============================ chute ============================ -->
+  <section role="tabpanel" id="p-chute" aria-labelledby="tab-chute" hidden>
+    <p class="sub" style="max-width:76ch">After metering a pill has to reach the tray. Free fall gives it speed; a ramp turns the fall into a slide; the tray must hold it there until the patient takes it. Every run below is the real engine: 30 pills per configuration, random orientation and mass, impact speed judged against each pill's drop rating (damage starts near 60 % of the rated speed).</p>
+    <div class="grid2"><div id="chFall"></div><div id="chRampAngle"></div></div>
+    <div style="height:14px"></div>
+    <div class="grid2"><div id="chTray"></div>
+      <div class="card"><h3>Try a configuration</h3>
+        <div class="btn-row"><label class="inline">Pill <select id="cu_pill"><option value="round">Round tablet 9.5 mm</option><option value="caplet">Caplet 17 × 7</option><option value="softgel">Softgel 11 × 6.5</option></select></label>
+          <label class="inline">Free fall to ramp <input type="number" id="cu_h" value="25" min="5" max="1200" style="width:76px"> mm</label>
+          <label class="inline">Ramp <input type="number" id="cu_a" value="33" min="8" max="60" style="width:60px">°</label></div>
+        <div class="btn-row" style="margin-top:8px"><label class="inline">Ramp lining <select id="cu_r"></select></label><label class="inline">Tray lining <select id="cu_t"></select></label>
+          <label class="inline">Tray wall <input type="number" id="cu_w" value="12" min="4" max="60" style="width:60px"> mm</label><label class="inline">Drop into tray <input type="number" id="cu_d" value="34" min="5" max="200" style="width:64px"> mm</label></div>
+        <p class="btn-row" style="margin-top:10px"><button class="btn primary" id="cu_go" type="button">Drop 40 pills</button><span class="chip" id="cu_st">ready</span></p>
+        <div id="cu_out" class="btn-row" style="gap:18px;margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:14px" id="chuteNote"></div>
+  </section>
+
+  <!-- ============================ cleaning ============================ -->
+  <section role="tabpanel" id="p-clean" aria-labelledby="tab-clean" hidden>
+    <p class="sub" style="max-width:76ch">Tablets shed dust. If the next product is a different drug, what remains on the metering surfaces can cross-contaminate. The optional cleaning step is a filtered, low-pressure air purge. Whether a jet can lift a particle depends on wall shear against adhesion, so it works on coarse chips and fails on fine dust. This is a first-principles model (assumptions listed below), not a particle-resolved simulation.</p>
+    <div class="grid2">
+      <div class="card"><h3>Purge settings</h3>
+        <div class="kv" style="grid-template-columns:1fr; gap:10px">
+          <label>Purge pressure (gauge) <b id="o_pp">30 kPa</b><br><input type="range" id="cl_p" min="5" max="60" step="1" value="30" style="width:100%"></label>
+          <label>Pulses per purge <b id="o_np">4</b><br><input type="range" id="cl_n" min="1" max="12" step="1" value="4" style="width:100%"></label>
+          <label>Median dust particle <b id="o_dm">30 µm</b><br><input type="range" id="cl_d" min="5" max="80" step="1" value="30" style="width:100%"></label>
+          <label>Surface adhesion factor <b id="o_fr">0.05</b> <span style="color:var(--muted)">(smoother = stickier)</span><br><input type="range" id="cl_f" min="0.01" max="0.2" step="0.01" value="0.05" style="width:100%"></label>
+          <label class="inline"><input type="checkbox" id="cl_hepa" checked> HEPA-filtered extraction (no redeposit)</label>
+          <label class="inline"><input type="checkbox" id="cl_vib" checked> Vibrate the surface during the purge</label>
+        </div>
+        <div id="clTiles" class="btn-row" style="gap:18px;margin-top:14px"></div>
+      </div>
+      <div id="chRemoval"></div>
+    </div>
+    <div style="height:14px"></div>
+    <div class="grid2"><div id="chPulses"></div><div class="card"><h3>Assumptions</h3><ul style="margin:0;padding-left:18px;color:var(--ink-2)">
+      <li>Jet speed u = √(2ΔP/ρ); wall-jet speed 25 % of the nozzle speed at the surface; skin friction Cf = 0.006, so wall shear τ = ½·Cf·ρ·(0.25u)².</li>
+      <li>Drag on a sphere resting on the wall in shear: F = 32.0·τ·r² (Goldman–Cox–Brenner / O'Neill). Adhesion: JKR pull-off F = 1.5π·W·r × roughness factor f, work of adhesion W = 0.05 J/m².</li>
+      <li>A particle lifts when drag ≥ adhesion; adhesion is log-normal (σ<sub>ln</sub> = 0.8) between contacts. Pulsed flow is 2× more effective per pulse than steady flow; vibration adds 30 %.</li>
+      <li>Dust sizes are log-normal (geometric σ = 1.7) and mass-weighted (∝ d³). Each pulse acts on what the previous left.</li>
+      <li>Redeposition of removed dust elsewhere in the machine is 35 % without extraction, 0 % with it. Carry-over = residual × 4 % pick-up per dose on a 0.5 g dose.</li>
+    </ul></div></div>
+  </section>
+
+  <!-- ============================ materials ============================ -->
+  <section role="tabpanel" id="p-mat" aria-labelledby="tab-mat" hidden>
+    <p class="sub" style="max-width:76ch">The concept statement lists stainless steel, polymers and elastomers. Tick what a part needs and the table ranks materials for it. Values are typical handbook ranges for the material families (not a specific supplier grade); confirm any choice against the supplier's data sheet and the applicable USP / FDA requirements.</p>
+    <div class="card"><div class="btn-row" id="matReq" role="group" aria-label="Requirements"></div></div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblMat"></table></div>
+    <h3 style="margin:22px 0 8px">Where each family goes</h3>
+    <div class="tbl-wrap"><table class="tbl" id="tblWhere"></table></div>
+  </section>
+</main>
+<footer class="foot">Prodose design lab · chute data from <code>node bench/chute.js</code> · engine and contact model validated on the <a href="validation.html">physics check</a> page.</footer>
+
+<script src="js/lib/matter.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/chute.js"></script>
+<script src="js/site.js"></script>
+<script src="js/charts.js"></script>
+<script src="data/chute.js"></script>
+<script src="js/labs-page.js"></script>
+</body>
+</html>

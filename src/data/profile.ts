@@ -159,15 +159,15 @@ export const ROLES: Role[] = [
     order: 202609,
     place: "Amherst, MA",
     summary:
-      "Product manager for a smart pill dispenser, working with a five-person senior capstone team. There's a physics simulation of the design you can try here.",
+      "Product manager for a smart pill dispenser, working with a five-person senior capstone team. There's a physics simulation of six dispensing concepts you can try here.",
     detail: [
       "ProDose is a smart dispenser that automatically dispenses scheduled doses of tablets and capsules. " +
         "I'm the product manager, working with a five-person Mechanical & Industrial Engineering senior " +
         "capstone team at UMass Amherst.",
       "Right now that mostly means the physical design. I model parts in CAD and we 3D print prototypes, and " +
         "each round is built to answer a specific question about the dispensing mechanism before we change " +
-        "the design again. You can try a physics simulation of the two dispensing concepts we're comparing " +
-        "on this site.",
+        "the design again. The site also has a design lab you can try: a physics simulation of six ways to " +
+        "dispense a single pill, plus a test bench and a comparison of the concepts.",
       "The rest is keeping the team lined up, so that design decisions, manufacturing constraints and " +
         "technical requirements stay consistent as the design develops.",
     ],
@@ -777,7 +777,7 @@ export const VENTURES: Venture[] = [
     body:
       "ProDose automatically dispenses scheduled doses of tablets and capsules. I'm the product manager, " +
       "working with a five-person UMass Amherst senior capstone team on the physical design: CAD, 3D printed " +
-      "prototypes, and a physics simulation comparing two dispensing concepts that you can try on this site.",
+      "prototypes, and a design lab that simulates six dispensing concepts and compares them, which you can try on this site.",
     hue: "--indigo",
     internal: [
       { label: "Read more", href: "/work/prodose/" },

@@ -1,7 +1,7 @@
 /** Captures the detail routes and the resume, at desktop and phone widths. */
 import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
-const OUT = "/home/claude/shots/pages"; mkdirSync(OUT, { recursive: true });
+const OUT = "./shots/pages"; mkdirSync(OUT, { recursive: true });
 const b = await chromium.launch();
 const errs = [];
 for (const [w,h,tag] of [[1440,900,"desk"],[390,844,"phone"]]) {

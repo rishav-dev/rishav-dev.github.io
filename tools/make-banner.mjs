@@ -13,7 +13,7 @@ import { pathToFileURL } from "node:url";
 import { resolve, dirname } from "node:path";
 import { mkdirSync } from "node:fs";
 
-const out = process.argv[2] || "/home/claude/profile/assets/banner.png";
+const out = process.argv[2] || "./assets/banner.png";
 mkdirSync(dirname(out), { recursive: true });
 
 const browser = await chromium.launch();
