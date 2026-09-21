@@ -3,7 +3,7 @@
 (function (G) {
   const P = (G.Prodose = G.Prodose || {});
 
-  function css(name, fb) { const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; }
+  function css(name, fb) { const v = getComputedStyle(document.querySelector('.lab') || document.documentElement).getPropertyValue(name).trim(); return v || fb; }
 
   // traces: [{ key, label, colour token, scale, lane }]
   P.drawScope = function (canvas, scene, opts) {

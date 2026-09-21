@@ -1,19 +1,9 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prodose: Test bench</title>
-<meta name="description" content="Single-pill success, multiples, misses, jams and damage for six dispensing concepts, measured in a physics simulation.">
-<link rel="stylesheet" href="css/site.css">
-</head>
-<body data-page="bench.html">
-<main class="wrap">
+<div class="wrap">
   <div class="hero">
     <div class="eyebrow">Test bench · simulated, seeded, repeatable</div>
     <h1>Which concept actually dispenses one pill?</h1>
     <p class="lede">Every concept was run through the same six test protocols on the same physics engine, thousands of dispensing cycles with a ground-truth pill count from the simulator, so a miss, a double and a damaged pill are counted exactly, not inferred. All charts have a table view; tooltips show the counts behind every number.</p>
-    <p class="btn-row"><span class="chip" id="metaChip"></span><a class="btn" id="dlJson" href="data/bench.json" download>Download raw trials (JSON)</a><a class="btn" href="simulator.html">Watch a concept run →</a></p>
+    <p class="btn-row"><span class="chip" id="metaChip"></span><a class="btn" id="dlJson" href="/prodose-sim/data/bench.json" download>Download raw trials (JSON)</a><a class="btn" href="/work/prodose/simulation/simulator/">Watch a concept run →</a></p>
   </div>
 
   <section class="block" id="headline">
@@ -78,27 +68,12 @@
   <section class="block" id="method">
     <h2>How we measure</h2>
     <dl class="kv" style="max-width:900px">
-      <dt>Engine</dt><dd>Matter.js 2-D rigid-body physics with a replacement sequential-impulse contact solver (Coulomb friction, restitution). 2 ms step, mm–ms–g units so forces are in newtons. The <a href="validation.html">physics check</a> page validates it against closed-form solutions.</dd>
+      <dt>Engine</dt><dd>Matter.js 2-D rigid-body physics with a replacement sequential-impulse contact solver (Coulomb friction, restitution). 2 ms step, mm–ms–g units so forces are in newtons. The <a href="/work/prodose/simulation/physics-check/">physics check</a> page validates it against closed-form solutions.</dd>
       <dt>Actuators</dt><dd>Motors are dynamic bodies with a force / torque limit. A pill caught in the mechanism stalls the motor, that is the jam signal, and the squeeze it sees is the applied force, checked against the pill's crush strength.</dd>
       <dt>Pills</dt><dd>Mass from geometry × density with lot-to-lot variation per seed; crush strength scales with size (tablet 90 N at 9.5 mm, capsule 24 N, softgel 32 N); impact damage from a drop-height rating.</dd>
-      <dt>Ground truth</dt><dd>Every pill is a tracked body. Cycle outcomes are counted from bodies crossing the exit, not from the simulated sensor. How well a real sensor could confirm them is the <a href="sensors.html">sensing lab</a>.</dd>
+      <dt>Ground truth</dt><dd>Every pill is a tracked body. Cycle outcomes are counted from bodies crossing the exit, not from the simulated sensor. How well a real sensor could confirm them is the <a href="/work/prodose/simulation/sensing/">sensing lab</a>.</dd>
       <dt>Seeds</dt><dd>Each seed changes the pile in the bottle and every pill's mass. Same seed → identical run.</dd>
     </dl>
   </section>
-</main>
+</div>
 <footer class="foot">Prodose design lab · results generated <span id="genDate"></span> with Node <span id="nodeVer"></span> · all numbers on this page come from <code>data/bench.js</code>.</footer>
-
-<script src="js/lib/matter.min.js"></script>
-<script src="js/config.js"></script>
-<script src="js/contact.js"></script>
-<script src="js/physics.js"></script>
-<script src="js/actuators.js"></script>
-<script src="js/concepts.js"></script>
-<script src="js/trial.js"></script>
-<script src="js/site.js"></script>
-<script src="js/charts.js"></script>
-<script src="data/bench.js"></script>
-<script src="js/bench-lib.js"></script>
-<script src="js/bench-page.js"></script>
-</body>
-</html>

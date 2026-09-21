@@ -179,7 +179,15 @@ export const ROLES: Role[] = [
     ],
     stack: ["CAD", "3D printing", "Prototyping", "Product management"],
     kind: "work",
-    links: [{ label: "Try the dispenser simulation", href: "/work/prodose/simulation/", kind: "demo" }],
+    links: [
+      { label: "Design lab", href: "/work/prodose/simulation/", kind: "demo" },
+      { label: "Simulator", href: "/work/prodose/simulation/simulator/", kind: "demo" },
+      { label: "Test bench", href: "/work/prodose/simulation/bench/", kind: "demo" },
+      { label: "Sensing lab", href: "/work/prodose/simulation/sensing/", kind: "demo" },
+      { label: "Bottle, chute and cleaning labs", href: "/work/prodose/simulation/labs/", kind: "demo" },
+      { label: "Design decision", href: "/work/prodose/simulation/design/", kind: "demo" },
+      { label: "Physics check", href: "/work/prodose/simulation/physics-check/", kind: "demo" },
+    ],
   },
   {
     slug: "steve-fisher",
@@ -781,7 +789,7 @@ export const VENTURES: Venture[] = [
     hue: "--indigo",
     internal: [
       { label: "Read more", href: "/work/prodose/" },
-      { label: "Try the simulation", href: "/work/prodose/simulation/" },
+      { label: "Try the simulation", href: "/work/prodose/simulation/simulator/" },
     ],
   },
 ];

@@ -1,40 +1,12 @@
-/* Prodose site chrome: shared header/nav, theme toggle, accessible tabs. No dependencies, works from file:// */
+/* ProDose design lab helpers: storage, accessible tabs, small DOM utilities. The page chrome comes from the site. */
 (function (G) {
-  const PAGES = [
-    ['index.html', 'Overview'], ['simulator.html', 'Simulator'], ['bench.html', 'Test bench'], ['sensors.html', 'Sensing'],
-    ['labs.html', 'Labs'], ['design.html', 'Design'], ['validation.html', 'Physics check'],
-  ];
   const S = (G.ProdoseSite = {});
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
   };
   S.store = store;
-
-  function applyTheme(t) {
-    const r = document.documentElement;
-    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme');
-    document.dispatchEvent(new CustomEvent('themechange', { detail: S.theme() }));
-  }
-  S.theme = () => document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  applyTheme(store.get('prodose-theme'));
-
-  function build() {
-    const cur = document.body.dataset.page || location.pathname.split('/').pop() || 'index.html';
-    const h = document.createElement('header'); h.className = 'site';
-    h.innerHTML = `<a class="skip" href="#main">Skip to content</a>
-      <a class="brand" href="index.html"><span class="logo" aria-hidden="true">℞</span><span><b>Prodose</b><small>Pill dispenser design lab</small></span></a>
-      <nav aria-label="Pages">${PAGES.map(([u, t]) => `<a href="${u}"${u === cur ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</nav>
-      <span class="grow"></span>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle colour theme"></button>`;
-    document.body.prepend(h);
-    const btn = h.querySelector('#themeBtn');
-    const label = () => { btn.textContent = S.theme() === 'dark' ? '☀ Light' : '☾ Dark'; };
-    label();
-    btn.addEventListener('click', () => { const t = S.theme() === 'dark' ? 'light' : 'dark'; store.set('prodose-theme', t); applyTheme(t); label(); });
-    const main = document.querySelector('main'); if (main && !main.id) main.id = 'main';
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+  S.theme = () => 'dark';
 
   // ---- accessible tabs: <div role=tablist> buttons[role=tab][aria-controls] + [role=tabpanel] ----
   S.tabs = function (list, onChange) {

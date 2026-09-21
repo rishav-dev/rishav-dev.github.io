@@ -8,7 +8,7 @@
 
   $('metaChip').textContent = `${meta.trials} simulated trials`;
   $('genDate').textContent = meta.generated; $('nodeVer').textContent = meta.node;
-  if (!Bench.data.results.length) { document.querySelector('main').insertAdjacentHTML('afterbegin', '<div class="note bad">No bench data found, run <code>node bench/run.js</code> to generate data/bench.js.</div>'); }
+  if (!Bench.data.results.length) { document.querySelector('.lab .wrap').insertAdjacentHTML('afterbegin', '<div class="note bad">No bench data found, run <code>node bench/run.js</code> to generate data/bench.js.</div>'); }
 
   // ---------------------------------------------------------------- 1 · headline
   const p1 = rows('P1'), seeds1 = new Set(p1.map((r) => r.s)).size; $('p1seeds').textContent = seeds1;
