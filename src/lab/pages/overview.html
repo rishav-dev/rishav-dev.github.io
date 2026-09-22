@@ -1,8 +1,8 @@
 <div class="wrap">
   <div class="hero">
     <div class="eyebrow">UMass MIE capstone · pill dispensing module</div>
-    <h1>Six ways to dispense one pill</h1>
-    <p class="lede">ProDose has to dispense exactly one pill at a time from any bottle. Our first design, a sorting wheel, had known weaknesses, so we simulated it alongside five other approaches: a vacuum arm, a sliding pocket, a gravity lane, sensor-gated belts and a vacuum disc. Each one runs in a rigid-body simulation with real masses, friction, motor limits and suction force. We test them against the questions in the project brief: how often is it exactly one pill, how do we know, and does the pill survive?</p>
+    <h1>One pill at a time, tested in simulation</h1>
+    <p class="lede">The first design had a known weakness, so we did not copy it. This site tests <b>six</b> ways of dispensing exactly one pill from a bottle, a sorting wheel, a vacuum arm, a sliding pocket, a gravity lane, sensor-gated belts and a vacuum disc, in a rigid-body simulation with real masses, friction, motor limits and suction force, then asks the questions the project brief asks: how often is it one pill, how do we <em>know</em>, and does the pill survive?</p>
     <div class="cta"><a class="btn primary" href="/work/prodose/simulation/simulator/">Open the simulator</a><a class="btn" href="/work/prodose/simulation/bench/">See the results</a><a class="btn" href="/work/prodose/simulation/design/">Read the recommendation</a></div>
   </div>
 
@@ -28,15 +28,16 @@
         <tr><td>5 · Cleaning and residue</td><td class="wrap">Filtered low-pressure air purge modelled from wall shear against particle adhesion; carry-over into the next product.</td><td><a href="/work/prodose/simulation/labs/">Labs → Cleaning</a></td></tr>
         <tr><td>6 · Materials</td><td class="wrap">Stainless, polymers and elastomers ranked against requirements; a part-by-part recommendation.</td><td><a href="/work/prodose/simulation/labs/">Labs → Materials</a></td></tr>
         <tr><td>7 · Testing metrics</td><td class="wrap">Success, misses, multiples, jams, repeatability, damage, compatibility range, adjustment effectiveness, interface and confirmation reliability, each with an acceptance bar.</td><td><a href="/work/prodose/simulation/design/#procedure">Design → Test procedures</a></td></tr>
-        <tr><td>Deliverables</td><td class="wrap">Design alternatives and rationale, failure-mode table, decision matrix with rank stability, recommendations and next steps.</td><td><a href="/work/prodose/simulation/design/">Design</a></td></tr>
+        <tr><td>Deliverables</td><td class="wrap">Design alternatives and rationale, failure-mode taxonomy, a Pareto frontier alongside the weighted decision matrix, recommendations and next steps.</td><td><a href="/work/prodose/simulation/design/">Design</a></td></tr>
+        <tr><td>Extended validation</td><td class="wrap">Variance-based sensitivity analysis, a held-out geometry test on pills never used to build any mechanism, and a real search-vs-baseline optimization case study with a train/test split, plus an explicit list of what still needs physical hardware.</td><td><a href="/work/prodose/simulation/research/">Research</a></td></tr>
       </tbody></table></div>
   </section>
 
   <section class="block" id="trust">
-    <h2>Why trust the simulation?</h2>
+    <h2>How the simulation is checked</h2>
     <div class="cards">
       <div class="card"><h3>Real units</h3><p>Millimetres, milliseconds and grams, so every force comes out in newtons. Pill masses come from size and density, crush strengths from size, drop ratings from real pill classes.</p></div>
-      <div class="card"><h3>Validated engine</h3><p>Free fall, projectile, incline sliding, restitution, momentum, actuator force limits and suction force are checked against closed-form answers, live in your browser on the <a href="/work/prodose/simulation/physics-check/">physics check</a> page. One known limitation is stated, not hidden.</p></div>
+      <div class="card"><h3>Validated engine</h3><p>Free fall, projectile, incline sliding, restitution, momentum, actuator force limits and suction force are checked against closed-form answers, live in your browser on the <a href="/work/prodose/simulation/physics-check/">physics check</a> page. One known limitation is documented on the same page.</p></div>
       <div class="card"><h3>Jams are real</h3><p>Motors have force limits. A pill caught in a mechanism stalls the motor at its rated force; that stall <em>is</em> the jam signal and the squeeze the pill sees. Suction is a force limited by pressure × area, so a snagged pill drops.</p></div>
       <div class="card"><h3>Repeatable</h3><p>Every result comes from seeded runs and the raw trial records ship with the site. Re-run any protocol in the browser on the bench page, or regenerate everything with <code>node bench/run.js</code>.</p></div>
     </div>

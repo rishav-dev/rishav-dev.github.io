@@ -24,25 +24,34 @@
     <div class="grid2"><div id="chWins"></div><div id="chRank2"></div></div>
   </section>
 
+  <section class="block" id="pareto">
+    <h2>3 · Trade-off: no single "best", a frontier</h2>
+    <p class="sub">A weighted score always hides a choice about the weights. This is the same six concepts on two objectives that come straight off the bench, with no weighting at all: <b>reliability</b> (dose-exact rate, P1) and <b>pill safety margin</b> (1 − the worst squeeze/impact force as a share of the pill's crush or drop rating, across P1 and the P6 stress test). A concept is <b>Pareto-optimal</b> (filled dot) if no other concept beats it on both axes at once; a concept behind the frontier (hollow dot) is strictly worse than some other concept on both counts, so it needs a reason outside this chart to justify picking it.</p>
+    <div id="chPareto"></div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblPareto"></table></div>
+  </section>
+
   <section class="block" id="alts">
-    <h2>3 · The alternatives and why each exists</h2>
+    <h2>4 · The alternatives and why each exists</h2>
     <div class="cards" id="altCards"></div>
   </section>
 
   <section class="block" id="fmea">
-    <h2>4 · Failure modes</h2>
-    <p class="sub">What goes wrong, why (the physics), how often it happened on the bench, and what catches or prevents it.</p>
+    <h2>5 · Failure modes</h2>
+    <p class="sub">What goes wrong, why (the physics), how often it happened on the bench, and what catches or prevents it. Each mode carries a taxonomy code so it can be tracked the same way across concepts and across future test rounds.</p>
+    <div class="tbl-wrap" style="margin-bottom:14px"><table class="tbl" id="tblTaxonomy"></table></div>
     <div class="tbl-wrap"><table class="tbl" id="tblFmea"></table></div>
   </section>
 
   <section class="block" id="procedure">
-    <h2>5 · Test procedures and acceptance criteria</h2>
+    <h2>6 · Test procedures and acceptance criteria</h2>
     <p class="sub">Every metric named in the concept statement, where it is measured, and the bar a module has to clear. Pass/fail is computed from the bench data for each concept.</p>
     <div class="tbl-wrap"><table class="tbl" id="tblCrit"></table></div>
   </section>
 
   <section class="block" id="reco">
-    <h2>6 · Recommendations</h2>
+    <h2>7 · Recommendations</h2>
     <div id="recoBox"></div>
   </section>
 </div>

@@ -1,3 +1,4 @@
+/* Prodose site chrome: shared header/nav, theme toggle, accessible tabs. No dependencies, works from file:// */
 /* ProDose design lab helpers: storage, accessible tabs, small DOM utilities. The page chrome comes from the site. */
 (function (G) {
   const S = (G.ProdoseSite = {});
