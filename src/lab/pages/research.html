@@ -1,0 +1,58 @@
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Extended validation · methodology</div>
+    <h1>Does the simulator generalize, and can search beat a hand-tuned design?</h1>
+    <p class="lede">The bench (P1–P6) measures reliability on the pills used during concept development. This page evaluates three additional questions: which inputs drive the outcome, whether the geometry rules generalize to held-out pill shapes, and whether a search over mechanism dimensions improves on the analytic baseline when both are evaluated on separate held-out seeds. The final section lists the limits that still require physical testing.</p>
+  </div>
+
+  <section class="block" id="sens">
+    <h2>1 · What actually drives the outcome?</h2>
+    <p class="sub">Variance-based sensitivity (η², one-way ANOVA effect size) computed directly from the bench data already on this site (P3–P6), no new simulation. For each concept and factor, η² is the share of the variance in dose-exact outcomes explained by that factor's level; 0 % means the factor made no difference in this sweep, 100 % means it explained all of it. This tells you which knob is worth turning first, and, just as usefully, which one is not the problem.</p>
+    <div id="chSens"></div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblSens"></table></div>
+  </section>
+
+  <section class="block" id="challenge">
+    <h2>2 · Held-out generalization to new pill geometries</h2>
+    <p class="sub" id="challengeSub">Each concept's geometry (funnel angle, pocket/slot auto-sizing, lane height, singulator gap, cup diameter…) is calculated from the pill's length and width rather than from a lookup table or fitted outcome. The five cases below are outside both the eight product presets and the 25-size P2 sweep: an oversize tablet, a micro tablet, a nearly round caplet, an extreme-aspect-ratio capsule, and a nearly round softgel. They were reserved from concept development and debugging. This is a within-simulation generalization test: it evaluates whether the sizing formulas hold on new geometry, not whether the simulated physics matches a physical machine (§4).</p>
+    <div id="chChallenge"></div>
+    <div style="height:14px"></div>
+    <div class="tbl-wrap"><table class="tbl" id="tblChallenge"></table></div>
+  </section>
+
+  <section class="block" id="optimize">
+    <h2>3 · Search vs. the hand-tuned baseline: train/test evaluation</h2>
+    <p class="sub" id="optSub">The shuttle's pocket sizing is an analytic formula (§2), not a fitted model. A random search over pocket length × depth was scored on 8 <b>search</b> seeds. The selected candidate and the analytic baseline were then both evaluated on 16 <b>held-out</b> seeds that were not used during the search. The held-out result is used for the comparison.</p>
+    <div id="optCards" class="cards"></div>
+    <div style="height:14px"></div>
+    <div class="grid2"><div id="chOptSearch"></div><div id="chOptHeat"></div></div>
+  </section>
+
+  <section class="block" id="bench-spec">
+    <h2>4 · ProDoseBench: a reproducible protocol</h2>
+    <p class="sub">The six protocols behind this whole site (P1–P6, plus the sensing Monte-Carlo and the chute sweeps) are a fixed, versioned, seeded specification, not one-off numbers. Anyone with the repository can regenerate every chart on this site byte-for-byte from the same seeds, or point the same trial code (<code>js/trial.js</code>) at a different mechanism.</p>
+    <div class="cards">
+      <div class="card"><h3>What's fixed</h3><p>Pill geometry model, bottle geometry, the physics engine and contact solver, the trial harness (<code>js/trial.js</code>, shared by Node and the browser), the metric definitions (single-pill, dose-exact, jam, damage) and the random seeds for every protocol.</p></div>
+      <div class="card"><h3>What's swept</h3><p>P1 reliability (8 pills × 12 fills), P2 size range (25 sizes), P3 adjustment (per-concept setting grid), P4 last-pills / fill level, P5 motor limit (tuned machine), P6 stress test (tight clearance, rigid lips).</p></div>
+      <div class="card"><h3>Reproduce it</h3><pre class="cmd" style="margin:0">node bench/run.js        # P1–P6 → data/bench.js
+node bench/sensing.js    # confirmation Monte-Carlo
+node bench/chute.js      # transport & collection
+node bench/challenge.js  # held-out geometry (§2)
+node bench/optimize.js   # search case study (§3)</pre></div>
+      <div class="card"><h3>Extend it</h3><p>A new concept implements the same design interface (<code>bounds</code>, <code>control</code>, <code>sense</code>, <code>compat</code>…) and registers in <code>P.DESIGNS</code>, the bench, sensing lab and this page pick it up with no other changes.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="bounds">
+    <h2>5 · What this cannot show</h2>
+    <p class="sub">These results are limited to the simulation model. The following questions still require physical hardware and measured data.</p>
+    <div class="grid2">
+      <div class="card"><h3>Sim-to-real transfer</h3><p>Nothing on this site has been checked against a physical machine. Friction, restitution, crush strength and drop ratings are typical handbook values for each pill class, not measurements of specific tablets, and the contact model takes the <em>larger</em> static friction of the two materials in contact (Matter.js's convention), which is a conservative bias for low-friction linings. A calibration/validation split against real hardware (build on a subset of pills, predict on a held-out subset, and measure the gap) is the next test. It requires physical pills, a prototype rig, and camera or sensor ground truth that have not yet been collected for this project.</p></div>
+      <div class="card"><h3>Physical fault injection</h3><p>The simulator can stall a motor or lose a vacuum seal because a parameter is set that way. It cannot tell you what a real stepper does when a real gear tooth actually skips, or what a real belt does after a thousand hours of wear. That requires a built mechanism.</p></div>
+      <div class="card"><h3>Sensor ground truth</h3><p>The <a href="/work/prodose/simulation/sensing/">sensing lab</a>'s six confirmation methods are evaluated against the simulator's own pill positions, a fair test of the <em>method</em>, but the noise model (12 mg load-cell noise, idealized photodiode shadows) is assumed, not measured from a real beam or scale.</p></div>
+      <div class="card"><h3>Materials data</h3><p>The materials table on the <a href="/work/prodose/simulation/labs/">Labs</a> page uses typical handbook ranges for each material family. Those values should be replaced with supplier-specific datasheets and measured properties before final component selection.</p></div>
+    </div>
+  </section>
+</div>
+<footer class="foot">Prodose design lab · this page runs <code>Bench.etaSquared</code> / <code>Bench.paretoFront</code> (<code>js/research-lib.js</code>) over data already on the bench, plus <code>data/challenge.js</code> and <code>data/optimize.js</code>.</footer>

@@ -186,6 +186,7 @@ export const ROLES: Role[] = [
       { label: "Sensing lab", href: "/work/prodose/simulation/sensing/", kind: "demo" },
       { label: "Bottle, chute and cleaning labs", href: "/work/prodose/simulation/labs/", kind: "demo" },
       { label: "Design decision", href: "/work/prodose/simulation/design/", kind: "demo" },
+      { label: "Research", href: "/work/prodose/simulation/research/", kind: "demo" },
       { label: "Physics check", href: "/work/prodose/simulation/physics-check/", kind: "demo" },
     ],
   },
