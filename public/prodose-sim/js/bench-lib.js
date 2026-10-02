@@ -7,7 +7,7 @@
 (function (G) {
   const C = G.Charts;
   const B = G.PRODOSE_BENCH || { meta: { designs: [], presets: [], sizes: [] }, results: [] };
-  const LETTER = { wheel: 'A', arm: 'B', shuttle: 'C', lane: 'D', belt: 'E', vacdisc: 'F' };
+  const LETTER = { wheel: 'A', arm: 'B', shuttle: 'C', lane: 'D', belt: 'E', vacdisc: 'F', cone: 'G', hold: 'H' };
   const designs = B.meta.designs.map((d, i) => Object.assign({ letter: LETTER[d.key] || '?', color: `var(--c${i + 1})`, slot: i + 1 }, d));
   const byKey = Object.fromEntries(designs.map((d) => [d.key, d]));
   const mean = (a) => (a.length ? a.reduce((s, v) => s + v, 0) / a.length : NaN);

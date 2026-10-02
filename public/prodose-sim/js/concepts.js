@@ -179,7 +179,7 @@
       this.agitT += sec;
       const on = this.vibe && this.busy && s.phase === 'docked' && this.state !== 'idle';
       this.agit = on ? (boost ? 1.3 : 0.9) * Math.sin(this.agitT * 2 * Math.PI * (boost ? 32 : 26)) : 0;
-      this.hopper.place(this.agit, 0, 0);
+      this.hopper.place(this.agit, 0, 0, on);
       s.agitDx = this.agit;
       if (this.shutter) {
         this.shutterAnim = clamp(this.shutterAnim + (this.shutterOpen ? 1 : -1) * sec / 0.35, 0, 1);
@@ -894,6 +894,433 @@
   }
   P.VacDiscDesign = VacDiscDesign;
   P.DESIGNS.vacdisc = { key: 'vacdisc', mount: 'top', cls: VacDiscDesign, order: 6, name: 'Vacuum metering disc', short: 'Vac disc', family: 'Suction singulation' };
+
+  // =====================================================================================================
+  //  G · Adjustable wire-cone + laser gate. A compound cone (two independently adjustable taper stages, "waist" being
+  //  the control point between them) narrows down to a straight pipe whose diameter is set, from a pre-scan of the
+  //  pill, to fit the pill's WIDTH but not its LENGTH. A non-round pill can only pass the pipe standing on end: the
+  //  cone is a continuously-adjustable coin-tube. Two force-limited valves sit in the pipe: an upper RETENTION PIN
+  //  that admits one pill at a time into a short vestibule, and a lower GATE that releases the vestibule downward,
+  //  timed by a local light barrier that follows the pill's actual leading/trailing edge rather than a fixed dwell.
+  //  The pin exists because the simulation surfaced a real limitation of a single reactive gate: pills queued
+  //  touching in free fall clear a point sensor with a sub-2 ms gap, faster than any force-limited actuator can
+  //  react, so a lone gate lets two or three through before it can close. The pin turns that into a non-issue: it
+  //  only ever has to let ONE pill's leading edge start crossing before shutting behind it (a rising-edge trigger,
+  //  not a clearance wait), so the gate downstream only ever sees one candidate.
+  //  In this 2-D cross-section the wire bundle is drawn as a slotted cone shell; the physics (taper angle, pipe
+  //  clearance, valve force limits, contact/damage model) are identical to every other concept on this site.
+  // =====================================================================================================
+  class ConeGateDesign extends InvertedBase {
+    constructor(scene) {
+      super(scene);
+      const prm = scene.params, sp = scene.spec, g = scene.geo;
+      const round = sp.L / sp.W < 1.3;
+      // ---- pipe: sized so a pill standing on end just clears it, but a pill lying flat cannot fit through sideways.
+      // Round pills have no "lying flat" failure mode (every rotation looks the same end-on), so the cap on pipe width
+      // relative to length is skipped for them, they queue by diameter alone, exactly like coins in a tube.
+      const clearance = clamp(sp.W * 0.08 + 0.45, 0.5, 1.7);
+      const minPipe = sp.W + clearance, maxPipe = round ? minPipe + 7 : Math.max(minPipe + 0.6, sp.L - 1.3);
+      this.autoPipe = prm.pipeAuto !== false;
+      const autoPipeW = clamp(minPipe + (maxPipe - minPipe) * 0.18, minPipe, maxPipe);
+      this.pipeW = this.autoPipe ? autoPipeW : clamp(+prm.pipeDia || autoPipeW, minPipe * 0.75, maxPipe * 1.4);
+      this.forcesVertical = !round && this.pipeW < sp.L - 0.3;
+      // ---- waist: the cone's second control point, between the bottle-neck-width rim and the pipe
+      this.autoWaist = prm.waistAuto !== false;
+      // wide enough for one pill to rock/tumble into a vertical orientation, but deliberately kept under 2x the pipe
+      // width so a second pill's width can never bridge across it beside the first, that trade (room to reorient,
+      // not room to arch) is what the vibrated throat below is for.
+      const autoWaistW = round ? clamp(this.pipeW + Math.max(sp.W * 0.7, 3.2), this.pipeW + 2.4, g.wn * 1.6) : clamp(this.pipeW * 1.7, this.pipeW + 3.5, this.pipeW * 2 - 1.5);
+      this.waistW = this.autoWaist ? autoWaistW : clamp(+prm.waistDia || autoWaistW, this.pipeW + 1.5, g.wn * 2.2);
+      const pipeHalf = this.pipeW / 2, waistHalf = this.waistW / 2, tk = 6, barThick = 4.2;
+      // ---- stage 1 (rim -> waist): reuses the shared funnel/dock/sealed-cap machinery, angle-limited (<=14 deg from
+      // vertical) to the same anti-arching rule every other funnel on this site uses.
+      const wy = -(sp.W * 0.15);
+      this.initFeed({ left: { x: -waistHalf, y: wy }, right: { x: waistHalf, y: wy } });
+      // ---- anti-arch drive: the two sides of the feed cone are separate wire groups, driven in antiphase (±1 mm at
+      // 50 Hz, about 10 g, an ordinary electromagnetic feeder drive) so the gap an arch has to span pulses open and
+      // shut. A shared side-to-side shake moves both walls together and never changes that gap, so a two-pill arch
+      // resting on both walls rides it out. Rocking the whole funnel would also break it, but swings the end sealed
+      // to the bottle by several millimetres, which a seal can't take.
+      Composite.remove(scene.world, this.hopper.body);
+      const side = (pts, sgn) => {
+        const parts = [];
+        for (let i = 0; i < 2; i++) {
+          const a = pts[i], b = pts[i + 1], dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy);
+          if (l > 1e-6) { const w = wallSeg(a, b, 6, (sgn * dy) / l, (-sgn * dx) / l, 'housing', 3); if (w) parts.push(w); }
+        }
+        const r = new Rig(parts, { label: 'housing' }); r.place(0, 0, 0); Composite.add(scene.world, r.body); return r;
+      };
+      const hL = side(this.funnelL, -1), hR = side(this.funnelR, 1), self = this;
+      this.feedSides = [hL, hR];
+      this.pulseAmp = prm.pulseAmp != null ? +prm.pulseAmp : 1.0; this.pulseHz = prm.pulseHz != null ? +prm.pulseHz : 50;
+      this.hopper = {
+        body: hL.body,
+        place(x, y, a, on) {
+          const d = on ? self.pulseAmp * Math.sin(self.agitT * 2 * Math.PI * self.pulseHz) : 0;
+          hL.place(x - d, y, 0); hR.place(x + d, y, 0);
+        },
+      };
+      const yWaist = wy;   // the feed funnel's outlet (its corner points above); yFt is the TOP of that funnel's taper
+      // ---- stage 2 (waist -> pipe top): a second, shallower taper down to the pipe. A non-round pill does most of
+      // its tumbling-into-vertical here, so, like the hopper above it, this throat gets the vibration assist too
+      // (the entry pipe and valves below stay still; shaking the precision section would only hurt them).
+      const run2 = waistHalf - pipeHalf, taperAngle2 = (round ? 14 : 10) * DEG, h2 = Math.max(4, run2 / Math.tan(taperAngle2));
+      const yPipeTop = yWaist + h2;
+      const rp2 = [{ x: waistHalf, y: yWaist }, { x: pipeHalf, y: yPipeTop }], lp2 = [{ x: -waistHalf, y: yWaist }, { x: -pipeHalf, y: yPipeTop }];
+      const throatParts = [];
+      { const w = wallSeg(rp2[0], rp2[1], tk, (rp2[1].y - rp2[0].y) / h2, -(rp2[1].x - rp2[0].x) / h2, 'housing', 3); if (w) throatParts.push(w); }
+      { const w = wallSeg(lp2[0], lp2[1], tk, -(lp2[1].y - lp2[0].y) / h2, (lp2[1].x - lp2[0].x) / h2, 'housing', 3); if (w) throatParts.push(w); }
+      this.throat = new Rig(throatParts, { label: 'housing' }); this.throat.place(0, 0, 0);
+      Composite.add(scene.world, this.throat.body);
+      // ---- pipe layout: entry run (lets the taper's orientation-forcing finish) -> retention pin -> vestibule
+      // (sized for exactly one pill) -> gate -> short stub -> exit. Every straight run's walls are built in pieces
+      // with a `barThick` gap left at each valve's height, so the valve bar itself is the only thing that can block.
+      this.motorF = clamp(prm.motorF || 0.25 * P.pillCrushN(sp), 1.5, 70);
+      const entryLen = clamp(round ? sp.W * 1.8 + 5 : sp.L * 1.15 + 6, 10, 55);
+      const yPin = yPipeTop + entryLen;
+      // Pin-to-gate distance, centre to centre; the clear height a pill gets is this minus one bar thickness. For
+      // small pills the floor is 1.85×L rather than a flat 10 mm, measured on the bench, that cuts mini-tablet double
+      // counts ~6× for more pin jams.
+      const vestibuleLen = clamp(sp.L + 3, Math.min(sp.L * 1.85, 10), 50);
+      this.gateY = yPin + vestibuleLen;
+      const yPipeBottom = this.gateY + Math.max(8, sp.W * 0.6);
+      const runs = [[yPipeTop, yPin - barThick / 2], [yPin + barThick / 2, this.gateY - barThick / 2], [this.gateY + barThick / 2, yPipeBottom]];
+      // pad only the outer ends (top of the first run, bottom of the last) to butt cleanly against the taper /
+      // exit, every boundary touching a valve stays exact, or the pad would eat straight into that valve's gap
+      runs.forEach(([y0, y1], idx) => {
+        if (y1 - y0 < 1) return;
+        const padTop = idx === 0 ? 3 : 0, padBot = idx === runs.length - 1 ? 3 : 0;
+        const yy0 = y0 - padTop, yy1 = y1 + padBot, cy = (yy0 + yy1) / 2, h = yy1 - yy0;
+        this.addStatic(rectPart(pipeHalf + tk / 2, cy, tk, h, 0, 'housing'));
+        this.addStatic(rectPart(-pipeHalf - tk / 2, cy, tk, h, 0, 'housing'));
+      });
+      // ---- the two valves: identical force-limited sliding bars, one at the pin, one at the gate
+      const barLen = 2 * pipeHalf + 9, stroke = pipeHalf + barLen / 2 + 3;
+      this.valveStroke = stroke; this.valveSpeed = clamp(prm.gateSpeed || 320, 80, 600);
+      const mkValve = (y, label) => {
+        const bar = P.dynRect(stroke, y, barLen, barThick, 0, label);
+        const act = new P.SlideActuator(scene, [bar], { mass: 1.1, Fmax: this.motorF, dir: { x: 1, y: 0 }, label, minCmd: 15, stallLimit: 30 });
+        return { act, mv: new P.Mover(0), y };
+      };
+      this.pin = mkValve(yPin, 'gate'); this.gate = mkValve(this.gateY, 'gate');
+      this.buildOutput({ ex: 0, ey: yPipeBottom, half: pipeHalf + 5 });
+      // the gate opens by sliding sideways, and a light enough pill resting against it can get dragged along by
+      // that motion instead of dropping straight down, a small horizontal kick that, for a small/light pill, is
+      // enough to carry it past the ramp's own guard wall before it ever falls into the wall's height. Extend that
+      // guard wall up past the gate itself so a sideways-kicked pill hits it before it can clear over the top.
+      { const y0 = this.gateY - 15, y1 = yPipeBottom - 4; this.addStatic(rectPart(-pipeHalf - 15 - 3, (y0 + y1) / 2, 6, y1 - y0, 0, 'chute')); }
+      this.zones.push({ x0: -waistHalf - 30, x1: waistHalf + 30, y0: this.roofY - 4, y1: yPipeBottom + 20 });
+      this.pinSeenT = null; this.jamValve = null;
+    }
+
+    compat() {
+      const sp = this.scene.spec, g = this.scene.geo, round = sp.L / sp.W < 1.3, out = [];
+      out.push({ k: 'Pipe (pre-scanned, adjustable)', v: round ? `Ø ${this.pipeW.toFixed(1)} mm, round pill, queues by diameter alone` : `${this.pipeW.toFixed(1)} mm, between width ${sp.W.toFixed(1)} and length ${sp.L.toFixed(1)} mm, forces the pill onto its end`, ok: this.pipeW >= sp.W + 0.3 && (round || this.pipeW < sp.L - 0.2) });
+      out.push({ k: 'Waist (2nd taper control point)', v: `${this.waistW.toFixed(1)} mm, second-stage taper down to the pipe`, ok: this.waistW > this.pipeW });
+      out.push({ k: 'Vertical singulation', v: round ? 'not needed, round pill has no lying-flat failure mode' : (this.forcesVertical ? 'pipe narrower than the pill: it cannot pass lying down' : 'pipe not narrow enough, a pill could still pass lying flat'), ok: round || this.forcesVertical });
+      out.push({ k: 'Neck clearance', v: `${(g.mouth / Math.max(sp.W, 1)).toFixed(1)}× pill width`, ok: g.mouth / sp.W >= 1.5 });
+      out.push({ k: 'Retention pin + gate', v: `${this.motorF.toFixed(0)} N current limit each, ${this.valveStroke.toFixed(0)} mm stroke at ${this.valveSpeed.toFixed(0)} mm/s, pin admits one pill into the vestibule, gate releases it, both timed by local light barriers`, ok: true });
+      return out;
+    }
+
+    // local edge-detection at a valve's height: is a pill's silhouette currently crossing that line?
+    lineBlocked(y) {
+      const s = this.scene, x0 = -this.pipeW / 2 - 1.5, x1 = this.pipeW / 2 + 1.5;
+      for (const b of s.pills) {
+        const info = b.plugin.pill; if (info.held) continue;
+        const bb = b.bounds;
+        if (bb.min.y > y || bb.max.y < y || bb.max.x < x0 || bb.min.x > x1) continue;
+        if (chordAt(b, y, x0, x1) > 0.25) return true;
+      }
+      return false;
+    }
+
+    beginJob() { this.state = 'admit'; this.tState = 0; }
+
+    driveValve(v, target, dt) {
+      v.mv.step(target, this.valveSpeed, 6000, dt);
+      v.act.drive(dt, v.mv.pos, v.mv.vel / 1000, 0);
+    }
+
+    control(dt) {
+      const s = this.scene, Pn = this.pin.act, Gt = this.gate.act;
+      this.controlBase(dt, this.state === 'unjam');
+      this.throat.place(this.agit * 0.7, 0, 0);
+      this.tState += dt;
+      switch (this.state) {
+        case 'admit': {
+          // pin open, gate closed. The instant a pill's leading edge is seen at the pin (a RISING-edge trigger, not
+          // a clearance wait, a healthy queue keeps the line blocked forever as the next pill arrives) the pin
+          // starts closing behind it, it only ever needs to let one pill start in.
+          if (this.lineBlocked(this.pin.y) && this.tState > 40) { this.state = 'seat'; this.tState = 0; }
+          else if (this.tState > 900) {                          // nothing reached the pin: bottle empty, or bridged above
+            if (s.stats.inBottle + this.hopperCount() === 0) { this.fail('Bottle is empty.'); break; }
+            this.consec++; s.stats.misses++; s.stats.attempts++; s.cycles.push({ t: s.t, got: 0, kind: 'miss' });
+            s.log(`Empty pipe, no pill reached the retention pin (miss #${this.consec}).`, 'warn');
+            if (this.consec >= 10) { this.fail('No pill for 10 cycles, pipe too narrow for this pill, or it is bridging at the waist.'); break; }
+            this.tState = 0;
+          }
+          break;
+        }
+        case 'seat': {           // pin closing behind the admitted pill; let it settle onto the (closed) gate
+          if (this.pin.mv.arrived(-this.valveStroke) && Math.abs(Pn.err) < 0.8 && this.tState > 140) {
+            this.state = 'release'; this.tState = 0; this.pinSeenT = null; this.dropStartCount = this.sensorCount;
+          } else if (this.tState > 2200 && this.noteJam()) {   // stuck well past any real closing time, even if the servo never crossed the stall threshold
+            this.pin.mv.pos = Pn.s; this.pin.mv.vel = 0; Pn.rehome(); this.jamValve = 'pin'; this.state = 'unjam'; this.tState = 0;
+          }
+          break;
+        }
+        case 'release': {        // gate open; the vestibule holds exactly one pill now, so a clean clearance read is reliable
+          const blocked = this.lineBlocked(this.gateY);
+          if (blocked) this.gateSeenT = this.tState;
+          const cleared = this.gateSeenT != null && this.tState - this.gateSeenT > 1;
+          if (cleared || this.tState > 700) { this.state = 'close'; this.tState = 0; this.gateSeenT = null; }
+          break;
+        }
+        case 'close': {
+          if (this.gate.mv.arrived(-this.valveStroke) && Math.abs(Gt.err) < 0.8 && this.tState > 60) {
+            const got = this.sensorCount - this.dropStartCount;
+            this.evalDrop(got, 'pipe');
+            if (!this.jobDone()) { this.state = 'admit'; this.tState = 0; }
+          } else if (this.tState > 2200 && this.noteJam()) {
+            this.gate.mv.pos = Gt.s; this.gate.mv.vel = 0; Gt.rehome(); this.jamValve = 'gate'; this.state = 'unjam'; this.tState = 0;
+          }
+          break;
+        }
+        case 'unjam': {          // ONLY the valve that actually jammed backs off, the other stays shut, or the pin
+          // and gate opening together would punch a clear, uncounted path straight through the machine.
+          const v = this.jamValve === 'gate' ? this.gate : this.pin, act = this.jamValve === 'gate' ? Gt : Pn;
+          if (v.mv.arrived(0) && Math.abs(act.err) < 0.8 && this.tState > 900) { this.state = 'admit'; this.tState = 0; this.jamValve = null; }
+          break;
+        }
+        default: break;
+      }
+      const pinJamOpen = this.state === 'unjam' && this.jamValve === 'pin';
+      const gateJamOpen = this.state === 'unjam' && this.jamValve === 'gate';
+      const pinTarget = (this.state === 'admit' || pinJamOpen) ? 0 : -this.valveStroke;
+      const gateTarget = (this.state === 'release' || gateJamOpen) ? 0 : -this.valveStroke;
+      this.driveValve(this.pin, pinTarget, dt);
+      this.driveValve(this.gate, gateTarget, dt);
+      if (Pn.stalled && this.state === 'seat') {
+        if (this.noteJam()) { this.pin.mv.pos = Pn.s; this.pin.mv.vel = 0; Pn.rehome(); this.jamValve = 'pin'; this.state = 'unjam'; this.tState = 0; }
+      } else if (Gt.stalled && this.state === 'close') {
+        if (this.noteJam()) { this.gate.mv.pos = Gt.s; this.gate.mv.vel = 0; Gt.rehome(); this.jamValve = 'gate'; this.state = 'unjam'; this.tState = 0; }
+      }
+      s.pinchWheel = false;
+    }
+    drawBodies() { return [...this.statics, ...this.feedSides.map((r) => r.body), this.throat.body, this.pin.act.body, this.gate.act.body]; }
+  }
+  P.ConeGateDesign = ConeGateDesign;
+  P.DESIGNS.cone = { key: 'cone', mount: 'top', cls: ConeGateDesign, order: 7, name: 'Adjustable wire-cone + laser gate', short: 'Cone gate', family: 'Reconfigurable singulation' };
+
+  // =====================================================================================================
+  //  H · Vacuum-lip airlock (held-pill escapement). A slow feed belt carries a single layer of pills (the same belt and
+  //  counter-rotating singulating roller as concept E) across a short fixed land to a rounded lip. Two small suction
+  //  ports are the only "gates", and neither one moves:
+  //    port A, on the lip's nose, catches the lead pill as it tips over the edge and holds it there, just past the
+  //            edge, where it physically blocks the pill behind it (a ceiling stops that one climbing over);
+  //    port B, in the land just behind, then catches that next pill where it has come to rest against the held one.
+  //  Release A and the held pill drops alone while B keeps the next one; A re-arms as soon as that pill has cleared it.
+  //  Release B and the belt brings the next pill up to A. Like an airlock, the lip is only ever open while one held pill
+  //  leaves, so the singulation never depends on anything outrunning a falling pill, and no part ever closes on a pill:
+  //  suction holds, it does not squeeze.
+  // =====================================================================================================
+  class HeldPillDesign extends InvertedBase {
+    constructor(scene) {
+      super(scene);
+      const prm = scene.params, sp = scene.spec, g = scene.geo;
+      const round = sp.L / sp.W < 1.3, size = Math.max(sp.L, sp.W), r = sp.W / 2;
+      this.h = laneHeight(sp);                                          // single-layer clearance under the roller and the ceiling
+      this.gapL = clamp(sp.W * 0.22 + 0.1, 0.95, 2.0);
+      this.ow = (round ? sp.L * 1.35 + 1.6 : sp.L + 6) / 2;
+      this.v1 = clamp(prm.holdV1 || 16, 4, 60);                         // mm/s feed belt
+      this.stallMs = prm.stallMs != null ? +prm.stallMs : 4000;         // no pill at the lip this long: jog the belt to break a bridge
+      this.Rn = clamp(sp.W * 0.45, 1.5, 4.5);                           // lip nose radius
+      this.phiA = (prm.portAngle != null ? +prm.portAngle : 40) * DEG;  // port A, round the nose from the top
+      this.dPort = clamp(prm.portDia || sp.W * 0.45, 1.2, 6);          // suction ports: auto from the pill width, as concept F
+      this.vacKPa = clamp(prm.vacuum || 25, 5, 60);
+      this.rampDeg = prm.lipRamp != null ? +prm.lipRamp : 0;           // land from the belt to the nose: flat (an uphill ramp is optional)
+      const ow = this.ow, h = this.h, Rn = this.Rn, beta = this.rampDeg * DEG;
+      // ---- feed: funnel over the belt, singulating roller at the funnel's downstream foot (as concept E)
+      this.rR = 6.5; this.rollerV = 70;
+      const rc = { x: ow + 1.0, y: -h - this.rR };
+      this.initFeed({ left: { x: -ow, y: -this.gapL }, right: { x: rc.x + 2.5, y: rc.y - 1 } });
+      this.roller = Matter.Bodies.circle(rc.x, rc.y, this.rR, { isStatic: true, friction: 0.9, frictionStatic: 1.0, restitution: 0.05 }, 24);
+      this.roller.label = 'belt'; this.addStatic(this.roller); this.rollerC = rc;
+      const xa = -(ow + 24), xb = rc.x + this.rR + (prm.queueMm != null ? +prm.queueMm : clamp(1.6 * size, 12, 45));
+      const belt = rectPart((xa + xb) / 2, 4, xb - xa, 8, 0, 'belt'); belt.friction = 0.9; belt.frictionStatic = 1.0;
+      this.belt = this.addStatic(belt); this.beltX = { xa, xb };
+      // ---- lip geometry. Land direction t (toward the lip), outward normal nr.
+      const t = { x: Math.cos(beta), y: -Math.sin(beta) }, nr = { x: -Math.sin(beta), y: -Math.cos(beta) };
+      const nA = { x: Math.sin(this.phiA), y: -Math.cos(this.phiA) };
+      // where the next pill comes to rest against a pill held on port A (its front end, treated as a W-diameter round end),
+      // and so where port B goes: under that front end, on the land (the land is lengthened if B would fall on the belt)
+      const placeB = (land) => {
+        const x0 = xb + 0.4, P0 = { x: x0, y: 0 }, crest = { x: x0 + land * t.x, y: land * t.y };
+        const cx = crest.x, cy = crest.y + Rn;
+        const A = { x: cx + Rn * nA.x, y: cy + Rn * nA.y }, C1 = { x: A.x + r * nA.x, y: A.y + r * nA.y };
+        const D = { x: P0.x + r * nr.x - C1.x, y: P0.y + r * nr.y - C1.y }, dt = D.x * t.x + D.y * t.y;
+        const s = -dt - Math.sqrt(Math.max(0, dt * dt - (D.x * D.x + D.y * D.y - 4 * r * r)));
+        return { x0, crest, cx, cy, A, s, sB: s - clamp(+prm.portBBack || 0, 0, 30) };
+      };
+      let land = clamp(0.5 * sp.W + 2, 3, 20), geo = placeB(land);
+      if (geo.sB < 1.5) { land += 1.5 - geo.sB; geo = placeB(land); }
+      const { x0, crest, cx, cy, A } = geo, rise = -crest.y;
+      this.addStatic(quadPart([{ x: x0, y: 0 }, crest, { x: crest.x, y: 8 }, { x: x0, y: 8 }], 'lane'));
+      const nose = [];
+      for (let i = 0; i <= 8; i++) { const a = (i / 8) * Math.PI / 2; nose.push({ x: cx + Rn * Math.sin(a), y: cy - Rn * Math.cos(a) }); }
+      nose.push({ x: cx + Rn, y: 8 }, { x: cx, y: 8 });
+      this.addStatic(quadPart(nose, 'lane'));
+      const B = { x: x0 + geo.sB * t.x, y: geo.sB * t.y };
+      this.ports = [
+        { key: 'A', pos: A, n: nA, att: null, hold: 0, on: false, grab: false },
+        { key: 'B', pos: B, n: nr, att: null, hold: 0, on: false, grab: false },
+      ];
+      this.port = A; this.portN = nA; this.nose = { cx, cy, x0 }; this.land = land;
+      // ceiling: level over the belt, then parallel to the ramp and on past the nose, one pill-layer (h) above the surface
+      const cL0 = Math.max(rc.x + this.rR + 3, x0 - size - 4), cEnd = cx + Rn + sp.W * 0.9;
+      this.addStatic(rectPart((cL0 + x0) / 2, -h - 2.5, x0 - cL0 + 0.5, 5, 0, 'lane'));
+      { const p = { x: x0 + h * nr.x, y: h * nr.y }, q = { x: cEnd + h * nr.x, y: -rise - (cEnd - crest.x) * Math.tan(beta) + h * nr.y };
+        const w = wallSeg(p, q, 5, nr.x, nr.y, 'lane', 1); if (w) this.addStatic(w); }
+      this.mv1 = new P.Mover(0); this.speedCmd = 0; this.phase1 = 0;
+      this.buildOutput({ ex: cx + Rn + sp.W * 0.5, ey: 8 + 4, half: Rn + sp.W * 0.5 + 6 });
+      this.zones.push({ x0: xa - 6, x1: cEnd + 8, y0: this.roofY - 4, y1: 12 });
+      this.vacSig = 0; this.portHold = 0;
+    }
+
+    compat() {
+      const sp = this.scene.spec, g = this.scene.geo, out = [];
+      const Aport = Math.PI * (this.dPort / 2) ** 2, Fs = this.vacKPa * 1e3 * Aport * 1e-6, wN = P.pillMeanMassMg(sp) * 1e-6 * 9.81;
+      out.push({ k: 'Feed belt', v: `${this.v1.toFixed(0)} mm/s under a ${this.h.toFixed(1)} mm roller gap (single layer)`, ok: this.h < 2 * sp.W });
+      out.push({ k: 'Suction ports (2, fixed)', v: `Ø ${this.dPort.toFixed(1)} mm at −${this.vacKPa.toFixed(0)} kPa → ${Fs.toFixed(2)} N each (${(Fs / wN).toFixed(0)}× pill weight)`, ok: Fs / wN > 15 });
+      out.push({ k: 'Lip', v: `${this.land.toFixed(1)} mm land${this.rampDeg ? ` at ${this.rampDeg.toFixed(0)}°` : ''}, ${this.Rn.toFixed(1)} mm nose, port A ${(this.phiA / DEG).toFixed(0)}° round it, port B ${(this.land - (this.ports[1].pos.x - this.nose.x0)).toFixed(1)} mm behind the crest`, ok: true });
+      out.push({ k: 'Neck clearance', v: `${(g.mouth / Math.max(sp.W, 1)).toFixed(1)}× pill width`, ok: g.mouth / sp.W >= 1.5 });
+      out.push({ k: 'Pinch points', v: 'none, lip and ports are fixed; only the belt moves (friction drive)', ok: true });
+      return out;
+    }
+
+    // Suction on one fixed port. Pick-up uses the vacuum disc's (concept F) pressure-force / seal-quality test; once a pill
+    // is sealed on the port it is held by a seat model: the pressure force pulls it in, the seal lip resists sliding up to
+    // (seal friction x suction force) and rolling up to (suction force x port radius), to roll off, a sealed pill has to
+    // pivot about the port's rim against the pressure. Past either limit it slips. (F never needed the seat model: its
+    // pills ride the moving rim. A pill held on a fixed port would otherwise just roll away.)
+    portStep(pt, other) {
+      const s = this.scene, sp = s.spec;
+      if (!pt.on) { pt.att = null; pt.hold = 0; return; }
+      const Aport = Math.PI * (this.dPort / 2) ** 2, F0 = this.vacKPa * 1e3 * Aport * 1e-6;
+      const px = pt.pos.x, py = pt.pos.y, nx = pt.n.x, ny = pt.n.y;
+      if (!pt.att && pt.grab) {
+        const pf = P.VacDiscDesign.prototype.portForce;
+        let best = null;
+        for (const b of s.pills) {
+          if (b === other.att || (pt.key === 'A' && b === this.dropBody && !this.farFromA(b))) continue;
+          const dx = b.position.x - px, dy = b.position.y - py;
+          if (dx * dx + dy * dy > (Math.max(sp.L, sp.W) / 2 + 4) ** 2) continue;
+          const hh = pf.call(this, 0, b, px, py, nx, ny, F0, sp, 10 * (b.mass / 1000) * 9.81);
+          if (hh && hh.dmin < 3 && (!best || hh.F > best.h.F)) best = { b, h: hh };
+        }
+        if (best) {
+          const b = best.b, hh = best.h, capF = 10 * (b.mass / 1000) * 9.81;
+          if (hh.F > 0.35 * capF && hh.dn < 0.6) { pt.att = b; pt.attLocal = rot({ x: px - b.position.x, y: py - b.position.y }, -b.angle); pt.attAng = b.angle; }
+          // not yet sealed: the inflow through a sub-millimetre gap draws it in only weakly (<= its own weight)
+          else if (hh.dn < 0.8) { const fa = Math.min(hh.F, 0.1 * capF); Body.applyForce(b, { x: hh.vx, y: hh.vy }, { x: -nx * fa, y: -ny * fa }); }
+        }
+      }
+      const body = pt.att;
+      if (!body) { pt.hold = 0; return; }
+      const capF = 10 * (body.mass / 1000) * 9.81, Fs = Math.min(F0, capF);      // site-wide cap: 10x pill weight
+      const rr = rot(pt.attLocal, body.angle), c = { x: body.position.x + rr.x, y: body.position.y + rr.y };
+      const w = body.angularVelocity / 16.6667, vc = { x: body.velocity.x / 16.6667 - w * rr.y, y: body.velocity.y / 16.6667 + w * rr.x };
+      const e = { x: px - c.x, y: py - c.y };
+      if (Math.hypot(e.x, e.y) > 1.5) { pt.att = null; pt.hold = 0; return; }   // slipped off
+      const m = body.mass, wn = 0.35, k = m * wn * wn, cd = 2 * m * wn;
+      const en = e.x * nx + e.y * ny, vn = vc.x * nx + vc.y * ny;
+      let tx = k * (e.x - en * nx) - cd * (vc.x - vn * nx), ty = k * (e.y - en * ny) - cd * (vc.y - vn * ny);
+      const tm = Math.hypot(tx, ty), tmax = 0.6 * Fs;                 // seal-lip friction
+      if (tm > tmax) { tx *= tmax / tm; ty *= tmax / tm; }
+      const fn = -Fs + clamp(-cd * vn, -Fs, Fs);                      // pressure force into the port, plus seat damping
+      Body.applyForce(body, c, { x: tx + nx * fn, y: ty + ny * fn });
+      const I = body.inertia, Tmax = Fs * this.dPort / 2;
+      body.torque += clamp(-I * wn * wn * (body.angle - pt.attAng) - 2 * I * wn * w, -Tmax, Tmax);
+      pt.hold = 1;
+    }
+
+    farFromA(b) { const A = this.ports[0].pos, sp = this.scene.spec; return Math.hypot(b.position.x - A.x, b.position.y - A.y) > Math.max(sp.L, sp.W) / 2 + 5; }
+    beginJob() { this.cycleStart = this.sensorCount; this.nextCycle(); this.lastEventT = this.scene.t; this.stallCount = 0; }
+    // cycleStart only moves when a cycle is evaluated, so a pill that falls between cycles is charged to the next one
+    nextCycle() { this.state = 'feed'; this.tState = 0; }
+
+    control(dt) {
+      const s = this.scene, [A, B] = this.ports;
+      this.controlBase(dt, this.state === 'agitate');
+      this.tState += dt;
+      switch (this.state) {
+        case 'feed': {                                               // belt forward until port A holds the lead pill
+          this.speedCmd = 1; A.on = true; A.grab = true; B.on = false; B.grab = false;
+          const fell = this.sensorCount > this.cycleStart;           // one went over without being held: count it, carry on
+          if (A.hold > 0.5) { this.state = 'grabB'; this.tState = 0; this.lastEventT = s.t; }
+          else if (fell) { this.state = 'drop'; this.tState = 0; this.clearFor = 0; this.lastEventT = s.t; }
+          else if (s.t - this.lastEventT > this.stallMs) {
+            this.stallCount++;
+            if (s.stats.inBottle + this.hopperCount() === 0) { this.fail('Bottle is empty.'); break; }
+            if (this.stallCount > 6) { this.fail('No pill reached the lip after six de-bridging attempts, bridged over the roller.'); break; }
+            s.stats.jams++; this.state = 'agitate'; this.tState = 0; s.log('No pill at the lip, jogging the belt and shaking the hopper to break the bridge.', 'warn');
+          }
+          break;
+        }
+        case 'grabB': {                                              // belt stops; port B catches the pill resting against the held one
+          this.speedCmd = 0; A.grab = false; B.on = true; B.grab = true;
+          if (A.hold < 0.5) { this.state = 'feed'; this.tState = 0; break; }   // it slipped before settling: A re-seats it
+          if (B.hold > 0.5 || this.tState > 250) { B.grab = false; this.state = 'drop'; this.tState = 0; this.clearFor = 0; }
+          break;
+        }
+        case 'drop': {                                               // release A: the held pill falls alone; B still holds the next
+          this.speedCmd = 0; B.grab = false;
+          if (this.tState <= dt) { this.dropBody = A.att; A.on = false; A.grab = false; }
+          else if (!A.on && (!this.dropBody || this.farFromA(this.dropBody) || this.tState > 250)) { A.on = true; A.grab = true; }   // re-arm: the lip is only open while the pill leaves
+          const got = this.sensorCount - this.cycleStart;
+          this.clearFor = this.sensorBlocked ? 0 : this.clearFor + dt;
+          if ((got > 0 && this.clearFor > 150 && this.tState > 200) || this.tState > 900) {
+            this.evalDrop(got, 'lip'); this.cycleStart = this.sensorCount; this.lastEventT = s.t;
+            if (!this.jobDone()) { this.state = 'handoff'; this.tState = 0; }
+          }
+          break;
+        }
+        case 'handoff': {                                            // release B; the belt will bring that pill up to A
+          this.speedCmd = 0; B.on = false; A.on = true; A.grab = true;
+          if (A.hold > 0.5) { this.state = 'grabB'; this.tState = 0; break; }   // A already caught the next one
+          if (this.tState > 60) this.nextCycle();
+          break;
+        }
+        case 'agitate': {                                            // jog the belt back and forth under the arch while the hopper shakes hard
+          const ph = Math.floor(this.tState / 300) % 2;
+          this.speedCmd = this.tState < 1500 ? (ph ? 1.5 : -1) : 0; A.on = true; A.grab = true; B.on = false;
+          if (this.tState > 1700) { this.nextCycle(); this.lastEventT = s.t; }
+          break;
+        }
+        default: {                                                   // idle / done: port B keeps the next pill until the next dose (a sealed port
+          const done = this.state === 'done';                        // draws no air, so a small vacuum reservoir holds it with the pump off),
+          A.on = done; A.grab = done; B.on = done; B.grab = false;    // and the lip stays armed, so anything that creeps over is caught, not dropped
+          this.speedCmd = 0;
+          break;
+        }
+      }
+      // belt: static geometry with an imposed surface velocity (friction transport), servo ramp, encoder-controlled stop
+      if (this.speedCmd === 0) { this.mv1.pos = 0; this.mv1.vel = 0; } else this.mv1.step(this.speedCmd, 1.6, 14, dt);
+      const sec = dt / 1000, v1 = this.v1 * this.mv1.pos;
+      this.belt.positionPrev.x = this.belt.position.x - v1 * sec;
+      this.phase1 += v1 * sec;
+      // roller surface moves back toward the hopper while the belt feeds, stripping any second layer (as concept E)
+      const wr = (this.mv1.pos > 0.05 ? this.rollerV / this.rR : 0) * sec;
+      this.roller.anglePrev = this.roller.angle - wr; this.rollerPhase = (this.rollerPhase || 0) + wr;
+      this.portStep(A, B); this.portStep(B, A);
+      this.att = A.att; this.portHold = A.hold; this.vacSig = clamp(A.hold * 0.6 + B.hold * 0.4, 0, 1);
+      s.pinchWheel = false;
+    }
+    drawBodies() { return [...this.statics, this.hopper.body]; }
+  }
+  P.HeldPillDesign = HeldPillDesign;
+  P.DESIGNS.hold = { key: 'hold', mount: 'top', cls: HeldPillDesign, order: 8, name: 'Vacuum-lip airlock (held-pill escapement)', short: 'Vacuum lip', family: 'Held-pill airlock' };
 
   // =====================================================================================================
   //  register

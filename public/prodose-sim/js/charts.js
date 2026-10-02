@@ -145,14 +145,14 @@
       const y = top + i * ch;
       textEl(s, left - 8, y + ch / 2 + 4, r.label, { 'text-anchor': 'end', class: 'lbl', 'font-size': '12' });
       C.forEach((c, j) => {
-        const cell = spec.cells[i][j], x = left + j * cw;
-        const gr = el('g', { tabindex: 0, 'data-mark': '', 'aria-label': `${r.label}, ${c.label}: ${cell && cell.v != null ? cell.text : 'not run'}` }, s);
-        if (!cell || cell.v == null) { el('rect', { x: x + 1, y: y + 1, width: cw - 2, height: ch - 2, fill: `url(#hatch${S.el.id})`, rx: 3 }, gr); }
+        const cell = spec.cells[i][j], x = left + j * cw, notRun = !cell || cell.v == null || Number.isNaN(cell.v);
+        const gr = el('g', { tabindex: 0, 'data-mark': '', 'aria-label': `${r.label}, ${c.label}: ${notRun ? 'not run' : cell.text}` }, s);
+        if (notRun) { el('rect', { x: x + 1, y: y + 1, width: cw - 2, height: ch - 2, fill: `url(#hatch${S.el.id})`, rx: 3 }, gr); }
         else {
           const col = seq(cell.v); el('rect', { x: x + 1, y: y + 1, width: cw - 2, height: ch - 2, fill: col.fill, rx: 3 }, gr);
           if (cw >= 26) { const t = textEl(gr, x + cw / 2, y + ch / 2 + 4, cell.text, { 'text-anchor': 'middle', 'font-size': cw < 34 ? 9.5 : 11, 'font-weight': 600 }); t.style.fill = col.ink; }
         }
-        bindTip(S, gr, `<b>${esc(r.label)} · ${esc(c.label)}</b>` + rows(cell && cell.tip ? cell.tip : [['result', cell && cell.v != null ? cell.text : 'not run']]));
+        bindTip(S, gr, `<b>${esc(r.label)} · ${esc(c.label)}</b>` + rows(cell && cell.tip && !notRun ? cell.tip : [['result', 'not run']]));
       });
     });
     // sequential legend bar

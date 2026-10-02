@@ -16,7 +16,7 @@ export const LAB_PAGES: LabPage[] = [
     slug: "overview",
     label: "Overview",
     title: "ProDose design lab",
-    description: "Six pill-dispensing concepts, simulated with real physics: single-pill metering, dispensing confirmation, chute and collection, cleaning and materials.",
+    description: "Eight pill-dispensing concepts, simulated with real physics: single-pill metering, dispensing confirmation, chute and collection, cleaning and materials.",
     route: "/work/prodose/simulation/",
     scripts: [
       "/prodose-sim/js/site.js",

@@ -30,7 +30,7 @@
       <label class="row"><span>Fill level</span><output id="o_fill"></output><input type="range" id="fill" min="10" max="100" step="5"></label>
     </details>
 
-    <details open data-for="wheel shuttle lane belt vacdisc">
+    <details open data-for="wheel shuttle lane belt vacdisc cone hold">
       <summary>Bottle interface &amp; hopper</summary>
       <label class="check"><input type="checkbox" id="cap"><span>Sealed adapter cap (flip without spilling)</span></label>
       <label class="check"><input type="checkbox" id="vibe"><span>Vibration assist</span></label>
@@ -44,9 +44,11 @@
       <label class="row" id="rowScraper"><span>Scraper clearance</span><output id="o_scraper"></output><input type="range" id="scraper" min="0.5" max="3.5" step="0.1"></label>
     </details>
 
-    <details open data-for="arm vacdisc">
+    <details open data-for="arm vacdisc hold">
       <summary>Vacuum system</summary>
       <label class="row"><span>Vacuum (gauge)</span><output id="o_vacuum"></output><input type="range" id="vacuum" min="5" max="60" step="1"></label>
+      <label class="check" data-for="vacdisc hold"><input type="checkbox" id="portAuto"><span>Auto port diameter</span></label>
+      <label class="row" data-for="vacdisc hold"><span>Port diameter</span><output id="o_portDia"></output><input type="range" id="portDia" min="1.2" max="6" step="0.1"></label>
       <p class="hint">Hold force = vacuum × cup / port area × seal quality; the pill is held only up to that force.</p>
     </details>
 
@@ -81,15 +83,29 @@
 
     <details open data-for="vacdisc">
       <summary>F · Vacuum disc</summary>
-      <label class="check"><input type="checkbox" id="portAuto"><span>Auto port diameter</span></label>
-      <label class="row"><span>Port diameter</span><output id="o_portDia"></output><input type="range" id="portDia" min="1.2" max="6" step="0.1"></label>
       <label class="row"><span>Disc speed</span><output id="o_discSpeed"></output><input type="range" id="discSpeed" min="20" max="240" step="5"></label>
     </details>
 
-    <details data-for="wheel shuttle lane vacdisc">
+    <details open data-for="cone">
+      <summary>G · Adjustable cone + gate</summary>
+      <label class="check"><input type="checkbox" id="waistAuto"><span>Auto waist diameter (pre-scanned)</span></label>
+      <label class="row"><span>Waist diameter</span><output id="o_waistDia"></output><input type="range" id="waistDia" min="6" max="40" step="0.5"></label>
+      <label class="check"><input type="checkbox" id="pipeAuto"><span>Auto pipe diameter (pre-scanned)</span></label>
+      <label class="row"><span>Pipe diameter</span><output id="o_pipeDia"></output><input type="range" id="pipeDia" min="3" max="30" step="0.2"></label>
+      <label class="row"><span>Pin / gate speed</span><output id="o_gateSpeed"></output><input type="range" id="gateSpeed" min="80" max="700" step="10"></label>
+      <p class="hint">The pipe is sized just under the pill's length so a non-round pill can only pass standing on end. A retention pin admits one pill at a time into a short vestibule; a laser-timed gate then releases it.</p>
+    </details>
+
+    <details open data-for="hold">
+      <summary>H · Vacuum-lip airlock</summary>
+      <label class="row"><span>Feed belt speed</span><output id="o_holdV1"></output><input type="range" id="holdV1" min="4" max="40" step="1"></label>
+      <p class="hint">Two fixed suction ports are the only gates. Port A on the lip holds the lead pill just past the edge, where it blocks the next one; port B catches that next pill; then A lets go. The lip is only ever open while one held pill leaves.</p>
+    </details>
+
+    <details data-for="wheel shuttle lane vacdisc cone">
       <summary>Motor limits</summary>
       <label class="check"><input type="checkbox" id="motorAuto"><span>Size motor to 25 % of the pill's crush strength</span></label>
-      <label class="row" data-for="shuttle lane"><span>Current limit (force)</span><output id="o_motorF"></output><input type="range" id="motorF" min="1.5" max="80" step="0.5"></label>
+      <label class="row" data-for="shuttle lane cone"><span>Current limit (force)</span><output id="o_motorF"></output><input type="range" id="motorF" min="1.5" max="80" step="0.5"></label>
       <label class="row" data-for="wheel vacdisc"><span>Torque limit</span><output id="o_motorT"></output><input type="range" id="motorT" min="30" max="900" step="10"></label>
       <p class="hint">A pill trapped in the mechanism stalls the motor at this limit, that is the jam signal, and the squeeze force a pill sees.</p>
     </details>

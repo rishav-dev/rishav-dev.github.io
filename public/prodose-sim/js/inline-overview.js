@@ -9,11 +9,13 @@
     lane: 'A sloped single-file lane, a clamp-pad escapement and a trapdoor chamber release one pill at a time.',
     belt: 'A slow feed belt, a fast spacing belt and an encoder-based optical count stop the feed at the dose.',
     vacdisc: 'A seed-meter disc with suction ports; a wedge strips anything not sealed to a port.',
+    cone: 'A motor-adjustable wire cone tapers to a pipe just under the pill’s length; a retention pin and a laser-timed gate release one pill at a time.',
+    hold: 'A slow belt feeds a fixed lip with two suction ports: one holds the lead pill past the edge, the other holds the next, and only then is the first let go.',
   };
   const best = [...designs].sort((a, b) => A[b.key].doseRate.p - A[a.key].doseRate.p)[0];
   const tot = p1.length, cyc = p1.reduce((s, r) => s + r.ok + r.miss + r.multi, 0);
   document.getElementById('heroStats').innerHTML = [
-    ['6', 'dispensing concepts, each a working simulated machine'],
+    [String(designs.length), 'dispensing concepts, each a working simulated machine'],
     [meta.trials.toLocaleString(), 'simulated dispensing trials in the bench'],
     [cyc.toLocaleString(), 'metering cycles counted in the reliability protocol'],
     [best ? pct(A[best.key].doseRate.p) : '–', best ? `best dose-exact rate (${best.short}) across 8 real pills` : ''],

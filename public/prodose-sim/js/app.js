@@ -6,14 +6,16 @@
   const Site = window.ProdoseSite;
 
   const DESIGN_LIST = Object.values(P.DESIGNS).sort((a, b) => a.order - b.order);
-  const LETTER = { wheel: 'A', arm: 'B', shuttle: 'C', lane: 'D', belt: 'E', vacdisc: 'F' };
+  const LETTER = { wheel: 'A', arm: 'B', shuttle: 'C', lane: 'D', belt: 'E', vacdisc: 'F', cone: 'G', hold: 'H' };
   const BLURB = {
+    hold: 'A slow belt feeds single file to a fixed, rounded lip with two small suction ports. Port A holds the lead pill just past the edge, where it blocks the next one; port B then holds that next pill; only then does A let go. Like an airlock, the lip is only open while one held pill leaves, nothing has to outrun a falling pill, and nothing ever closes on one.',
     wheel: 'Inverted bottle over a rotating wheel with one slot per pill; a scraper strikes off extras and a trapdoor releases the pill. The reference design from the concept statement.',
     arm: 'Bottle docked from below in a sealed chamber; a vacuum-cup arm picks one pill and carries it to the outlet. The promising baseline, now a force-based suction model.',
     shuttle: 'A sliding plate with a pocket whose length and depth are adjustable. Compliant wiper lips strike off any second pill; the pocket carries one pill to the exit hole.',
     lane: 'The funnel feeds a sloped single-file lane. A rubber-faced clamp pad holds the queue while a trapdoor chamber releases the lead pill, no scraping of pills at all.',
     belt: 'No mechanical metering: a slow feed belt under a singulating roller, a light barrier and belt encoder count pills on the fly (pulse length ÷ pill length), and the feed stops at the dose while a fast belt flushes counted pills out.',
     vacdisc: 'A seed-meter style disc with suction ports around the rim. A knock-off wedge rejects any pill that is not sealed to a port; the vacuum is cut over the chute.',
+    cone: 'A motor-adjustable wire cone tapers down to a pipe sized just under the pill’s length, a non-round pill can only pass standing on end. A retention pin admits one pill into a short vestibule, then a laser-timed gate releases it: the pin only ever has to let one pill start in, so the gate downstream only ever sees one candidate.',
   };
   const PHASES = {
     wheel: ['Load bottle', 'Screw on adapter cap', 'Flip & dock', 'Feed hopper', 'Sort & scrape', 'Release', 'Collect'],
@@ -22,6 +24,8 @@
     lane: ['Load bottle', 'Flip & dock', 'Queue in lane', 'Pad holds the queue', 'Trapdoor drop', 'Confirm & collect'],
     belt: ['Load bottle', 'Flip & dock', 'Singulate on feed belt', 'Count at belt end', 'Stop feed, flush', 'Confirm & collect'],
     vacdisc: ['Load bottle', 'Flip & dock', 'Pick up on ports', 'Wedge rejects extras', 'Release at chute', 'Confirm & collect'],
+    cone: ['Load bottle', 'Flip & dock', 'Pin admits one pill', 'Pin seats it', 'Gate releases it', 'Confirm & collect'],
+    hold: ['Load bottle', 'Flip & dock', 'Belt feeds single file', 'Port A holds the lead pill', 'Port B holds the next · A releases', 'Confirm & collect'],
   };
 
   const state = {
@@ -31,8 +35,9 @@
     fill: 70, pocket: 'auto', scraper: 1.4, scraperAuto: true, wheelSpeed: 220, vibe: true, cap: true, armSpeed: 1.5, qty: 5, speed: 2,
     pocketAuto: true, pocketLen: 12, pocketDepth: 8, compliantLip: true, shuttleSpeed: 260,
     laneAngle: 24, chamberAuto: true, chamberLen: 12,
-    beltV1: 20, beltRatio: 5, beltSensing: 'width',
+    beltV1: 20, beltRatio: 5, beltSensing: 'width', holdV1: 16,
     vacuum: 25, portAuto: true, portDia: 3, discSpeed: 70,
+    pipeAuto: true, pipeDia: 10, waistAuto: true, waistDia: 16, gateSpeed: 320,
     motorAuto: true, motorF: 8, motorT: 300,
   };
 
@@ -71,11 +76,12 @@
     fill: num('fill', '%'), wheelSpeed: num('wheelSpeed', '°/s'), scraper: num('scraper', 'mm', 1), armSpeed: num('armSpeed', '×', 1),
     pocketLen: num('pocketLen', 'mm', 1), pocketDepth: num('pocketDepth', 'mm', 1), shuttleSpeed: num('shuttleSpeed', 'mm/s'),
     laneAngle: num('laneAngle', '°'), chamberLen: num('chamberLen', 'mm', 1),
-    beltV1: num('beltV1', 'mm/s'), beltRatio: num('beltRatio', '×', 1),
+    beltV1: num('beltV1', 'mm/s'), beltRatio: num('beltRatio', '×', 1), holdV1: num('holdV1', 'mm/s'),
     vacuum: num('vacuum', 'kPa'), portDia: num('portDia', 'mm', 1), discSpeed: num('discSpeed', '°/s'),
+    pipeDia: num('pipeDia', 'mm', 1), waistDia: num('waistDia', 'mm', 1), gateSpeed: num('gateSpeed', 'mm/s'),
     motorF: num('motorF', 'N', 1), motorT: num('motorT', 'N·mm'),
   };
-  const checks = ['vibe', 'cap', 'scraperAuto', 'pocketAuto', 'compliantLip', 'chamberAuto', 'portAuto', 'motorAuto'];
+  const checks = ['vibe', 'cap', 'scraperAuto', 'pocketAuto', 'compliantLip', 'chamberAuto', 'portAuto', 'pipeAuto', 'waistAuto', 'motorAuto'];
   const selects = ['pocket', 'beltSensing'];
 
   function autoValues() {
@@ -86,6 +92,8 @@
     if (scene.design === 'lane') { out.chamberLen = m.Lc; out.motorF = m.motorF; }
     if (scene.design === 'vacdisc') { out.portDia = m.dPort; out.motorT = m.motorT; }
     if (scene.design === 'wheel') out.motorT = m.motorT;
+    if (scene.design === 'cone') { out.pipeDia = m.pipeW; out.waistDia = m.waistW; out.motorF = m.motorF; }
+    if (scene.design === 'hold') out.portDia = m.dPort;
     return out;
   }
 
@@ -99,6 +107,8 @@
     for (const id of ['pocketLen', 'pocketDepth']) { $(id).disabled = state.pocketAuto; $(id).closest('.row').style.opacity = state.pocketAuto ? 0.45 : 1; }
     $('chamberLen').disabled = state.chamberAuto; $('chamberLen').closest('.row').style.opacity = state.chamberAuto ? 0.45 : 1;
     $('portDia').disabled = state.portAuto; $('portDia').closest('.row').style.opacity = state.portAuto ? 0.45 : 1;
+    $('pipeDia').disabled = state.pipeAuto; $('pipeDia').closest('.row').style.opacity = state.pipeAuto ? 0.45 : 1;
+    $('waistDia').disabled = state.waistAuto; $('waistDia').closest('.row').style.opacity = state.waistAuto ? 0.45 : 1;
     for (const id of ['motorF', 'motorT']) { $(id).disabled = state.motorAuto; $(id).closest('.row').style.opacity = state.motorAuto ? 0.45 : 1; }
     $('preset').value = state.preset; $('speed').value = String(state.speed); $('qty').value = state.qty;
     const round = state.pill.shape === 'round';
@@ -121,7 +131,7 @@
   }
 
   // moving a slider that has an "auto" switch takes manual control, starting from the value auto resolved to
-  const AUTO_OF = { scraper: 'scraperAuto', pocketLen: 'pocketAuto', pocketDepth: 'pocketAuto', chamberLen: 'chamberAuto', portDia: 'portAuto', motorF: 'motorAuto', motorT: 'motorAuto' };
+  const AUTO_OF = { scraper: 'scraperAuto', pocketLen: 'pocketAuto', pocketDepth: 'pocketAuto', chamberLen: 'chamberAuto', portDia: 'portAuto', pipeDia: 'pipeAuto', waistDia: 'waistAuto', motorF: 'motorAuto', motorT: 'motorAuto' };
   function onSlider(id) {
     const [, set] = sliders[id];
     set(+$(id).value);
@@ -170,7 +180,7 @@
     state.pill = { shape: pr.shape, L: pr.L, W: pr.W, color: pr.color };
     state.bottle = Object.assign({}, pr.bottle);
     state.fill = pr.fill; state.pocket = 'auto';
-    state.pocketAuto = state.chamberAuto = state.portAuto = state.motorAuto = state.scraperAuto = true;
+    state.pocketAuto = state.chamberAuto = state.portAuto = state.pipeAuto = state.waistAuto = state.motorAuto = state.scraperAuto = true;
     normalizeState(); syncUI(); rebuild();
   }
 
@@ -187,8 +197,9 @@
       pocket: s.pocket, scraper: s.scraperAuto ? 'auto' : s.scraper, wheelSpeed: s.wheelSpeed, vibe: s.vibe, cap: s.cap, armSpeed: s.armSpeed,
       pocketAuto: s.pocketAuto, pocketLen: s.pocketLen, pocketDepth: s.pocketDepth, compliantLip: s.compliantLip, shuttleSpeed: s.shuttleSpeed,
       laneAngle: s.laneAngle, chamberAuto: s.chamberAuto, chamberLen: s.chamberLen,
-      beltV1: s.beltV1, beltRatio: s.beltRatio, beltSensing: s.beltSensing,
+      beltV1: s.beltV1, beltRatio: s.beltRatio, beltSensing: s.beltSensing, holdV1: s.holdV1,
       vacuum: s.vacuum, portDia: s.portAuto ? undefined : s.portDia, discSpeed: s.discSpeed,
+      pipeAuto: s.pipeAuto, pipeDia: s.pipeAuto ? undefined : s.pipeDia, waistAuto: s.waistAuto, waistDia: s.waistAuto ? undefined : s.waistDia, gateSpeed: s.gateSpeed,
       motorF: s.motorAuto ? undefined : s.motorF, motorT: s.motorAuto ? undefined : s.motorT,
     };
   }
@@ -205,7 +216,7 @@
       scene.log(`Loaded ${P.SHAPES[scene.spec.shape].label.toLowerCase()} ${scene.spec.L.toFixed(1)} × ${scene.spec.W.toFixed(1)} mm, ${scene.pills.length} pills in the bottle.`, 'info');
       if (scene.fillReq > scene.pills.length + 1) scene.log(`Fill limited to ${scene.pills.length} pills (bottle capacity for this size).`, 'warn');
       renderCompat();
-      P.scopeLegend($('scopeLegend'), scene.design === 'vacdisc' || scene.design === 'arm');
+      P.scopeLegend($('scopeLegend'), scene.design === 'vacdisc' || scene.design === 'arm' || scene.design === 'hold');
       $('loading').classList.remove('on');
       updateButtons(); updateHud(true);
       window.dispatchEvent(new CustomEvent('prodose:rebuilt'));
@@ -303,6 +314,8 @@
       lane: { fill: 2, separate: 3, open: 4, close: 4, raise: 5, unjam: 3 },
       belt: { run: 3, agitate: 3, stop: 4 },
       vacdisc: { run: 3, stop: 4, unjam: 3 },
+      cone: { admit: 2, seat: 3, release: 4, close: 4, unjam: 3 },
+      hold: { feed: 2, grabB: 3, drop: 4, handoff: 4, agitate: 2 },
     };
     const v = (map[d] || {})[s];
     if (d === 'belt' && s === 'run' && m.inPulse) return 3;
