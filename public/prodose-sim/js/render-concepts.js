@@ -144,6 +144,47 @@
         const lp = { x: C.x + (Rd + 12) * Math.cos(m.aOn - 0.28), y: C.y + (Rd + 12) * Math.sin(m.aOn - 0.28) }; ctx.fillText(`−${m.vacKPa.toFixed(0)} kPa`, lp.x, lp.y);
       },
     },
+    hold: {
+      back(r, scene) {
+        const ctx = r.ctx, m = scene.machine, px = r.px, bx = m.beltX, ph = m.phase1 || 0;
+        // belt tread marks and end pulleys, singulating roller (as concept E)
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1 * px; const pitch = 6;
+        for (let x = bx.xa + 2 + (((ph % pitch) + pitch) % pitch); x < bx.xb - 2; x += pitch) { ctx.beginPath(); ctx.moveTo(x, 1); ctx.lineTo(x, 7); ctx.stroke(); }
+        ctx.fillStyle = '#4c515b'; for (const x of [bx.xa, bx.xb]) { ctx.beginPath(); ctx.arc(x, 4, 4.4, 0, 7); ctx.fill(); }
+        const c = m.rollerC, rr = m.rR;
+        ctx.save(); ctx.translate(c.x, c.y); ctx.rotate(m.rollerPhase || 0);
+        const g = ctx.createRadialGradient(-2, -2, 1, 0, 0, rr); g.addColorStop(0, '#8c929c'); g.addColorStop(1, '#4a4f58');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, rr, 0, 7); ctx.fill(); ctx.strokeStyle = '#2b2e34'; ctx.lineWidth = px; ctx.stroke();
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)'; for (let i = 0; i < 6; i++) { ctx.rotate(Math.PI / 3); ctx.beginPath(); ctx.moveTo(1.5, 0); ctx.lineTo(rr - 1, 0); ctx.stroke(); }
+        ctx.restore();
+      },
+      front(r, scene) {
+        const ctx = r.ctx, m = scene.machine, px = r.px;
+        // the two suction ports: grey = off, light blue = armed, blue = holding a pill
+        for (const pt of m.ports) {
+          const held = pt.hold > 0.5, rr = Math.max(0.9, m.dPort / 2);
+          ctx.fillStyle = held ? '#2f6df6' : pt.on ? '#9dbdf5' : '#aab1bb'; ctx.strokeStyle = held ? '#123f9e' : '#555b64'; ctx.lineWidth = 0.9 * px;
+          ctx.beginPath(); ctx.arc(pt.pos.x, pt.pos.y, rr, 0, 7); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = 'rgba(47,109,246,0.95)'; ctx.font = '5px system-ui'; ctx.textAlign = 'center';
+          ctx.fillText(pt.key, pt.pos.x + (pt.key === 'A' ? 4 : 0), pt.pos.y + 8.5);
+        }
+      },
+    },
+    cone: {
+      front(r, scene) {
+        const ctx = r.ctx, m = scene.machine, px = r.px, pipeHalf = m.pipeW / 2;
+        // pipe-diameter guide down the whole straight run
+        ctx.strokeStyle = 'rgba(47,109,246,0.6)'; ctx.lineWidth = 1 * px; ctx.setLineDash([2 * px, 2 * px]);
+        ctx.beginPath(); ctx.moveTo(pipeHalf, m.pin.y - 30); ctx.lineTo(pipeHalf, m.gateY + 12); ctx.moveTo(-pipeHalf, m.pin.y - 30); ctx.lineTo(-pipeHalf, m.gateY + 12); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(47,109,246,0.9)'; ctx.font = '5.5px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(`Ø ${m.pipeW.toFixed(1)}`, pipeHalf + 7, (m.pin.y + m.gateY) / 2);
+        // pin / gate call-outs right on the bars
+        ctx.fillStyle = '#fff'; ctx.font = '5px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText('PIN', 0, m.pin.y - 6);
+        ctx.fillText('GATE', 0, m.gateY - 6);
+      },
+    },
   };
 
   // generic dispatcher hook used by Renderer.draw
@@ -160,6 +201,8 @@
     if (scene.design === 'shuttle') L.push(iface, { t: 'Compliant wiper lips (silicone)', p: { x: m.ow, y: -m.gap - 1.5 }, d: [74, -4] }, { t: `Adjustable pocket ${m.Lp.toFixed(1)}×${m.dp.toFixed(1)} mm`, p: { x: m.act.s, y: m.dp / 2 }, d: [-50, -36], w: true }, { t: 'Shuttle slide (force-limited servo)', p: { x: m.plateX.xr - 20, y: m.dp / 2 }, d: [30, -64] }, { t: 'Exit hole', p: { x: m.stroke, y: m.dp + 8 }, d: [56, 26] }, { t: 'Break-beam sensors', p: { x: m.beam.x0, y: m.beam.y }, d: [-40, 44], w: true }, tray);
     else if (scene.design === 'lane') L.push(iface, { t: 'Single-file lane (height ≈ pill thickness)', p: m.W(m.ol + 25, m.h), d: [70, -46] }, { t: 'Clamp pad (holds the queue)', p: { x: m.wedge.body.position.x, y: m.wedge.body.position.y }, d: [64, -14] }, { t: 'Trapdoor chamber', p: m.W(m.uEnd - m.Lc / 2, -2), d: [64, 20] }, { t: 'Break-beam sensors', p: { x: m.beam.x0, y: m.beam.y }, d: [-40, 44], w: true }, tray);
     else if (scene.design === 'belt') L.push(iface, { t: 'Singulating roller', p: m.rollerC, d: [60, -40] }, { t: 'Feed belt (slow)', p: { x: 40, y: 2 }, d: [-20, 56], w: true }, { t: 'Spacing belt (fast)', p: { x: 140, y: 2 }, d: [10, 60] }, { t: 'Counting barrier + belt encoder', p: { x: m.sensX, y: -m.h / 2 }, d: [-50, -56], w: true }, { t: 'Exit barrier (verification)', p: { x: m.beam.x0 + 10, y: m.beam.y }, d: [-50, 34], w: true }, tray);
+    else if (scene.design === 'cone') L.push(iface, { t: 'Adjustable wire-cone (rim + waist, motor-set)', p: { x: m.waistW / 2, y: (m.roofY + m.pin.y) / 2 }, d: [70, -40], w: true }, { t: `Pipe Ø ${m.pipeW.toFixed(1)} mm (< pill length, forces it vertical)`, p: { x: m.pipeW / 2, y: (m.pin.y + m.gateY) / 2 }, d: [70, -10] }, { t: 'Retention pin (admits one pill)', p: { x: 0, y: m.pin.y }, d: [-70, -30], w: true }, { t: 'Laser-timed gate (releases it)', p: { x: 0, y: m.gateY }, d: [-70, 30], w: true }, { t: 'Break-beam sensors', p: { x: m.beam.x0, y: m.beam.y }, d: [-30, 44], w: true }, tray);
+    else if (scene.design === 'hold') { const [A, B] = m.ports; L.push(iface, { t: 'Singulating roller', p: m.rollerC, d: [40, -46] }, { t: 'Slow feed belt', p: { x: (m.beltX.xa + m.beltX.xb) / 2 + 10, y: 4 }, d: [-20, 56], w: true }, { t: 'Port A, holds the lead pill past the edge', p: A.pos, d: [70, -40] }, { t: 'Port B, holds the next pill', p: B.pos, d: [-30, 62], w: true }, { t: 'Break-beam sensors', p: { x: m.beam.x1 - 10, y: m.beam.y }, d: [40, 30] }, tray); }
     else if (scene.design === 'vacdisc') L.push(iface, { t: 'Vacuum metering disc', p: { x: m.C.x, y: m.C.y + 20 }, d: [-8, 74], w: true }, { t: 'Suction ports + vacuum sensor', p: { x: m.C.x + m.Rd * Math.cos(m.rotor.angle + 4 * m.dA), y: m.C.y + m.Rd * Math.sin(m.rotor.angle + 4 * m.dA) }, d: [70, -52] }, { t: 'Singulator wedge', p: { x: m.C.x + (m.Rd + m.gs) * Math.cos(217 * DEG), y: m.C.y + (m.Rd + m.gs) * Math.sin(217 * DEG) }, d: [-70, -34], w: true }, { t: 'Release (vacuum cut)', p: { x: m.C.x + m.Rd, y: m.C.y - 8 }, d: [60, -24] }, { t: 'Break-beam sensors', p: { x: m.beam.x0, y: m.beam.y }, d: [-30, 40], w: true }, tray);
     return L;
   };
