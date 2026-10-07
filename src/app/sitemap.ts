@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { PERSON, PROJECTS, ROLES } from "@/data/profile";
+import { RESUMES } from "@/data/resumes";
 import { LAB_PAGES } from "@/lab/pages";
 
 /**
@@ -17,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${PERSON.site}/`, lastModified: now, changeFrequency: "monthly", priority: 1 },
     { url: `${PERSON.site}/resume/`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...RESUMES.map((r) => ({
+      url: `${PERSON.site}/resume/${r.slug}/`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     ...ROLES.map((r) => ({
       url: `${PERSON.site}/work/${r.slug}/`,
       lastModified: now,

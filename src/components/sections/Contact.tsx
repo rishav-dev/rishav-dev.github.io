@@ -36,17 +36,11 @@ export default function Contact({ onOpenConsole }: { onOpenConsole: () => void }
 
             <div className="ct__actions" data-reveal style={{ ["--reveal-delay" as string]: "180ms" }}>
               <Link className="btn btn--primary" href="/resume">
-                <span>Read the resume</span>
+                <span>Resumes</span>
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path d="M3 8h10M9 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
-              <a className="btn" href={PERSON.resume} download>
-                PDF
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2.5 13.5h11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
               <button className="btn" onClick={onOpenConsole}>
                 Ask the assistant
               </button>

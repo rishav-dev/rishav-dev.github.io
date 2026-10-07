@@ -261,7 +261,7 @@ chunks.push({
     `${AVAILABILITY.status} He is interested in: ${AVAILABILITY.interests.join(", ")}. ` +
     `He is based in ${PERSON.location}. ` +
     `Email ${PERSON.email}. LinkedIn ${PERSON.linkedin}. GitHub ${PERSON.github}. ` +
-    `His resume is downloadable from this site.`,
+    `Resumes in several focus areas (data analyst, data science, product, research, consulting and more) are on the Resume page of this site, each with PDF and Word downloads.`,
 });
 
 export const CORPUS: Chunk[] = chunks;
