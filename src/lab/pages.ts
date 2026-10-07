@@ -30,7 +30,7 @@ export const LAB_PAGES: LabPage[] = [
     slug: "simulator",
     label: "Simulator",
     title: "ProDose simulator",
-    description: "Live rigid-body physics simulation of six pill-dispensing concepts.",
+    description: "Live rigid-body physics simulation of eight pill-dispensing concepts.",
     route: "/work/prodose/simulation/simulator/",
     app: true,
     scripts: [
@@ -51,7 +51,7 @@ export const LAB_PAGES: LabPage[] = [
     slug: "bench",
     label: "Test bench",
     title: "ProDose test bench",
-    description: "Single-pill success, multiples, misses, jams and damage for six dispensing concepts, measured in a physics simulation.",
+    description: "Single-pill success, multiples, misses, jams and damage for eight dispensing concepts, measured in a physics simulation.",
     route: "/work/prodose/simulation/bench/",
     scripts: [
       "/prodose-sim/js/lib/matter.min.js",

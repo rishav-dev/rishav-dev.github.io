@@ -31,30 +31,32 @@ export const PERSON = {
 } as const;
 
 export const THESIS = {
-  line: "I got into data because I wanted to understand people.",
+  line: "I use data to understand behavior and support better decisions.",
   body:
-    "I started in psychology because I wanted to know why people do what they do. Somewhere along the way " +
-    "I realized a lot of the answers were sitting in data, so I taught myself to work with it. That led to a " +
-    "postgraduate diploma at UT Austin and now the DACSS master's at UMass Amherst. " +
-    "When something works, I like to keep going until I know it will hold up.",
+    "My background combines data analytics, psychology, computer science and business. I started in " +
+    "psychology because I wanted to understand why people make the choices they do, then built the " +
+    "quantitative skills to study it: a postgraduate diploma in data science and business analytics at " +
+    "UT Austin, and now an M.S. in Data Analytics and Computational Social Science at UMass Amherst. " +
+    "My experience spans data analysis, business and digital strategy, behavioral analysis and product " +
+    "development.",
 } as const;
 
 export const HERO = {
   /* Two lines. The second takes the gradient. */
-  lines: ["Built on data.", "Driven by curiosity."],
+  lines: ["Data, behavior,", "and better decisions."],
   kicker:
-    "I'm a data scientist and ML engineer finishing a master's in Data Analytics and Computational Social " +
-    "Science at UMass Amherst. I started in psychology, so I begin with why people behave the way they do " +
-    "and build from there.",
-  role: "Data Science · Machine Learning · Founder",
+    "I'm pursuing an M.S. in Data Analytics & Computational Social Science at UMass Amherst, graduating " +
+    "in December 2027. My work spans analytics, research, product development, and behavioral data using " +
+    "Python, SQL, R, Power BI, and statistical methods.",
+  role: "Data Analytics · Business & Product Analytics · Applied Data Science",
   /**
    * The proof strip under the hero. Three claims, each one clickable through
    * to the thing that backs it. Nothing goes here that cannot be checked.
    */
   proof: [
-    { value: "5", label: "public repositories", href: "#code" },
-    { value: "$1,550", label: "in pitch prizes won", href: "#kinnovation" },
-    { value: "25,886", label: "records in one analysis", href: "#projects" },
+    { value: "25,886", label: "posts and comments analyzed", href: "#projects" },
+    { value: "519", label: "safety documents across 10 universities", href: "#projects" },
+    { value: "$1,550", label: "in pitch competition awards", href: "#ventures" },
   ],
 } as const;
 
@@ -79,9 +81,9 @@ export const PIPELINE: Stage[] = [
     title: "Behavior",
     verb: "Observe",
     body:
-      "Before I wrote any analysis code, I spent months doing Applied Behavior Analysis with autistic children, " +
-      "recording every prompt and response, session after session, under HIPAA. It taught me that a dataset only " +
-      "reflects the question you asked and the situation you asked it in. I check that first on every project now.",
+      "My first data work was behavioral. I recorded prompts and responses during Applied Behavior " +
+      "Analysis sessions under clinical supervision and HIPAA. It showed me that data depends on how and " +
+      "where it was collected, which I check at the start of every project.",
     hue: "--indigo",
     tools: ["ABA", "Experimental design", "Survey instruments"],
   },
@@ -91,9 +93,9 @@ export const PIPELINE: Stage[] = [
     title: "Data",
     verb: "Build",
     body:
-      "Most of the work happens here. I pulled 25,886 Reddit posts and comments through the API, joined " +
-      "Billboard chart history to Spotify audio features, and built the source tables in Doha that let a " +
-      "monthly report run on its own. Everything downstream depends on this step, so it gets the most care.",
+      "Most of the work happens here. I collected 25,886 Reddit posts and comments through the API, " +
+      "joined Billboard chart history to Spotify audio features, and built the datasets and Power BI " +
+      "reporting at an internship in Doha. Everything downstream depends on this step.",
     hue: "--cyan",
     tools: ["Python", "SQL", "PRAW", "Pandas", "Power BI"],
   },
@@ -103,9 +105,9 @@ export const PIPELINE: Stage[] = [
     title: "Model",
     verb: "Test",
     body:
-      "I've used regression, clustering, classification, computer vision and exponential random graph models. " +
-      "I usually run a few different methods on the same problem and look at where they disagree, because " +
-      "that's often the most interesting part of the result.",
+      "I've used regression, clustering, classification, NLP and exponential random graph models. I " +
+      "usually compare a few methods on the same problem and look at where they disagree, which helps " +
+      "show how much to trust a result.",
     hue: "--indigo",
     tools: ["scikit-learn", "TensorFlow", "R", "statnet", "Transformers"],
   },
@@ -115,10 +117,10 @@ export const PIPELINE: Stage[] = [
     title: "Decision",
     verb: "Ship",
     body:
-      "A model nobody uses doesn't help anyone. So I build the dashboard, the interactive story or the app " +
-      "that gets the result in front of the person who has to act on it.",
+      "Analysis is only useful if the people making the decision can use it. I build dashboards, " +
+      "interactive visualizations and prototypes so the results are clear to a non-technical audience.",
     hue: "--cyan",
-    tools: ["D3.js", "Three.js", "Plotly Dash", "React", "Flutter"],
+    tools: ["Power BI", "D3.js", "Plotly Dash", "Three.js", "React"],
   },
 ];
 
@@ -159,23 +161,21 @@ export const ROLES: Role[] = [
     order: 202609,
     place: "Amherst, MA",
     summary:
-      "Product manager for a smart pill dispenser, working with a five-person senior capstone team. There's a physics simulation of eight dispensing concepts you can try here.",
+      "Product manager for a smart medication dispenser in development, working with a five-person senior capstone team. There's a physics simulation of eight dispensing concepts you can try here.",
     detail: [
-      "ProDose is a smart dispenser that automatically dispenses scheduled doses of tablets and capsules. " +
-        "I'm the product manager, working with a five-person Mechanical & Industrial Engineering senior " +
-        "capstone team at UMass Amherst.",
-      "Right now that mostly means the physical design. I model parts in CAD and we 3D print prototypes, and " +
-        "each round is built to answer a specific question about the dispensing mechanism before we change " +
-        "the design again. The site also has a design lab you can try: a physics simulation of eight ways to " +
-        "dispense a single pill, plus a test bench and a comparison of the concepts.",
-      "The rest is keeping the team lined up, so that design decisions, manufacturing constraints and " +
-        "technical requirements stay consistent as the design develops.",
+      "ProDose is a smart medication dispensing system in development, designed to automate scheduled " +
+        "dispensing of tablets and capsules. I lead product development with a five-person UMass Amherst " +
+        "Mechanical & Industrial Engineering senior capstone team.",
+      "I translate product requirements into design and prototype decisions, and coordinate CAD, " +
+        "3D-printed prototyping, testing, design refinement and manufacturability review. The site also " +
+        "has a design lab you can try: a physics simulation of eight dispensing concepts, with a test " +
+        "bench and a comparison of the concepts.",
     ],
     did: [
-      "Product development for a smart medication dispenser",
-      "3D modeling, CAD and iterative printed prototypes",
-      "Design refinement and manufacturability review",
-      "Coordinating technical requirements across a five-person capstone team",
+      "Lead product development for a smart medication dispenser",
+      "Translate requirements into design and prototype decisions",
+      "Coordinate CAD, 3D-printed prototyping, testing and design refinement",
+      "Manufacturability review with a five-person capstone team",
     ],
     stack: ["CAD", "3D printing", "Prototyping", "Product management"],
     kind: "work",
@@ -193,57 +193,55 @@ export const ROLES: Role[] = [
   {
     slug: "steve-fisher",
     org: "Steve Fisher Consulting",
-    title: "Data & Behavioral Insights Associate",
+    title: "Data Analytics & Strategy Consultant",
     start: "May 2025",
     end: "Apr 2026",
     order: 202505,
     place: "Menifee, CA",
-    summary: "Analytics and a website rebuild for a law firm.",
+    summary: "Analyzed client and operational data, built KPI dashboards and supported digital strategy for a legal services firm.",
     detail: [
-      "Steve Fisher Consulting is a law firm, which made it an interesting place to apply behavioral science. " +
-        "People usually contact a lawyer when they're stressed and want a quick answer on whether this person " +
-        "handles their kind of problem. I redesigned the website around that, instead of around how the firm " +
-        "is organized internally.",
-      "I also automated routine admin work like intake, scheduling and reports that nobody had time to run, " +
-        "which gave a small team a good part of their week back.",
-      "On the analytics side, I ran statistical analysis on client data to find where engagement was " +
-        "dropping off, built dashboards so the partners could see it themselves, and built predictive models " +
-        "to flag which matters were likely to need attention early.",
+      "I analyzed client engagement, retention and conversion data to identify patterns and support " +
+        "business and digital strategy decisions.",
+      "I built KPI dashboards for marketing, operations and customer behavior, and developed predictive " +
+        "models to identify patterns and opportunities for targeted interventions.",
+      "I applied statistical and behavioral analysis to improve workflows, outreach and client-facing " +
+        "experiences, and evaluated the use of AI-enabled tools with an emphasis on transparency, trust " +
+        "and user needs.",
     ],
     did: [
-      "Statistical analysis of client engagement and conversion data",
-      "KPI dashboards for the partners",
-      "Predictive models for early intervention",
-      "Full site rebuild and workflow automation",
+      "Analysis of client engagement, retention and conversion data",
+      "KPI dashboards for marketing, operations and customer behavior",
+      "Predictive models to identify patterns and opportunities",
+      "Evaluation of AI-enabled tools for transparency and user needs",
     ],
-    stack: ["Python", "SQL", "Power BI", "React", "Analytics"],
+    stack: ["Python", "SQL", "Power BI", "Statistical analysis", "Predictive modeling"],
     kind: "work",
   },
   {
     slug: "simple-coaching",
     org: "Simple Coaching Inc.",
-    title: "Client Experience & Digital Strategy Consultant",
+    title: "Digital Strategy & Analytics Consultant",
     start: "Mar 2025",
     end: "Aug 2025",
     order: 202503,
-    place: "Remote",
-    summary: "Redesigned a wellness practice's website and added analytics to show what was working.",
+    place: "Boston, MA",
+    summary: "Used customer journey and performance data to support digital strategy for a wellness practice.",
     detail: [
-      "Simple Coaching is a wellness practice that was good at its work but didn't come across that way " +
-        "online. I reworked the service pages, event galleries and testimonials, which are where a nervous " +
-        "first-time client decides whether to trust you.",
-      "Then I added analytics, so we could see which workshops people finished and which ones they dropped " +
-        "partway through. That turned the redesign into something we could keep improving.",
-      "I also helped design new workshop formats based on client feedback and the data, and set up design " +
-        "and social media intern roles so the marketing could keep going after I left.",
+      "I analyzed customer behavior and client journeys to improve service pages, digital strategy and " +
+        "the customer experience, and used SEO and performance analytics to evaluate traffic, " +
+        "engagement and conversion.",
+      "I worked with leadership on new service offerings, including wellness workshops and other client " +
+        "programs, and conducted digital audits that supported website improvements, content strategy " +
+        "and digital outreach.",
+      "I also helped develop internship roles for graphic design and social media support.",
     ],
     did: [
-      "Client journey analysis and service page redesign",
-      "Analytics dashboards and ongoing monitoring",
-      "SEO and content strategy",
-      "Set up design and social intern roles for handover",
+      "Customer behavior and client journey analysis",
+      "SEO and performance analytics on traffic, engagement and conversion",
+      "Digital audits, website and content improvements",
+      "Input on new service offerings with leadership",
     ],
-    stack: ["SEO", "Analytics", "Journey mapping", "Content strategy"],
+    stack: ["SEO", "Analytics", "Customer journey analysis", "Content strategy"],
     kind: "work",
   },
   {
@@ -256,49 +254,23 @@ export const ROLES: Role[] = [
     order: 202501,
     place: "San Diego, CA",
     summary:
-      "Applied Behavior Analysis with autistic children. It shaped how I think about data more than any course has.",
+      "Collected and analyzed behavioral data during Applied Behavior Analysis sessions under clinical supervision.",
     detail: [
-      "I delivered ABA therapy to children with developmental disorders, working alongside Board Certified " +
-        "Behavior Analysts. That meant reinforcement scheduling, prompt fading and task analysis, with data " +
-        "recorded on every trial, because the treatment plan gets adjusted based on that data.",
-      "When your dataset is a child's afternoon, measurement stops being paperwork. You see what a noisy " +
-        "signal costs, how the act of measuring changes what you measure, and how quickly a plan stops " +
-        "working when conditions change.",
-      "I also trained caregivers so the strategies carried over at home, handled de-escalation when " +
-        "things got hard, and followed HIPAA throughout.",
+      "I collected and analyzed behavioral data during Applied Behavior Analysis sessions and used " +
+        "client progress to inform session-level adjustments under clinical supervision.",
+      "I implemented reinforcement schedules, prompt fading, task analysis and other evidence-based ABA " +
+        "interventions, and worked with caregivers and clinical staff to support consistency across home " +
+        "and community settings.",
+      "I used de-escalation and crisis-management techniques when needed, while maintaining HIPAA and " +
+        "organizational requirements.",
     ],
     did: [
-      "Trial-by-trial data collection and plan adjustment",
-      "Reinforcement scheduling, prompt fading, task analysis",
-      "Caregiver training and de-escalation",
+      "Behavioral data collection and session-level adjustments",
+      "Reinforcement schedules, prompt fading and task analysis",
+      "Coordination with caregivers and clinical staff",
       "HIPAA compliance",
     ],
-    stack: ["ABA", "HIPAA", "Real-time data collection"],
-    kind: "work",
-  },
-  {
-    slug: "franklin-county",
-    org: "Franklin County CDC",
-    orgHref: "https://www.fccdc.org/",
-    title: "Entrepreneurs Accelerator Program",
-    start: "Mar 2026",
-    end: "May 2026",
-    order: 202603,
-    place: "Greenfield, MA",
-    summary: "Selected for the Spring 2026 cohort of an accelerator for early-stage founders.",
-    detail: [
-      "I applied and was accepted into the Spring 2026 Entrepreneurs Accelerator Program at the Franklin " +
-        "County Community Development Corporation. It combined entrepreneurial training with mentorship and " +
-        "feedback on my venture.",
-      "I used it to tighten my business strategy and market positioning and to work out concrete next " +
-        "steps for the startup.",
-    ],
-    did: [
-      "Selected for the Spring 2026 cohort",
-      "Business strategy and market positioning work",
-      "Mentorship and venture planning",
-    ],
-    stack: ["Venture strategy", "Market positioning"],
+    stack: ["ABA", "HIPAA", "Behavioral data collection"],
     kind: "work",
   },
   {
@@ -310,21 +282,44 @@ export const ROLES: Role[] = [
     end: "Nov 2023",
     order: 202308,
     place: "Blacksburg, VA",
-    summary: "Invited to speak about machine learning for personalized mental health care.",
+    summary: "Presented applications of machine learning for personalized mental health interventions to 150+ participants.",
     detail: [
-      "I gave a talk on using machine learning to personalize mental health interventions, especially for " +
-        "neurodivergent people, and on why that work needs people from different fields working together.",
-      "My main point was that the model is the easy part. Mental health data is small, personal and " +
-        "collected in conditions that break a lot of standard assumptions, so the hard question is whether " +
-        "you can trust the result. I built the supporting analytics in Power BI so the audience could see " +
-        "the data behind what I was saying.",
+      "I presented applications of machine learning for personalized mental health interventions to " +
+        "150+ participants, and discussed how behavioral science, machine learning and data-driven " +
+        "methods can be combined in health technology.",
+      "I developed supporting Power BI visualizations to communicate the analytics concepts to the " +
+        "audience.",
     ],
     did: [
-      "Invited talk on ML for personalized therapeutic intervention",
-      "Built the supporting analytics in Power BI",
+      "Talk on machine learning for personalized mental health interventions",
+      "Power BI visualizations to communicate analytics concepts",
     ],
     stack: ["Machine learning", "Power BI", "Public speaking"],
     kind: "speaking",
+  },
+  {
+    slug: "dietrick",
+    org: "Virginia Tech Dining Services",
+    orgHref: "https://dining.vt.edu/",
+    title: "Dietrick Student Manager",
+    start: "Aug 2021",
+    end: "Apr 2024",
+    order: 202108,
+    place: "Blacksburg, VA",
+    summary: "Student manager in a high-volume Virginia Tech dining facility.",
+    detail: [
+      "I managed daily operations in a high-volume Virginia Tech dining facility, trained and " +
+        "supervised staff, and provided performance feedback.",
+      "I helped coordinate day-to-day operations and maintained customer-service, food-safety and " +
+        "operational standards in a fast-paced environment.",
+    ],
+    did: [
+      "Managed daily operations in a high-volume dining facility",
+      "Trained and supervised staff and gave performance feedback",
+      "Maintained customer-service and food-safety standards",
+    ],
+    stack: ["Team leadership", "Operations", "Training"],
+    kind: "work",
   },
   {
     slug: "zad-holding",
@@ -335,72 +330,22 @@ export const ROLES: Role[] = [
     end: "Aug 2021",
     order: 202103,
     place: "Doha, Qatar",
-    summary: "Six-month internship building datasets from scratch and the automated reporting on top of them.",
+    summary: "Built datasets and Power BI reporting, and completed a customer analytics project for Ooredoo Qatar.",
     detail: [
-      "I built the database structures and the Power BI reporting on top of them. It was the first time I " +
-        "saw analytics change how someone's work week actually went, not just produce a nicer chart.",
-      "I also ran a cost-benefit analysis on the final approach. It taught me that the statistically best " +
-        "answer and the one a business will actually adopt aren't always the same, and that getting people " +
-        "to use the result is part of the job.",
+      "I built datasets, database structures and Power BI reporting workflows to support operational " +
+        "analysis, and automated parts of the reporting process to reduce manual workload.",
+      "I used statistical and cost-benefit analysis to compare business scenarios and support " +
+        "recommendations.",
+      "Completed a client analytics project for Ooredoo Qatar using customer usage data, statistical " +
+        "inference, and Power BI to develop a mobile data-plan recommendation.",
     ],
     did: [
-      "Built datasets and database structures from scratch",
-      "Automated Power BI reporting",
-      "Cost-benefit analysis on the final approach",
+      "Built datasets, database structures and Power BI reporting",
+      "Statistical and cost-benefit analysis of business scenarios",
+      "Automated parts of the reporting process",
+      "Ooredoo Qatar client project: mobile data-plan recommendation from customer usage data",
     ],
-    stack: ["Power BI", "SQL", "Statistical analysis"],
-    kind: "work",
-  },
-  {
-    slug: "dietrick",
-    org: "Dietrick Dining, Virginia Tech",
-    orgHref: "https://dining.vt.edu/",
-    title: "Student Manager",
-    start: "Aug 2018",
-    end: "Apr 2024",
-    order: 201808,
-    place: "Blacksburg, VA",
-    summary:
-      "Student manager in a high-volume dining hall for five and a half years, alongside my degrees.",
-    detail: [
-      "I ran daily operations at D2 and DX, trained and mentored staff, gave performance feedback and " +
-        "enforced food safety standards. It isn't a data job, and I've kept it on here on purpose.",
-      "I worked this job the whole time I was earning a psychology degree with a computer science minor, " +
-        "and then a postgraduate diploma. I'd want an employer to know that.",
-      "Managing a team through a dinner rush also taught me something about analytics: a recommendation is " +
-        "no use if the people who have to act on it are already stretched thin. I think about that whenever " +
-        "I design a dashboard.",
-    ],
-    did: [
-      "Ran daily operations at a high-volume dining hall",
-      "Trained and mentored staff, gave ongoing performance feedback",
-      "Enforced food safety law and service standards",
-      "Worked five and a half years alongside full-time study",
-    ],
-    stack: ["Team leadership", "Operations", "Training"],
-    kind: "work",
-  },
-  {
-    slug: "ooredoo",
-    org: "Ooredoo Qatar",
-    orgHref: "https://www.ooredoo.qa/",
-    title: "Data Analytics Intern",
-    start: "Mar 2021",
-    end: "Aug 2021",
-    order: 202102,
-    place: "Doha, Qatar",
-    summary: "Designed a mobile data plan based on how customers actually use their phones.",
-    detail: [
-      "I built a model on real customer usage data and used statistical inference to design a data plan " +
-        "around what people actually do, instead of what the existing tiers assumed they do.",
-      "I was nineteen, and nobody expected an intern to question the tier structure. I did anyway.",
-    ],
-    did: [
-      "Usage model built on real customer data",
-      "Statistical inference to design the plan structure",
-      "Power BI reporting",
-    ],
-    stack: ["Power BI", "Statistical inference", "Pricing"],
+    stack: ["Power BI", "SQL", "Statistical analysis", "Statistical inference"],
     kind: "work",
   },
 ];
@@ -418,6 +363,7 @@ export interface Degree {
   end: string;
   place: string;
   note: string;
+  coursework: string[];
 }
 
 export const DEGREES: Degree[] = [
@@ -426,36 +372,51 @@ export const DEGREES: Degree[] = [
     href: "https://www.umass.edu/social-science-computation/",
     credential: "M.S.",
     field: "Data Analytics & Computational Social Science",
-    start: "2025",
-    end: "2027",
+    start: "Sep 2025",
+    end: "Dec 2027 (expected)",
     place: "Amherst, MA",
     note:
-      "I picked DACSS because it treats the social science as a real part of the work. Network analysis, " +
-      "experimental design and causal inference sit alongside the modeling, which is the mix I'd been " +
-      "trying to piece together on my own.",
+      "A program that combines data analytics with social science methods, including network analysis, " +
+      "experimental design and causal inference.",
+    coursework: [
+      "Network analysis",
+      "Experimental design",
+      "Causal inference",
+      "Data visualization",
+      "Data collection and web scraping",
+    ],
   },
   {
     school: "The University of Texas at Austin",
     href: "https://www.utexas.edu/",
     credential: "Postgraduate Diploma",
     field: "Data Science & Business Analytics",
-    start: "2024",
-    end: "2024",
+    start: "Jan 2024",
+    end: "Sep 2024",
     place: "Austin, TX",
-    note:
-      "An eight-month applied program, taken while I was still finishing at Virginia Tech. I wanted a " +
-      "solid quantitative foundation instead of picking it up piece by piece.",
+    note: "An applied data science and business analytics program, completed while finishing at Virginia Tech.",
+    coursework: [
+      "Python for Data Science",
+      "Applied Statistics",
+      "Exploratory Data Analysis",
+      "Data Visualization",
+      "Regression & Predictive Modeling",
+      "Machine Learning",
+      "Time Series Forecasting",
+      "SQL & Database Management",
+      "Model Tuning & Validation",
+    ],
   },
   {
     school: "Virginia Tech",
     href: "https://www.vt.edu/",
     credential: "B.S.",
-    field: "Psychology, minor in Computer Science",
-    start: "2021",
-    end: "2024",
+    field: "Psychology, Minor in Computer Science",
+    start: "Aug 2021",
+    end: "May 2024",
     place: "Blacksburg, VA",
-    note:
-      "The computer science minor started out of curiosity and became the other half of what I do.",
+    note: "A psychology degree with a computer science minor.",
+    coursework: ["Programming in Java", "Software design and testing", "Data structures"],
   },
 ];
 
@@ -506,8 +467,7 @@ export const PROJECTS: Project[] = [
         "at 91.25% accuracy (0.871 F1), and the linear SVM came in at 90.63% (0.868 F1). Those results are " +
         "close enough that which model you pick matters less than what the labels actually capture.",
       "The most interesting result came from the topic modeling. Most of the topics that came out weren't " +
-        "about mental health directly. They were about money, housing, politics and social media. People " +
-        "go to these subreddits to talk about anxiety, and a lot of what they talk about is rent.",
+        "about mental health directly. They were about money, housing, politics and social media.",
     ],
     stack: ["Python", "PRAW", "scikit-learn", "NLTK VADER", "Transformers", "Plotly Dash"],
     viz: "sentiment",
@@ -562,19 +522,18 @@ export const PROJECTS: Project[] = [
     slug: "billboard-hot-100",
     name: "How Pop Music Changed, 2000 to 2023",
     context: "UMass Amherst, DACSS 690S",
-    year: "2026",
+    year: "Fall 2025",
     result: { value: "24", label: "years of Billboard charts" },
     summary:
       "An interactive scroll-through of how the Billboard Hot 100 changed over 24 years, built from chart data joined to Spotify audio features, using D3 and Three.js.",
     detail: [
-      "I wanted to make something you scroll through and follow as an argument, not a dashboard you click " +
-        "around in. As you scroll, it covers long-term trends in danceability, energy, acousticness and " +
+      "I built this as a guided scroll-through rather than a dashboard. As you scroll, it covers long-term trends in danceability, energy, acousticness and " +
         "valence, how what makes a song chart has shifted, and then a 3D view of the feature space for the " +
         "point where two dimensions stop being enough.",
       "The data is Billboard Hot 100 entries from 2000 to 2023, joined to Spotify audio features. I cleaned " +
         "it into three JSON layers (by track, by year and by artist) so the page can switch between levels " +
-        "of detail without more network requests. Missing values are dropped instead of filled in, because " +
-        "an estimated audio feature would just be made-up data on the chart.",
+        "of detail without more network requests. Missing values are left out rather than estimated, so " +
+        "the charts only show recorded data.",
       "D3 draws the 2D charts, an IntersectionObserver triggers the scroll steps, and Three.js handles the " +
         "multi-dimensional views. There are also artist pages for Taylor Swift, Drake and The Weeknd.",
     ],
@@ -603,8 +562,7 @@ export const PROJECTS: Project[] = [
         "and it does most of the pruning, since alpha-beta without good ordering is close to plain minimax.",
       "The server allows one second per move, so the agent stops searching at 0.82 seconds and checks the " +
         "clock as it goes. Before searching, it works out a safe fallback move, so if time runs out it " +
-        "still returns a legal move instead of timing out. Building around the deadline first and then " +
-        "making it smarter within that budget is the same approach you'd take with any latency-bound model.",
+        "still returns a legal move instead of timing out.",
     ],
     stack: ["Python", "Minimax", "Alpha-beta pruning", "Memoization"],
     viz: "tree",
@@ -675,11 +633,11 @@ export const KINNOVATION = {
   role: "Co-founder",
   cofounder: { name: "Kinjal Pandey", href: "https://kinjalpandey.com/" },
   site: "https://kinnovationgroup.com",
-  line: "Seven ventures and three pitch prizes, built with my co-founder Kinjal Pandey.",
+  line: "Seven ventures, from concept to prototype, and three pitch prizes, built with my co-founder Kinjal Pandey.",
   body:
     "Kinnovation Group is what Kinjal Pandey and I work on outside our jobs and classes. We're not an " +
-    "incubator or a consultancy. We build the products ourselves, pitch them to judges, and keep working on " +
-    "the ones that hold up. The three pitch prizes below were all won together.",
+    "incubator or a consultancy. None of the ventures below is a launched product: each is labeled as a " +
+    "concept, a prototype or in development. The three pitch prizes were all won together.",
 } as const;
 
 export interface Venture {
@@ -690,6 +648,8 @@ export interface Venture {
   award?: string;
   body: string;
   hue: string;
+  /** Shown on the homepage; the rest sit behind "View all ventures". */
+  featured?: boolean;
   href?: string;
   repo?: string;
   /** Pages on this site, for ventures without one on kinnovationgroup.com. */
@@ -700,98 +660,102 @@ export const VENTURES: Venture[] = [
   {
     slug: "karnah",
     name: "Karnah",
-    line: "Donate items and see where they end up.",
+    line: "An in-kind donation platform in development.",
     stage: "In development",
     award: "$750, second place at UPitch Spring 2026",
+    featured: true,
     body:
-      "Karnah uses AI to check an item's condition and fair market value from photos, matches it with a " +
-      "charity that needs that item, and produces a tax receipt that's ready for an audit. Charities often " +
-      "get donations they can't use while the ones they need never reach them, and Karnah is meant to close " +
-      "that gap.",
+      "Karnah is an in-kind donation platform in development. Planned features include AI-based checks " +
+      "of an item's condition and fair market value from photos, matching items with charities that need " +
+      "them, and an audit-ready tax receipt for donors. The goal is to reduce donations that charities " +
+      "cannot use.",
     hue: "--indigo",
     href: "https://kinnovationgroup.com/karnah",
   },
   {
-    slug: "trendify",
-    name: "Trendify AI",
-    line: "Find the right clip in the footage you already have.",
-    stage: "Conceptual architecture",
-    award: "$300, Minute Pitch winner",
-    body:
-      "Most people have thousands of photos and videos and no idea which one fits what's trending this week. " +
-      "Trendify tracks what's trending, indexes your library and matches the two. The hard part is finding " +
-      "the right eight seconds inside forty thousand files.",
-    hue: "--cyan",
-    /* No href on purpose. Trendify is the one venture with no page on
-       kinnovationgroup.com yet, and a "Read more" that lands on a 404 is worse
-       than no link at all. Add the URL here once the page is published. */
-  },
-  {
     slug: "calendai",
     name: "CalendAI",
-    line: "A calendar that reschedules itself when your day falls apart.",
+    line: "A scheduling app in development that adapts to changes in your day.",
     stage: "In development",
     award: "$500, Apex Center for Entrepreneurs",
+    featured: true,
     body:
-      "Scheduling based on behavioral modeling instead of fixed calendar rules. I worked on it as the " +
-      "behavioral data analyst, doing the predictive modeling and A/B testing of smart-calendar features " +
-      "on AWS, MongoDB, Node and React.",
-    hue: "--indigo",
+      "CalendAI is a calendar app in development that aims to schedule based on behavioral modeling " +
+      "instead of fixed rules. I worked on it as a behavioral data analyst, on predictive modeling and " +
+      "A/B testing of prototype calendar features using AWS, MongoDB, Node and React.",
+    hue: "--cyan",
     href: "https://kinnovationgroup.com/calendai",
   },
   {
     slug: "measmi",
     name: "MeAsmi",
-    line: "Find what worked for children with similar symptoms, not just the same diagnosis.",
+    line: "A planned platform for finding which therapies worked for children with similar symptoms.",
     stage: "In development",
+    featured: true,
     body:
-      "A machine learning platform for supporting neurodivergent children. I co-led the interdisciplinary " +
-      "team, using clustering and supervised models to find which therapies worked for whom. It's the " +
-      "question every parent asks and hardly any dataset is set up to answer, which is why I wanted to " +
-      "work on it.",
-    hue: "--cyan",
+      "MeAsmi is a machine learning platform for neurodivergent support that is still in development. I " +
+      "co-led the interdisciplinary team exploring clustering and supervised methods to identify which " +
+      "therapies worked for children with similar symptoms. It is a planned product and has not been " +
+      "released.",
+    hue: "--indigo",
     href: "https://kinnovationgroup.com/measmi",
+  },
+  {
+    slug: "prodose",
+    name: "ProDose",
+    line: "A smart medication dispenser in development.",
+    stage: "In development",
+    featured: true,
+    body:
+      "ProDose is a smart medication dispensing system in development, designed to automate scheduled " +
+      "dispensing of tablets and capsules. I'm the product manager, working with a five-person UMass " +
+      "Amherst senior capstone team on the physical design, CAD and 3D-printed prototypes. The site has " +
+      "a design lab that simulates eight dispensing concepts, which you can try.",
+    hue: "--cyan",
+    internal: [
+      { label: "Read more", href: "/work/prodose/" },
+      { label: "Try the simulation", href: "/work/prodose/simulation/simulator/" },
+    ],
+  },
+  {
+    slug: "trendify",
+    name: "Trendify AI",
+    line: "A concept for finding clips in your own photo and video library.",
+    stage: "Concept",
+    award: "$300, Minute Pitch winner",
+    body:
+      "Trendify AI is a concept with no working product yet. The idea is to track what is trending, " +
+      "index a user's existing photo and video library, and match the two. The main technical challenge " +
+      "would be finding the right few seconds inside tens of thousands of files.",
+    hue: "--indigo",
+    /* No href on purpose. Trendify is the one venture with no page on
+       kinnovationgroup.com yet, and a "Read more" that lands on a 404 is worse
+       than no link at all. Add the URL here once the page is published. */
   },
   {
     slug: "nutri-navigator",
     name: "NutriNavigator",
-    line: "What to eat, based on your body, your schedule and what's nearby.",
-    stage: "In development",
+    line: "A nutrition app prototype that plans meals around your schedule and location.",
+    stage: "Prototype",
     body:
-      "A nutrition app built in Dart and Flutter. It's less about recommending foods and more about " +
-      "constraints: what's healthy, open, affordable and close enough to reach in the forty minutes you " +
-      "actually have.",
-    hue: "--indigo",
+      "NutriNavigator is a nutrition guidance app prototype built in Dart and Flutter. Planned features " +
+      "focus on constraints rather than recommendations: what is healthy, open, affordable and close " +
+      "enough to reach in the time you have.",
+    hue: "--cyan",
     href: "https://kinnovationgroup.com/nutri-navigator",
     repo: "https://github.com/rishav-dev/nutri-navigator-app",
   },
   {
     slug: "witness-platform",
     name: "Witness",
-    line: "A neutral record of what people saw, sealed until the person involved asks for it.",
-    stage: "Concept and legal framing",
+    line: "A concept for a neutral record of eyewitness accounts, released only with consent.",
+    stage: "Concept",
     body:
-      "When something happens, thirty strangers might see it and the details fade within hours, while " +
-      "camera footage often gets overwritten within a day. Witness stores accounts while they're still " +
-      "fresh and only releases them with consent from everyone involved. It's meant to be a neutral " +
-      "evidence vault, not a reputation database.",
-    hue: "--cyan",
-    href: "https://kinnovationgroup.com/witness-platform",
-  },
-  {
-    slug: "prodose",
-    name: "ProDose",
-    line: "A smart dispenser for scheduled medication.",
-    stage: "In development",
-    body:
-      "ProDose automatically dispenses scheduled doses of tablets and capsules. I'm the product manager, " +
-      "working with a five-person UMass Amherst senior capstone team on the physical design: CAD, 3D printed " +
-      "prototypes, and a design lab that simulates eight dispensing concepts and compares them, which you can try on this site.",
+      "Witness is a concept and has not been built. The idea is to store witness accounts while they are " +
+      "still fresh and release them only with consent from everyone involved, as a neutral evidence " +
+      "vault rather than a reputation database.",
     hue: "--indigo",
-    internal: [
-      { label: "Read more", href: "/work/prodose/" },
-      { label: "Try the simulation", href: "/work/prodose/simulation/simulator/" },
-    ],
+    href: "https://kinnovationgroup.com/witness-platform",
   },
 ];
 
@@ -887,7 +851,9 @@ export const HONORS: Honor[] = [
   },
   {
     name: "Entrepreneurs Accelerator Program",
-    body: "Selected for the Spring 2026 cohort from an open application round.",
+    body:
+      "Selected for the Spring 2026 cohort (March to May 2026), a program of entrepreneurial training, " +
+      "mentorship and feedback for early-stage ventures.",
     by: "Franklin County CDC",
     byHref: "https://www.fccdc.org/",
     year: "2026",
@@ -912,27 +878,35 @@ export interface SkillGroup {
 }
 
 export const STACK: SkillGroup[] = [
-  { label: "Languages", items: ["Python", "R", "SQL", "JavaScript", "Java", "MATLAB", "Bash"] },
   {
-    label: "ML and analysis",
-    items: ["TensorFlow", "scikit-learn", "Pandas", "NumPy", "Transformers", "NLTK", "ERGM", "Time series"],
+    label: "Analytics",
+    items: ["Data Analysis", "Business Analytics", "Product Analytics", "Customer Analytics", "A/B Testing", "KPI dashboards"],
   },
-  { label: "Visualization", items: ["D3.js", "Three.js", "Plotly Dash", "Power BI", "Matplotlib"] },
   {
-    label: "Platforms and engineering",
-    items: ["MongoDB", "Microsoft SQL Server", "Google Cloud", "React", "Node.js", "Flutter", "Docker", "Git"],
+    label: "Statistics and modeling",
+    items: [
+      "Statistical Analysis",
+      "Predictive Modeling",
+      "Causal Inference",
+      "NLP",
+      "Regression",
+      "Clustering",
+      "Time series",
+      "Experimental design",
+    ],
   },
-];
-
-export const COURSEWORK = [
-  "Applied Statistics",
-  "Regression & Predictive Modeling",
-  "Machine Learning",
-  "Exploratory Data Analysis",
-  "SQL & Database Management",
-  "Data Visualization",
-  "Time Series Forecasting",
-  "Model Tuning & Validation",
+  {
+    label: "Languages and BI",
+    items: ["Python", "SQL", "R", "Power BI", "JavaScript", "Java", "MATLAB", "Bash"],
+  },
+  {
+    label: "Libraries and visualization",
+    items: ["Pandas", "NumPy", "scikit-learn", "TensorFlow", "Transformers", "NLTK", "Matplotlib", "Plotly Dash", "D3.js"],
+  },
+  {
+    label: "Data and engineering",
+    items: ["Microsoft SQL Server", "MongoDB", "Google Cloud", "React", "Node.js", "Docker", "Git"],
+  },
 ];
 
 /* ==========================================================================
@@ -941,12 +915,13 @@ export const COURSEWORK = [
 
 export const AVAILABILITY = {
   status:
-    "I finish the DACSS master's at UMass Amherst in May 2027, and I'm looking for data science, machine " +
-    "learning and analytics roles. I'd rather work on a hard problem than have an impressive title.",
+    "I am currently interested in internships and co-ops during my master's program, as well as future " +
+    "full-time opportunities in data analytics, business analytics, product analytics, applied data " +
+    "science, research, BI, and analytics consulting.",
   interests: [
-    "Data science and applied machine learning",
-    "Behavioral and experimental research",
-    "Analytics engineering and BI",
-    "Early-stage product work",
+    "Data and business analytics",
+    "Product analytics",
+    "Applied data science and research",
+    "BI and analytics consulting",
   ],
 } as const;

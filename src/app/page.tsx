@@ -9,20 +9,21 @@ import Hero from "@/components/sections/Hero";
 import Thesis from "@/components/sections/Thesis";
 import Pipeline from "@/components/sections/Pipeline";
 import Work from "@/components/sections/Work";
-import Ventures from "@/components/sections/Ventures";
 import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
 import Repos from "@/components/sections/Repos";
+import Ventures from "@/components/sections/Ventures";
 import Recognition from "@/components/sections/Recognition";
+import Education from "@/components/sections/Education";
 import Contact from "@/components/sections/Contact";
 import { useReveal } from "@/lib/reveal";
 
 /**
  * The index.
  *
- * One page, eight sections, each with a different form: a hero, a scroll-scrubbed
- * statement, a sticky four-stage pipeline, a ledger of roles, a saturated colour
- * break for the studio, a project grid with generated visuals, a ticker plus two
- * lists, and a footer that is also the contact page.
+ * One page, in the order a hiring manager reads it: hero, about, experience,
+ * projects, skills and code, ventures, recognition, education, and a footer
+ * that is also the contact page.
  *
  * The old site had seven routes that each restated the index in a card grid.
  * Everything here appears exactly once; the detail pages under /work and
@@ -82,10 +83,12 @@ export default function Home() {
         <Thesis />
         <Pipeline />
         <Work />
-        <Ventures />
         <Projects />
+        <Skills />
         <Repos />
+        <Ventures />
         <Recognition />
+        <Education />
       </main>
 
       <Contact onOpenConsole={openConsole} />

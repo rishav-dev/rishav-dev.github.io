@@ -7,7 +7,6 @@ import Nav from "@/components/chrome/Nav";
 import {
   AVAILABILITY,
   CERTIFICATIONS,
-  COURSEWORK,
   DEGREES,
   HONORS,
   PERSON,
@@ -78,7 +77,7 @@ export default function ResumeView() {
             <div>
               <h1 className="rs__name">{PERSON.name}</h1>
               <p className="rs__role">
-                Data Scientist · ML Engineer · Co-founder, Kinnovation Group
+                Data Analytics · Business &amp; Product Analytics · Applied Data Science
               </p>
               <ul className="rs__contact">
                 <li>
@@ -171,14 +170,14 @@ export default function ResumeView() {
                       {d.credential} · {d.field}
                     </p>
                     <p className="rs__dates">
-                      {d.start}–{d.end} · {d.place}
+                      {d.start} – {d.end} · {d.place}
+                    </p>
+                    <p className="rs__tools rs__course">
+                      <b>Coursework </b>
+                      {d.coursework.join(" · ")}
                     </p>
                   </div>
                 ))}
-                <p className="rs__tools rs__course">
-                  <b>Coursework </b>
-                  {COURSEWORK.join(" · ")}
-                </p>
               </section>
 
               <section>

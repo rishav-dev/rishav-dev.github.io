@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import Tilt from "@/components/fx/Tilt";
 import Pitches from "@/components/sections/Pitches";
 import { KINNOVATION, VENTURES } from "@/data/profile";
@@ -17,8 +18,12 @@ import { KINNOVATION, VENTURES } from "@/data/profile";
  * The co-founder credit is a real link, not a footnote. It is her studio too.
  */
 export default function Ventures() {
+  const [showAll, setShowAll] = useState(false);
+  const shown = showAll ? VENTURES : VENTURES.filter((v) => v.featured);
+  const hidden = VENTURES.length - VENTURES.filter((v) => v.featured).length;
+
   return (
-    <section className="kin" id="kinnovation">
+    <section className="kin" id="ventures">
       <div className="kin__field" aria-hidden="true">
         <span className="bloom" style={{ ["--hue" as string]: "var(--indigo)", width: "52vw", height: "52vw", left: "-10vw", top: "-14vh", opacity: 0.32 }} />
         <span className="bloom" style={{ ["--hue" as string]: "var(--cyan)", width: "44vw", height: "44vw", right: "-8vw", top: "18vh", opacity: 0.16 }} />
@@ -59,10 +64,11 @@ export default function Ventures() {
         </header>
 
         <ul className="kin__grid">
-          {VENTURES.map((v, i) => (
+          {shown.map((v, i) => (
             <li
               key={v.slug}
-              data-reveal
+              data-reveal={v.featured ? "" : undefined}
+              data-extra={v.featured ? undefined : ""}
               style={{
                 ["--hue" as string]: `var(${v.hue})`,
                 ["--reveal-delay" as string]: `${120 + i * 80}ms`,
@@ -122,6 +128,19 @@ export default function Ventures() {
             </li>
           ))}
         </ul>
+
+        {hidden > 0 && (
+          <div className="kin__more">
+            <button
+              type="button"
+              className="btn"
+              aria-expanded={showAll}
+              onClick={() => setShowAll((v) => !v)}
+            >
+              {showAll ? "Show fewer ventures" : `View all ventures (${hidden} more)`}
+            </button>
+          </div>
+        )}
 
         <Pitches />
       </div>
@@ -209,6 +228,21 @@ export default function Ventures() {
         }
 
         /* --- venture cards ---------------------------------------------- */
+
+        .kin__more {
+          display: flex;
+          justify-content: center;
+          margin-top: 2rem;
+        }
+        .kin__grid > li[data-extra] {
+          animation: kinIn 0.5s var(--ease) both;
+        }
+        @keyframes kinIn {
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+        }
 
         .kin__grid {
           list-style: none;

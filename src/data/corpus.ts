@@ -13,7 +13,6 @@
 import {
   AVAILABILITY,
   CERTIFICATIONS,
-  COURSEWORK,
   DEGREES,
   HONORS,
   KINNOVATION,
@@ -49,9 +48,9 @@ chunks.push({
     "chakravarty", "himself", "background", "story",
   ],
   text:
-    `${PERSON.name} is a data scientist and machine learning engineer based in ${PERSON.location}. ` +
-    `He is currently a master's candidate in Data Analytics and Computational Social Science (DACSS) at ` +
-    `UMass Amherst, graduating May 2027. ${THESIS.body} ` +
+    `${PERSON.name} is a master's student in Data Analytics and Computational Social Science (DACSS) at ` +
+    `UMass Amherst, graduating December 2027, based in ${PERSON.location}. He works on data analytics, ` +
+    `business and product analytics, and applied data science. ${THESIS.body} ` +
     `He is also co-founder of Kinnovation Group, a venture studio. ` +
     `Reach him at ${PERSON.email}.`,
 });
@@ -64,17 +63,15 @@ chunks.push({
     "value", "candidate", "recruit", "good", "best", "suited", "edge",
   ],
   text:
-    `What separates Rishav from other data science candidates is the route in. He has a B.S. in Psychology ` +
-    `with a Computer Science minor from Virginia Tech, and worked as a Behavioral Health Technician ` +
-    `delivering Applied Behavior Analysis to autistic children, collecting and acting on real-time data ` +
-    `under HIPAA. That is four years of behavioral research before the modeling work, so he reads a metric ` +
-    `as a decision someone made rather than only as a feature that correlates. ` +
-    `He pairs it with formal training: a Postgraduate Diploma in Data Science and Business Analytics from ` +
-    `UT Austin and the DACSS master's at UMass Amherst. ` +
-    `He also finishes things and puts them where they can be checked. Five public repositories, including ` +
-    `one holding 25,886 Reddit records, three sentiment methods, three classifiers and the raw data to ` +
-    `re-run all of it. Seven ventures under Kinnovation Group, six of them co-founded with Kinjal Pandey, three of which have won pitch ` +
-    `competitions. ` +
+    `What stands out about Rishav is the range of his background. He has a B.S. in Psychology with a ` +
+    `Computer Science minor from Virginia Tech and worked as a Behavioral Health Technician, collecting and ` +
+    `analyzing behavioral data under clinical supervision and HIPAA. He pairs it with formal training: a ` +
+    `Postgraduate Diploma in Data Science and Business Analytics from UT Austin and the DACSS master's at ` +
+    `UMass Amherst. His experience spans data analysis, business and digital strategy consulting, ` +
+    `behavioral analysis and product development. His projects are public: five public repositories, ` +
+    `including an NLP analysis of 25,886 Reddit posts and comments with the raw data to re-run it. He is ` +
+    `also a co-founder of Kinnovation Group, whose seven ventures are at concept, prototype or in-development ` +
+    `stages, and three of which have won pitch competitions. ` +
     `Note on numbers: this site deliberately does not quote performance percentages from his consulting ` +
     `work. Those figures were real but they were internal to private companies and no visitor can verify ` +
     `them, so they were removed in favor of claims anyone can click through and check.`,
@@ -134,9 +131,10 @@ chunks.push({
   ],
   text:
     DEGREES.map(
-      (d) => `${d.credential} in ${d.field}, ${d.school} (${d.start}–${d.end}, ${d.place}). ${d.note}`,
+      (d) =>
+        `${d.credential} in ${d.field}, ${d.school} (${d.start} to ${d.end}, ${d.place}). ${d.note} ` +
+        `Relevant coursework: ${d.coursework.join(", ")}.`,
     ).join(" ") +
-    ` Relevant coursework: ${COURSEWORK.join(", ")}.` +
     ` Certification: ${CERTIFICATIONS.map((c) => `${c.name} (${c.by})`).join(", ")}.`,
 });
 
@@ -246,7 +244,7 @@ chunks.push({
   ],
   text:
     STACK.map((g) => `${g.label}: ${g.items.join(", ")}.`).join(" ") +
-    ` He is strongest in Python and SQL for analysis, TensorFlow for modeling, and Power BI for delivery.`,
+    ` He works most with Python, SQL, R and Power BI.`,
 });
 
 /* --- practical ----------------------------------------------------------- */
@@ -353,7 +351,7 @@ const INDEX = CORPUS.map((chunk) => ({
  *
  * The interesting part is what happens after scoring. Passages far below the
  * best one are dropped rather than padded out to `k`, so a specific question
- * ("what did he do at Ooredoo?") sends one passage and the model has nothing
+ * ("what did he do at Zad Holding?") sends one passage and the model has nothing
  * irrelevant to wander into. The overview is only added back for broad
  * questions, where it genuinely helps.
  */

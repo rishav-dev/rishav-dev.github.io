@@ -19,21 +19,24 @@ import "@fontsource/ibm-plex-mono/latin-500.css";
 
 import "./globals.css";
 
+const TITLE = `${PERSON.name} | Data Analytics, Applied Data Science & Product Analytics`;
+
 const DESCRIPTION =
-  "Data scientist and ML engineer with a behavioral science background. " +
-  "DACSS master's candidate at UMass Amherst, co-founder of Kinnovation Group.";
+  "UMass Amherst DACSS master's student with experience in data analytics, business and product " +
+  "analytics, applied machine learning, behavioral research, and data visualization.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(PERSON.site),
   title: {
-    default: `${PERSON.name}, Data Science and Machine Learning`,
+    default: TITLE,
     template: `%s | ${PERSON.name}`,
   },
   description: DESCRIPTION,
   keywords: [
-    "data science",
-    "machine learning",
     "data analytics",
+    "business analytics",
+    "product analytics",
+    "applied data science",
     "computational social science",
     "behavioral analytics",
     "UMass Amherst",
@@ -48,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "profile",
     siteName: PERSON.name,
-    title: `${PERSON.name}, Data Science and Machine Learning`,
+    title: TITLE,
     description: DESCRIPTION,
     url: PERSON.site,
     locale: "en_US",
@@ -57,13 +60,13 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: `${PERSON.name}, data science, machine learning and behavioral analytics`,
+        alt: `${PERSON.name}, data analytics, applied data science and product analytics`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${PERSON.name}, Data Science and Machine Learning`,
+    title: TITLE,
     description: DESCRIPTION,
     images: ["/og.png"],
   },
@@ -86,7 +89,7 @@ const JSON_LD = {
   name: PERSON.name,
   url: PERSON.site,
   email: `mailto:${PERSON.email}`,
-  jobTitle: "Data Scientist",
+  jobTitle: "Product Manager and Data Analytics Master's Student",
   description: THESIS.body,
   image: `${PERSON.site}/og.png`,
   address: {
@@ -101,11 +104,12 @@ const JSON_LD = {
     { "@type": "CollegeOrUniversity", name: "Virginia Tech" },
   ],
   knowsAbout: [
-    "Data science",
-    "Machine learning",
+    "Data analytics",
+    "Business analytics",
+    "Product analytics",
+    "Applied data science",
     "Behavioral analytics",
     "Computational social science",
-    "Network analysis",
   ],
   sameAs: [PERSON.linkedin, PERSON.github],
 };

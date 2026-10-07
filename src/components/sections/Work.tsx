@@ -22,11 +22,11 @@ export default function Work() {
           <p className="t-label">Experience</p>
           <h2 className="t-section">Where I&rsquo;ve worked.</h2>
           <p className="t-body work__intro">
-            A law firm, a wellness practice, a therapy clinic, a telecom
-            company, a medical device capstone, and a university dining hall I
-            helped run for five and a half years while finishing my degrees.
-            The industries are different, but the work is the same: find the
-            behavior in the data, then build something that puts it to use.
+            Analytics and digital strategy consulting, behavioral data work in
+            a clinical setting, a data analytics internship in Qatar, and
+            product management for a medical device capstone. The industries
+            differ, but the work is the same: find the pattern in the data,
+            then turn it into something people can use.
           </p>
         </header>
 
