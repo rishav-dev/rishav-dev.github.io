@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AVAILABILITY, KINNOVATION, PERSON, STACK } from "@/data/profile";
+import { AVAILABILITY, KINNOVATION, PERSON } from "@/data/profile";
 
 /**
  * Contact, and the stack, and the footer.
@@ -67,15 +67,6 @@ export default function Contact({ onOpenConsole }: { onOpenConsole: () => void }
           </ul>
         </div>
 
-        <div className="ct__stack" data-reveal>
-          {STACK.map((g) => (
-            <div key={g.label}>
-              <p className="t-label">{g.label}</p>
-              <p className="ct__items">{g.items.join(" · ")}</p>
-            </div>
-          ))}
-        </div>
-
         <div className="ct__base">
           <p>
             © {new Date().getFullYear()} {PERSON.name} · {PERSON.location} ·{" "}
@@ -128,7 +119,7 @@ export default function Contact({ onOpenConsole }: { onOpenConsole: () => void }
           margin-top: 1.25rem;
           font-family: var(--display);
           font-weight: 600;
-          font-size: clamp(1.5rem, 4.6vw, 3.5rem);
+          font-size: clamp(1.25rem, 3.4vw, 2.5rem);
           line-height: 1;
           letter-spacing: -0.045em;
           /* Break at the @ rather than overflowing on a phone. */

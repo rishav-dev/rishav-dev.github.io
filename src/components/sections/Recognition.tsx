@@ -1,14 +1,9 @@
 "use client";
 
-import { CERTIFICATIONS, DEGREES, HONORS } from "@/data/profile";
+import { CERTIFICATIONS, HONORS } from "@/data/profile";
 
 /**
- * Recognition and education, in one section.
- *
- * They were two separate pages on the old site, both of which restated the
- * index. They belong together: an award and a degree are the same kind of
- * claim, something external that vouches for the work, and neither needs a
- * page of its own to say four lines.
+ * Awards, programs and certifications. Education has its own section below.
  *
  * The ticker along the top is the only place the awards are shouted; the list
  * underneath is where they are actually explained.
@@ -34,7 +29,7 @@ export default function Recognition() {
       <div className="shell rec__inner">
         <div className="rec__col">
           <p className="t-label" data-reveal>
-            Recognition
+            Recognition &amp; programs
           </p>
           <ol className="rec__list">
             {HONORS.map((h, i) => (
@@ -57,32 +52,6 @@ export default function Recognition() {
               </li>
             ))}
           </ol>
-        </div>
-
-        <div className="rec__col">
-          <p className="t-label" data-reveal>
-            Education
-          </p>
-          <ol className="rec__list">
-            {DEGREES.map((d, i) => (
-              <li key={d.school} data-reveal style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}>
-                <div className="rec__row">
-                  <h3>
-                    <a href={d.href} target="_blank" rel="noreferrer">
-                      {d.school}
-                    </a>
-                  </h3>
-                  <span className="rec__years">
-                    {d.start}–{d.end}
-                  </span>
-                </div>
-                <p className="rec__by">
-                  {d.credential} · {d.field}
-                </p>
-                <p className="rec__body">{d.note}</p>
-              </li>
-            ))}
-          </ol>
 
           <div className="rec__certs" data-reveal>
             <p className="t-label">Certification</p>
@@ -100,7 +69,10 @@ export default function Recognition() {
 
       <style jsx>{`
         .rec {
-          padding-block: clamp(4rem, 10vh, 7rem) clamp(6rem, 14vh, 11rem);
+          padding-block: clamp(4rem, 10vh, 7rem) clamp(3rem, 8vh, 5rem);
+        }
+        .rec__col {
+          max-width: 52rem;
         }
 
         /* --- ticker ------------------------------------------------------ */

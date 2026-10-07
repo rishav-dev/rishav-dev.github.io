@@ -34,8 +34,8 @@ export const ENTRIES: Entry[] = [
       "chakravarty", "background", "yourself", "himself",
     ],
     answer: [
-      "Rishav Chakravarty is a data scientist and ML engineer based in Amherst, Massachusetts. He is finishing an M.S. in Data Analytics & Computational Social Science at UMass Amherst in May 2027.",
-      "He came in through psychology. A B.S. from Virginia Tech, then clinical work delivering Applied Behavior Analysis, which is why he starts from the behavior rather than the metric. He is also co-founder of Kinnovation Group, a venture studio.",
+      "Rishav Chakravarty is a master's student in Data Analytics & Computational Social Science at UMass Amherst, graduating in December 2027. He is based in Amherst, Massachusetts, and works on data analytics, business and product analytics, and applied data science.",
+      "His background combines data analytics, psychology, computer science and business. He has consulting experience in analytics and digital strategy, worked with behavioral data at Intercare Therapy, and is product manager for ProDose, a smart medication dispenser in development. He is also co-founder of Kinnovation Group, a venture studio.",
     ],
   },
   {
@@ -47,9 +47,9 @@ export const ENTRIES: Entry[] = [
       "different", "stand", "value", "candidate", "best", "good", "suited",
     ],
     answer: [
-      "A few things stand out. He has four years of behavioral research and clinical data collection, including hands-on ABA work under HIPAA. He has formal quantitative training from UT Austin and the UMass DACSS program. And he follows a project through to the end: the analysis, the dashboard, the app, whatever it takes for the result to reach the person who needs it.",
-      "His work is public, so you can check it. He has five public repositories, including one with 25,886 Reddit records, three sentiment methods and three classifiers, raw data included so you can re-run it yourself.",
-      "In practice, he can design the study, build the model, and then build the tool that puts the result to use.",
+      "A few things stand out. He has formal quantitative training from UT Austin and the UMass DACSS program, and consulting experience analyzing customer and operational data, building KPI dashboards and supporting digital strategy at Steve Fisher Consulting and Simple Coaching.",
+      "He also has a behavioral background: a psychology degree with a computer science minor, and behavioral data work at Intercare Therapy under HIPAA. He works in Python, SQL, R and Power BI.",
+      "His projects are public, so you can check them. He has five public repositories, including an NLP analysis of 25,886 Reddit posts and comments with raw data included so you can re-run it.",
     ],
   },
   {
@@ -62,8 +62,8 @@ export const ENTRIES: Entry[] = [
       "tech", "texas", "austin", "psychology", "coursework", "graduate",
     ],
     answer: [
-      "Three, in order. B.S. in Psychology with a Computer Science minor from Virginia Tech (2021–2024). Postgraduate Diploma in Data Science & Business Analytics from UT Austin (2024). M.S. in Data Analytics & Computational Social Science from UMass Amherst (2025–2027).",
-      "DACSS is the unusual one. It takes the social science as seriously as the computation, so the coursework runs through network analysis, experimental design and causal inference as well as the modeling.",
+      "Three, in order. B.S. in Psychology with a Minor in Computer Science from Virginia Tech (August 2021 to May 2024). Postgraduate Diploma in Data Science & Business Analytics from UT Austin (January to September 2024). M.S. in Data Analytics & Computational Social Science from UMass Amherst (September 2025 to December 2027, expected).",
+      "The DACSS program combines data analytics with social science methods, including network analysis, experimental design and causal inference.",
     ],
   },
   {
@@ -75,8 +75,8 @@ export const ENTRIES: Entry[] = [
       "history", "where", "position", "company",
     ],
     answer: [
-      "Most recently: Data & Behavioral Insights Associate at Steve Fisher Consulting (2025–2026), and Client Experience & Digital Strategy Consultant at Simple Coaching Inc. (2025).",
-      "Before that: Behavioral Health Technician at Intercare Therapy, featured speaker for Google Developer Student Clubs, and data analytics internships at Zad Holding Company and Ooredoo in Doha, Qatar. He was also selected for the Franklin County CDC Entrepreneurs Accelerator in 2026.",
+      "Currently: Product Manager for ProDose, a smart medication dispenser in development, with a UMass Amherst senior capstone team (since September 2026). Before that: Data Analytics & Strategy Consultant at Steve Fisher Consulting (May 2025 to April 2026) and Digital Strategy & Analytics Consultant at Simple Coaching Inc. (March to August 2025).",
+      "Earlier: Behavioral Health Technician at Intercare Therapy, featured speaker for Google Developer Student Clubs, Dietrick Student Manager at Virginia Tech Dining Services (August 2021 to April 2024), and a data analytics internship at Zad Holding Company in Doha, Qatar (March to August 2021), which included a client analytics project for Ooredoo Qatar.",
       "Ask about any one of them by name and I will go deeper.",
     ],
   },
@@ -116,9 +116,9 @@ export const ENTRIES: Entry[] = [
       "co-founder", "entrepreneur", "company", "kinjal", "pandey",
     ],
     answer: [
-      "Kinnovation Group is a venture studio Rishav co-founded with Kinjal Pandey. Not an incubator and not a consultancy. They build the things themselves and keep the ones that survive a room full of judges.",
-      "Seven ventures. Six are joint work with Kinjal: Karnah (traceable in-kind donation matching), Trendify AI (finds the clip in your camera roll that fits what is trending), CalendAI (a calendar that reschedules itself), MeAsmi (ML for neurodivergent support), NutriNavigator (nutrition guidance in Flutter), and Witness (a sealed evidence vault). The seventh is ProDose, a smart medication dispenser where Rishav is product manager on a UMass Amherst senior capstone team; there is a physics simulation of it on this site. Three of the ventures have won pitch competitions.",
-      "All are in development or at concept stage. None is a launched commercial product, none has disclosed revenue or users, and none is fundraising.",
+      "Kinnovation Group is a venture studio Rishav co-founded with Kinjal Pandey. It is not an incubator or a consultancy.",
+      "Seven ventures, none of them a launched product. Karnah (an in-kind donation platform in development), CalendAI (a scheduling app in development), MeAsmi (a machine learning platform for neurodivergent support in development), ProDose (a smart medication dispenser in development), NutriNavigator (a nutrition app prototype in Flutter), Trendify AI (a concept) and Witness (a concept). Three of the ventures have won pitch competitions.",
+      "None has disclosed revenue or users, and none is fundraising.",
     ],
   },
   {
@@ -146,9 +146,8 @@ export const ENTRIES: Entry[] = [
       "framework",
     ],
     answer: [
-      "Languages: Python, R, SQL, JavaScript, Java, MATLAB, Bash. ML and analysis: TensorFlow, Pandas, NumPy, scikit-learn, Matplotlib, ERGM, time series methods.",
-      "Data platforms: Power BI, MongoDB, Microsoft SQL Server, Google Cloud. Engineering: React, Node.js, Docker, Git, JUnit.",
-      "Strongest in Python and SQL for the analysis, TensorFlow for the modeling, Power BI for getting it in front of people who make decisions.",
+      "Analytics: data analysis, business analytics, product analytics, customer analytics and A/B testing. Statistics and modeling: statistical analysis, predictive modeling, causal inference, NLP, regression, clustering and time series.",
+      "Languages and BI: Python, SQL, R and Power BI, plus JavaScript, Java, MATLAB and Bash. Libraries: Pandas, NumPy, scikit-learn, TensorFlow, Transformers, NLTK, Matplotlib, Plotly Dash and D3.js. Data and engineering: Microsoft SQL Server, MongoDB, Google Cloud, React, Node.js, Docker and Git.",
     ],
   },
   {
@@ -161,8 +160,8 @@ export const ENTRIES: Entry[] = [
       "matter", "relevant",
     ],
     answer: [
-      "Because it changes what he does when a number moves. Applied Behavior Analysis work at Intercare meant collecting data on every trial of a session with an autistic child, under HIPAA, and adjusting the intervention from that data in real time.",
-      "When your dataset is a child's afternoon you stop treating measurement as paperwork. You learn what a noisy signal costs, why the instrument changes the reading, and how fast a model falls apart when conditions shift. That is the habit he brings to analytics work.",
+      "It gives him experience collecting and interpreting behavioral data. At Intercare Therapy he collected and analyzed behavioral data during Applied Behavior Analysis sessions and used client progress to inform session-level adjustments under clinical supervision and HIPAA.",
+      "He brings that attention to how data is collected, and what it can and cannot show, to his analytics work.",
     ],
   },
   {
@@ -172,11 +171,11 @@ export const ENTRIES: Entry[] = [
     keywords: [
       "contact", "email", "reach", "hire", "available", "availability",
       "linkedin", "github", "resume", "cv", "opportunity", "internship",
-      "looking", "connect", "message",
+      "looking", "connect", "message", "touch",
     ],
     answer: [
       "Email rishavchakravarty18@gmail.com. He is on LinkedIn at linkedin.com/in/rishav-dsc and GitHub at github.com/rishav-dev, and his resume is downloadable from the bottom of this page.",
-      "He finishes the DACSS master's in May 2027 and is open to data science, ML and analytics roles and internships in the meantime.",
+      "He is currently interested in internships and co-ops during his master's program, as well as future full-time opportunities in data analytics, business analytics, product analytics, applied data science, research, BI and analytics consulting. He graduates in December 2027.",
     ],
   },
   {
@@ -184,16 +183,34 @@ export const ENTRIES: Entry[] = [
     question: "Where is he based?",
     keywords: ["location", "based", "live", "city", "state", "relocate", "remote", "amherst"],
     answer: [
-      "Amherst, Massachusetts, where he is doing the DACSS master's at UMass. He has previously worked in San Diego, Blacksburg, remotely for a California firm, and in Doha, Qatar.",
+      "Amherst, Massachusetts, where he is doing the DACSS master's at UMass. He has previously worked in San Diego, Boston, Blacksburg, for a firm in Menifee, California, and in Doha, Qatar.",
     ],
   },
   {
     id: "consulting",
     question: "What did he do at Steve Fisher Consulting?",
-    keywords: ["steve", "fisher", "consulting", "legal", "law", "menifee", "37", "43"],
+    keywords: ["steve", "fisher", "consulting", "legal", "law", "menifee"],
     answer: [
-      "He was Data and Behavioral Insights Associate there from May 2025 to April 2026. He rebuilt the firm's website around how people actually arrive at a lawyer, which is anxious, mid-problem and scanning fast for relevance, rather than around the firm's org chart.",
-      "The quieter half mattered more. He automated the intake, the scheduling and the recurring reporting, which gave a small team back a serious amount of their week. Underneath both: statistical analysis of client engagement data, KPI dashboards for the partners, and predictive models to flag matters likely to need attention early.",
+      "He was Data Analytics & Strategy Consultant there from May 2025 to April 2026. He analyzed client engagement, retention and conversion data to identify patterns and support business and digital strategy decisions.",
+      "He built KPI dashboards for marketing, operations and customer behavior, developed predictive models to identify patterns and opportunities for targeted interventions, applied statistical and behavioral analysis to improve workflows and outreach, and evaluated AI-enabled tools with an emphasis on transparency, trust and user needs.",
+    ],
+  },
+  {
+    id: "prodose",
+    question: "What is ProDose?",
+    keywords: ["prodose", "dispenser", "medication", "pill", "capstone", "simulation", "simulator", "product", "manager"],
+    answer: [
+      "ProDose is a smart medication dispensing system in development, designed to automate scheduled dispensing of tablets and capsules. Rishav is the product manager, working with a five-person UMass Amherst Mechanical & Industrial Engineering senior capstone team on CAD, 3D-printed prototypes, testing and design refinement.",
+      "This site includes a design lab for it: a physics simulation of eight dispensing concepts, with a test bench, a sensing lab, a design comparison and a research page.",
+    ],
+  },
+  {
+    id: "zad",
+    question: "What did he do at Zad Holding?",
+    keywords: ["zad", "holding", "ooredoo", "qatar", "doha", "intern", "internship", "telecom", "data", "plan"],
+    answer: [
+      "He was a Data Analytics Intern at Zad Holding Company in Doha, Qatar, from March to August 2021. He built datasets, database structures and Power BI reporting workflows to support operational analysis, automated parts of the reporting process, and used statistical and cost-benefit analysis to compare business scenarios.",
+      "As part of the internship he completed a client analytics project for Ooredoo Qatar, using customer usage data, statistical inference and Power BI to develop a mobile data-plan recommendation.",
     ],
   },
 ];
