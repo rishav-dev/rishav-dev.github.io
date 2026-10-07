@@ -49,7 +49,7 @@ chunks.push({
   ],
   text:
     `${PERSON.name} is a master's student in Data Analytics and Computational Social Science (DACSS) at ` +
-    `UMass Amherst, graduating December 2027, based in ${PERSON.location}. He works on data analytics, ` +
+    `UMass Amherst, graduating May 2027, based in ${PERSON.location}. He works on data analytics, ` +
     `business and product analytics, and applied data science. ${THESIS.body} ` +
     `He is also co-founder of Kinnovation Group, a venture studio. ` +
     `Reach him at ${PERSON.email}.`,

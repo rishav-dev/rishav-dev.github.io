@@ -46,7 +46,7 @@ export const HERO = {
   lines: ["Data, behavior,", "and better decisions."],
   kicker:
     "I'm pursuing an M.S. in Data Analytics & Computational Social Science at UMass Amherst, graduating " +
-    "in December 2027. My work spans analytics, research, product development, and behavioral data using " +
+    "in May 2027. My work spans analytics, research, product development, and behavioral data using " +
     "Python, SQL, R, Power BI, and statistical methods.",
   role: "Data Analytics · Business & Product Analytics · Applied Data Science",
   /**
@@ -373,7 +373,7 @@ export const DEGREES: Degree[] = [
     credential: "M.S.",
     field: "Data Analytics & Computational Social Science",
     start: "Sep 2025",
-    end: "Dec 2027 (expected)",
+    end: "May 2027 (expected)",
     place: "Amherst, MA",
     note:
       "A program that combines data analytics with social science methods, including network analysis, " +
