@@ -27,7 +27,6 @@ export const PERSON = {
   linkedin: "https://www.linkedin.com/in/rishav-dsc",
   github: "https://github.com/rishav-dev",
   site: "https://www.rishavchakravarty.com",
-  resume: "/Rishav_Chakravarty_Resume_DSA.pdf",
 } as const;
 
 export const THESIS = {

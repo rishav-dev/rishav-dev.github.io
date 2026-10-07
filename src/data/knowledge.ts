@@ -174,7 +174,7 @@ export const ENTRIES: Entry[] = [
       "looking", "connect", "message", "touch",
     ],
     answer: [
-      "Email rishavchakravarty18@gmail.com. He is on LinkedIn at linkedin.com/in/rishav-dsc and GitHub at github.com/rishav-dev, and his resume is downloadable from the bottom of this page.",
+      "Email rishavchakravarty18@gmail.com. He is on LinkedIn at linkedin.com/in/rishav-dsc and GitHub at github.com/rishav-dev, and his resumes, in several focus areas, are on the Resume page of this site with PDF and Word downloads.",
       "He is currently interested in internships and co-ops during his master's program, as well as future full-time opportunities in data analytics, business analytics, product analytics, applied data science, research, BI and analytics consulting. He graduates in May 2027.",
     ],
   },

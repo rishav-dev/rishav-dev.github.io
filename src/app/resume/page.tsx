@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import ResumeView from "@/components/resume/ResumeView";
+import ResumeIndex from "@/components/resume/ResumeIndex";
 import { PERSON } from "@/data/profile";
+import { RESUMES } from "@/data/resumes";
 
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    `${PERSON.name}, data analytics resume. ` +
-    "Experience, projects, education, awards and skills, with a PDF download.",
+    `${PERSON.name} resume, in ${RESUMES.length} versions by focus area: data analytics, applied ML, ` +
+    "product, research, consulting and more. PDF and Word downloads.",
   alternates: { canonical: `${PERSON.site}/resume` },
 };
 
 export default function ResumePage() {
-  return <ResumeView />;
+  return <ResumeIndex />;
 }
