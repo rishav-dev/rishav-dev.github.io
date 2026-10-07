@@ -34,7 +34,7 @@ export const ENTRIES: Entry[] = [
       "chakravarty", "background", "yourself", "himself",
     ],
     answer: [
-      "Rishav Chakravarty is a master's student in Data Analytics & Computational Social Science at UMass Amherst, graduating in December 2027. He is based in Amherst, Massachusetts, and works on data analytics, business and product analytics, and applied data science.",
+      "Rishav Chakravarty is a master's student in Data Analytics & Computational Social Science at UMass Amherst, graduating in May 2027. He is based in Amherst, Massachusetts, and works on data analytics, business and product analytics, and applied data science.",
       "His background combines data analytics, psychology, computer science and business. He has consulting experience in analytics and digital strategy, worked with behavioral data at Intercare Therapy, and is product manager for ProDose, a smart medication dispenser in development. He is also co-founder of Kinnovation Group, a venture studio.",
     ],
   },
@@ -62,7 +62,7 @@ export const ENTRIES: Entry[] = [
       "tech", "texas", "austin", "psychology", "coursework", "graduate",
     ],
     answer: [
-      "Three, in order. B.S. in Psychology with a Minor in Computer Science from Virginia Tech (August 2021 to May 2024). Postgraduate Diploma in Data Science & Business Analytics from UT Austin (January to September 2024). M.S. in Data Analytics & Computational Social Science from UMass Amherst (September 2025 to December 2027, expected).",
+      "Three, in order. B.S. in Psychology with a Minor in Computer Science from Virginia Tech (August 2021 to May 2024). Postgraduate Diploma in Data Science & Business Analytics from UT Austin (January to September 2024). M.S. in Data Analytics & Computational Social Science from UMass Amherst (September 2025 to May 2027, expected).",
       "The DACSS program combines data analytics with social science methods, including network analysis, experimental design and causal inference.",
     ],
   },
@@ -175,7 +175,7 @@ export const ENTRIES: Entry[] = [
     ],
     answer: [
       "Email rishavchakravarty18@gmail.com. He is on LinkedIn at linkedin.com/in/rishav-dsc and GitHub at github.com/rishav-dev, and his resume is downloadable from the bottom of this page.",
-      "He is currently interested in internships and co-ops during his master's program, as well as future full-time opportunities in data analytics, business analytics, product analytics, applied data science, research, BI and analytics consulting. He graduates in December 2027.",
+      "He is currently interested in internships and co-ops during his master's program, as well as future full-time opportunities in data analytics, business analytics, product analytics, applied data science, research, BI and analytics consulting. He graduates in May 2027.",
     ],
   },
   {
