@@ -530,7 +530,7 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["Python", "PRAW", "scikit-learn", "NLTK VADER", "Transformers", "Plotly Dash"],
     viz: "sentiment",
-    repo: "https://github.com/rishav-dev/MentalHealthResearch-SocialMedia",
+    repo: "https://github.com/rishav-dev/reddit-mental-health-analysis",
     table: {
       caption: "Classifier comparison, TF-IDF features. Figures are in ml_model_results.csv in the repo.",
       head: ["Model", "Accuracy", "Precision", "Recall", "F1"],
@@ -565,7 +565,7 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["Python", "BeautifulSoup", "pdfminer.six", "cloudscraper", "requests"],
     viz: "corpus",
-    repo: "https://github.com/rishav-dev/Project-DACSS-758",
+    repo: "https://github.com/rishav-dev/campus-safety-alerts",
     table: {
       caption: "What the scraper collected, by record family. Counts are from university_incident_reports.csv.",
       head: ["Record family", "Documents"],
@@ -598,7 +598,7 @@ export const PROJECTS: Project[] = [
     ],
     stack: ["D3.js", "Three.js", "JavaScript", "Python"],
     viz: "series",
-    repo: "https://github.com/rishav-dev/690s-final",
+    repo: "https://github.com/rishav-dev/billboard-hot100-scrollytelling",
     source: {
       label: "Billboard Hot 100 with audio features (Kaggle)",
       href: "https://www.kaggle.com/datasets/suparnabiswas/billboard-hot-1002000-2023-data-with-features",
@@ -653,23 +653,23 @@ export const REPOS: Repo[] = [
     project: "senate-forecast-2026",
   },
   {
-    name: "MentalHealthResearch-SocialMedia",
-    href: "https://github.com/rishav-dev/MentalHealthResearch-SocialMedia",
+    name: "reddit-mental-health-analysis",
+    href: "https://github.com/rishav-dev/reddit-mental-health-analysis",
     language: "Python",
     blurb:
       "Reddit data collection, sentiment scoring, classifiers, topic modeling and a dashboard. The raw data is included so you can re-run everything.",
     project: "reddit-mental-health",
   },
   {
-    name: "690s-final",
-    href: "https://github.com/rishav-dev/690s-final",
+    name: "billboard-hot100-scrollytelling",
+    href: "https://github.com/rishav-dev/billboard-hot100-scrollytelling",
     language: "JavaScript",
     blurb: "The Billboard Hot 100 scroll story, with D3 for the 2D charts and Three.js for the 3D feature space.",
     project: "billboard-hot-100",
   },
   {
-    name: "Project-DACSS-758",
-    href: "https://github.com/rishav-dev/Project-DACSS-758",
+    name: "campus-safety-alerts",
+    href: "https://github.com/rishav-dev/campus-safety-alerts",
     language: "Python",
     blurb:
       "Scrapers for ten universities' campus safety alerts, combined into one dataset with the source recorded for every row.",
