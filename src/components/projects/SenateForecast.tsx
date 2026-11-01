@@ -17,7 +17,7 @@ import {
  * page cannot disagree with the CSV it links to.
  */
 
-const RATING_LABEL: Record<ForecastRating, string> = {
+export const RATING_LABEL: Record<ForecastRating, string> = {
   "safe-r": "Safe R",
   "lean-r": "Lean R",
   "toss-up": "Toss-up",
@@ -27,11 +27,11 @@ const RATING_LABEL: Record<ForecastRating, string> = {
 };
 
 /* Left to right, Republican to Democratic, the order the seats are drawn in. */
-const ORDER: ForecastRating[] = ["safe-r", "lean-r", "toss-up", "lean-d", "likely-d", "safe-d"];
+export const ORDER: ForecastRating[] = ["safe-r", "lean-r", "toss-up", "lean-d", "likely-d", "safe-d"];
 
-const pct = (p: number) => (p >= 0.995 ? ">99%" : p <= 0.005 ? "<1%" : `${Math.round(p * 100)}%`);
+export const pct = (p: number) => (p >= 0.995 ? ">99%" : p <= 0.005 ? "<1%" : `${Math.round(p * 100)}%`);
 
-const leaning = (m: number) => `${m >= 0 ? "D" : "R"}+${Math.abs(m).toFixed(1)}`;
+export const leaning = (m: number) => `${m >= 0 ? "D" : "R"}+${Math.abs(m).toFixed(1)}`;
 
 type SortKey = "close" | "dem" | "rep" | "state" | "polls";
 
@@ -61,7 +61,7 @@ function sortRaces(races: ForecastRace[], key: SortKey): ForecastRace[] {
 
 /* --- the Senate as a bar ------------------------------------------------- */
 
-function SeatBar() {
+export function SeatBar() {
   const counts = useMemo(() => {
     const c = Object.fromEntries(ORDER.map((r) => [r, 0])) as Record<ForecastRating, number>;
     for (const race of FORECAST_RACES) c[race.rating] += 1;
@@ -113,7 +113,7 @@ function SeatBar() {
 const LO = -20;
 const HI = 14;
 
-function Ladder() {
+export function Ladder() {
   const races = useMemo(
     () => sortRaces(FORECAST_RACES, "close").slice(0, 12).sort((a, b) => b.margin - a.margin),
     [],
@@ -183,7 +183,7 @@ function Ladder() {
 
 /* --- every race ---------------------------------------------------------- */
 
-function RaceTable() {
+export function RaceTable() {
   const [filter, setFilter] = useState<ForecastRating | "all">("all");
   const [sort, setSort] = useState<SortKey>("close");
 
@@ -280,60 +280,12 @@ function RaceTable() {
   );
 }
 
-export default function SenateForecast() {
-  const { asOf, electionDay, csv, article, simulations, polls, statesWithPolls } = FORECAST_SUMMARY;
-
+/** The styles for the results charts and the table. Rendered once, by the write-up. */
+export function ForecastStyles() {
   return (
-    <section className="sf" aria-labelledby="sf-title">
-      <header className="sf__head">
-        <p className="t-label">Final results</p>
-        <h2 id="sf-title">All 35 races, as of {asOf}</h2>
-        <p>
-          {simulations.toLocaleString("en-US")} simulations from {polls} polls in {statesWithPolls} states. The election is
-          on {electionDay}.
-        </p>
-      </header>
-
-      <SeatBar />
-      <Ladder />
-
-      <div className="sf__table">
-        <h3>Every race</h3>
-        <RaceTable />
-      </div>
-
-      <p className="sf__links">
-        <a href={csv} download>
-          Download the state-by-state results (CSV)
-        </a>
-        <a href={article} target="_blank" rel="noreferrer">
-          Read the forecast on The YIMBY Manifesto
-        </a>
-      </p>
-
-      <p className="sf__credit">
-        Poll data from VoteHub (CC BY 4.0) and Wikipedia&rsquo;s state polling tables (CC BY-SA). Results from MIT Election
-        Lab, pollster ratings from FiveThirtyEight and approval history from Gallup.
-      </p>
-
       <style jsx global>{`
         .sf {
-          margin-top: 4rem;
-          padding-top: 2.5rem;
-          border-top: 1px solid var(--line);
-        }
-        .sf__head h2 {
-          margin-top: 0.8rem;
-          font-family: var(--display);
-          font-weight: 600;
-          font-size: clamp(1.5rem, 3.5vw, 2.25rem);
-          letter-spacing: -0.035em;
-        }
-        .sf__head p:last-child {
-          margin-top: 0.7rem;
-          color: var(--text-dim);
-          max-width: 46rem;
-          line-height: 1.6;
+          margin-top: 3.5rem;
         }
 
         .sf figure {
@@ -706,6 +658,5 @@ export default function SenateForecast() {
           max-width: 50rem;
         }
       `}</style>
-    </section>
   );
 }

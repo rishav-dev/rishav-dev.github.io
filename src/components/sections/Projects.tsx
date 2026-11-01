@@ -37,7 +37,8 @@ export default function Projects() {
             Every project here is public: a repository you can read and run,
             or a published write-up. The graphic on each card is drawn from
             the method the project used, so it&rsquo;s an illustration, not a
-            result. The real numbers are in each write-up.
+            result. Click a card to read the write-up, where the real numbers
+            are.
           </p>
         </header>
 
@@ -84,29 +85,22 @@ export default function Projects() {
                       ))}
                     </ul>
 
-                    {/* GitHub first. The write-up explains the work, the repo
-                        proves it, and proof goes first. */}
+                    {/* The whole tile opens the write-up: the Write-up link
+                        stretches over the card with ::after. The GitHub link
+                        sits above that layer so it still goes to GitHub. */}
                     <p className="card__links">
-                      {p.repo || p.links?.length ? (
-                        <>
-                          {p.repo && (
-                          <a className="card__link" href={p.repo} target="_blank" rel="noreferrer">
-                            <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-                            </svg>
-                            View the code
-                          </a>
-                          )}
-                          {!p.repo && p.links?.[0] && (
-                            <a className="card__link" href={p.links[0].href} target="_blank" rel="noreferrer">
-                              Read the article
-                            </a>
-                          )}
-                          <Link className="card__second" href={`/projects/${p.slug}`}>
-                            Write-up
-                          </Link>
-                        </>
-                      ) : null}
+                      {p.repo && (
+                        <a className="card__link" href={p.repo} target="_blank" rel="noreferrer">
+                          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                          </svg>
+                          View the code
+                        </a>
+                      )}
+                      <Link className="card__second" href={`/projects/${p.slug}`}>
+                        Read the write-up
+                        <span aria-hidden="true"> &rarr;</span>
+                      </Link>
                     </p>
                   </div>
                 </article>
@@ -172,6 +166,11 @@ export default function Projects() {
         }
         .card:hover {
           border-color: rgb(var(--hue) / 0.42);
+          cursor: pointer;
+        }
+        .card:has(:global(a.card__second):focus-visible) {
+          outline: 2px solid rgb(var(--hue) / 0.8);
+          outline-offset: 3px;
         }
 
         .proj__grid > li[data-wide] {
@@ -272,11 +271,19 @@ export default function Projects() {
           padding-top: 1.1rem;
         }
 
-        /* The plain <a> to GitHub gets the styled-jsx hash; the next/link one
-           does not, because styled-jsx cannot scope onto a React component.
-           Both selectors are written so either element picks the style up. */
-        .card__links :global(a.card__link),
-        .card__links a.card__link {
+        /* The write-up link is the one that covers the card; the GitHub link
+           is lifted above it. Neither the paragraph nor the body is
+           positioned, so the ::after fills .card, which is. */
+        .card__links :global(a.card__second)::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+        .card__links a.card__link,
+        .card__links :global(a.card__link) {
+          position: relative;
+          z-index: 2;
           display: inline-flex;
           align-items: center;
           gap: 0.45rem;
@@ -285,11 +292,9 @@ export default function Projects() {
           color: rgb(var(--hue));
           white-space: nowrap;
         }
-        .card__links :global(a.card__link) svg,
         .card__links a.card__link svg {
           transition: transform 0.35s var(--ease);
         }
-        .card__links :global(a.card__link):hover svg,
         .card__links a.card__link:hover svg {
           transform: translateX(3px);
         }
@@ -297,12 +302,12 @@ export default function Projects() {
         .card__links :global(a.card__second) {
           font-family: var(--mono);
           font-size: 0.75rem;
-          color: var(--text-faint);
+          color: var(--text-dim);
           white-space: nowrap;
           transition: color 0.3s var(--ease);
         }
-        .card__links :global(a.card__second):hover {
-          color: var(--text);
+        .card:hover .card__links :global(a.card__second) {
+          color: rgb(var(--hue));
         }
 
         @media (max-width: 900px) {
