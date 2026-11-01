@@ -145,7 +145,6 @@ export default function SenateWriteup() {
           against past forecasts.
         </p>
         <PollMultipliers />
-        <p>Other things that go into a poll&rsquo;s weight and value:</p>
         <ul className="sw__list">
           <li>
             <b>Pollster track record.</b> Pollsters are ranked 5 to 10 on past accuracy, which becomes a weight between
@@ -246,10 +245,6 @@ export default function SenateWriteup() {
 
       <section id="wrong" className="sw__sec">
         <h2>What could be wrong</h2>
-        <p>
-          Quite a lot could be wrong, and the model says so itself. These are the main risks, in the order I would worry
-          about them.
-        </p>
         <WhatIf />
         <ul className="sw__list">
           <li>
@@ -275,10 +270,6 @@ export default function SenateWriteup() {
 
       <section id="races" className="sw__sec">
         <h2>Every race</h2>
-        <p>
-          Here are all 35 races. You can filter by rating and sort by closeness, party or number of polls, or download the
-          same results as a CSV.
-        </p>
         <div className="sf__table">
           <RaceTable />
         </div>
@@ -294,9 +285,6 @@ export default function SenateWriteup() {
 
       <section id="next" className="sw__sec">
         <h2>What I would do next</h2>
-        <p>
-          The things we could not check are the obvious places to improve it.
-        </p>
         <ul className="sw__list">
           <li>Find a historical approval series so the national mood can be tested on past elections.</li>
           <li>Test the 21-day half-life against past forecasts instead of only against our own model.</li>

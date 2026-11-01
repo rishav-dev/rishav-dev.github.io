@@ -464,9 +464,6 @@ export const PROJECTS: Project[] = [
         "controlling the Senate. Isaiah Wood, Jake Wilkinson, Xiaowen Guo and I built it for the election " +
         "forecasting group Dr. Adler started at UMass, and he published it as the first of several Senate " +
         "forecasts on his Substack, The YIMBY Manifesto.",
-      "This page is the longer version. It walks through where the polls came from, how we weighted them, how " +
-        "we checked the model on past elections and what could make it wrong. The code, data and tests are in " +
-        "a public repository, and the charts are drawn from our final results file.",
     ],
     stack: ["Python", "pandas", "NumPy", "SciPy", "statsmodels", "Monte Carlo simulation"],
     viz: "forecast",
