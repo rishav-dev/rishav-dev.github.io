@@ -132,8 +132,7 @@ export function Ladder() {
       <figcaption>
         <b>The 12 closest races</b>
         <span>
-          Expected margin, Democrat or opposition minus Republican, with the model&rsquo;s 80% range.
-          The number in brackets is how many polls the model used.
+          Expected margin with the model&rsquo;s 80% range. The number in brackets is how many polls the state has.
         </span>
       </figcaption>
 
@@ -272,9 +271,9 @@ export function RaceTable() {
       </div>
 
       <p className="rt__note">
-        (I) is an independent challenger. In those four states the model trusts its starting estimate more and assumes an
-        independent winner would caucus with Democrats 80% of the time, which is an assumption. Ratings: Safe is 85% or
-        more, Likely 70 to 85%, Lean 60 to 70%, and Toss-up under 60%.
+        (I) means the challenger is an independent. In those four states the model trusts its starting guess less, and we
+        assume an independent who wins would caucus with Democrats 80% of the time. Ratings: Safe is 85% or more, Likely
+        70 to 85%, Lean 60 to 70%, and Toss-up under 60%.
       </p>
     </div>
   );

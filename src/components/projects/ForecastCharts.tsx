@@ -51,8 +51,8 @@ export function TileMap() {
       <figcaption>
         <b>Every race on a map</b>
         <span>
-          One tile per state. Colored tiles have a Senate race in 2026, and the number is the chance the Democrat (or the
-          independent running against the Republican) wins. Gray tiles have no race this year.
+          One tile per state. The number is the chance the Democrat wins, or the independent in the four states where
+          there is one. Gray tiles don&rsquo;t have a Senate race this year.
         </span>
       </figcaption>
 
@@ -130,8 +130,7 @@ export function PollCoverage() {
       <figcaption>
         <b>How many polls each state has</b>
         <span>
-          The model used 576 polls in total, but they are spread very unevenly. Seven states have none, so those races
-          rest on the starting estimate alone.
+          576 polls in total, but most of them are in a handful of states. Seven states don&rsquo;t have any.
         </span>
       </figcaption>
 
@@ -205,9 +204,8 @@ export function PollsVsRange() {
       <figcaption>
         <b>More polls, narrower range</b>
         <span>
-          Each dot is a state. Going up means the model is less sure of the margin (the width of its 80% range, in
-          points). States with plenty of polls are pinned down to about 11 points. States with none are unsure by close to
-          40.
+          Each dot is a state. Higher means the model is less sure about the margin, measured as the width of its 80%
+          range in points. States with lots of polls sit around 11 points, and states with none are close to 40.
         </span>
       </figcaption>
 
@@ -278,8 +276,8 @@ export function WeightDecay() {
       <figcaption>
         <b>A poll loses half its weight every 21 days</b>
         <span>
-          Weight is 0.5 raised to (age in days divided by 21). A poll from today counts fully, one from three weeks ago
-          counts half as much, and one from the edge of the 120-day window counts about 2%.
+          A poll from today counts fully, one from three weeks ago counts half as much, and one from 120 days ago counts
+          about 2%.
         </span>
       </figcaption>
 
@@ -357,8 +355,8 @@ export function PollMultipliers() {
       <figcaption>
         <b>What else changes a poll&rsquo;s weight</b>
         <span>
-          These are multiplied together with the age weight. A poll of likely voters from a well-rated, nonpartisan
-          pollster keeps almost all of its weight. A party-sponsored generic poll of all adults keeps a lot less.
+          These get multiplied with the age weight. A poll of likely voters from a good pollster keeps almost all of its
+          weight, and a generic poll of all adults paid for by a party keeps a lot less.
         </span>
       </figcaption>
 
@@ -382,8 +380,8 @@ export function PollMultipliers() {
           rows={[
             { label: "Sponsored by a party", value: 0.8, text: "0.80", tone: "alt" },
             { label: "Generic (party only)", value: 0.75, text: "0.75", tone: "alt" },
-            { label: "Worst-rated pollster", value: 0.7, text: "0.70", tone: "alt" },
-            { label: "Best-rated pollster", value: 1, text: "1.00", tone: "alt" },
+            { label: "Lowest ranked pollster", value: 0.7, text: "0.70", tone: "alt" },
+            { label: "Highest ranked pollster", value: 1, text: "1.00", tone: "alt" },
           ]}
         />
       </div>
@@ -399,8 +397,7 @@ export function ErrorBeforeAfter() {
       <figcaption>
         <b>Did the changes help on past elections?</b>
         <span>
-          We chose the settings using the 2016 and 2018 elections, then scored them once on 2020 and 2022, which the
-          settings never saw. Lower is better in all three.
+          Settings picked on 2016 and 2018, then scored on 2020 and 2022. Lower is better for all three.
         </span>
       </figcaption>
 
@@ -451,9 +448,9 @@ export function ModelParts() {
       <figcaption>
         <b>Polls, starting guess, or both?</b>
         <span>
-          The back-test also scores the two pieces of the model on their own, on the same 161 Senate races from 2020 and
-          2022. The blend has the best Brier score, which measures how good the win probabilities are. But the starting
-          guess alone had a smaller error in the margin. With only 161 races, I would not read much more into it than that.
+          The same 161 Senate races from 2020 and 2022, scored with each part of the model on its own. Combining them
+          gave the best Brier score, so the win chances were best. The starting guess by itself had a smaller error on
+          the margin, but 161 races isn&rsquo;t a lot to go on.
         </span>
       </figcaption>
 
@@ -495,9 +492,9 @@ export function WhatIf() {
       <figcaption>
         <b>How the 79.5% moves when an assumption changes</b>
         <span>
-          Chance Democrats control the Senate. The line is 50%. The poll shifts move every poll toward the Republican by
-          the same amount, to see how much the forecast leans on the polls being right on average. The odds for the
-          shifts and the other versions are the approximate figures from our methodology.
+          Chance Democrats control the Senate under different assumptions. The line is at 50%. The poll shifts move every
+          poll toward the Republican by the same amount. Everything except our forecast is an approximate figure from our
+          methodology.
         </span>
       </figcaption>
 
@@ -540,10 +537,10 @@ export function ChanceSpread() {
   return (
     <figure className="fc">
       <figcaption>
-        <b>Most races are not close</b>
+        <b>Most races aren&rsquo;t close</b>
         <span>
-          Races grouped by the Democrat&rsquo;s chance of winning. {bins[0] + bins[9]} of the 35 sit at the very
-          ends, below 10% or above 90%. Only {bins[4] + bins[5]} fall between 40% and 60%.
+          The 35 races grouped by the Democrat&rsquo;s chance of winning. {bins[0] + bins[9]} of them are below 10% or
+          above 90%, and only {bins[4] + bins[5]} are between 40% and 60%.
         </span>
       </figcaption>
 
@@ -577,7 +574,7 @@ export function ChanceSpread() {
                   </text>
                 )}
                 <text x={x + w / 2} y={H - bottom + 18} textAnchor="middle" className="fc__tick">
-                  {i * 10}-{(i + 1) * 10}
+                  {i * 10} to {(i + 1) * 10}
                 </text>
               </g>
             );

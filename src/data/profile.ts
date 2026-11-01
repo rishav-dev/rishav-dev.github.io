@@ -459,11 +459,10 @@ export const PROJECTS: Project[] = [
     summary:
       "I built a forecast of all 35 U.S. Senate races on the 2026 ballot with three teammates, for Dr. Brian Adler's election forecasting group at UMass. It plays out the election 50,000 times using 576 polls from 28 states, and Dr. Adler published it on his Substack.",
     detail: [
-      "This is the forecast my team built for the 2026 U.S. Senate elections. It covers all 35 races on the " +
-        "ballot, and as of October 30, before the November 3 election, it gives Democrats a 79.5% chance of " +
-        "controlling the Senate. Isaiah Wood, Jake Wilkinson, Xiaowen Guo and I built it for the election " +
-        "forecasting group Dr. Adler started at UMass, and he published it as the first of several Senate " +
-        "forecasts on his Substack, The YIMBY Manifesto.",
+      "Isaiah Wood, Jake Wilkinson, Xiaowen Guo and I built this for the election forecasting group Dr. Adler " +
+        "started at UMass this fall. He published it on his Substack, The YIMBY Manifesto, as the first of " +
+        "several Senate forecasts. As of October 30 it gives Democrats a 79.5% chance of controlling the " +
+        "Senate. The election is on November 3, and everything on this page is from the October 30 run.",
     ],
     stack: ["Python", "pandas", "NumPy", "SciPy", "statsmodels", "Monte Carlo simulation"],
     viz: "forecast",
