@@ -21,6 +21,8 @@ export interface DetailProps {
   links?: { label: string; href: string; kind: "repo" | "site" | "data" | "demo" }[];
   /** Real figures, rendered as a table. Never invented for layout. */
   table?: { caption: string; head: string[]; rows: (string | number)[][] };
+  /** A project's own results or demo, shown after the write-up. */
+  extra?: React.ReactNode;
   /** Previous/next within the same collection, for reading straight through. */
   siblings: { href: string; label: string; dir: "prev" | "next" }[];
   backHref: string;
@@ -198,6 +200,8 @@ export default function Detail(props: DetailProps) {
               </div>
             </figure>
           )}
+
+          {props.extra}
 
           <div className="dt__stack" data-reveal>
             <p className="t-label">Tools &amp; methods</p>

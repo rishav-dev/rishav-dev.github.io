@@ -91,6 +91,26 @@ export default function ProjectViz({
     let visible = true;
     let lastFrame = 0;
 
+    /* Forecast card: a histogram of simulated seat counts that fills in as
+       draws arrive, then holds and starts again. The centre and spread are the
+       published ones (53 seats, most outcomes between 49 and 56). */
+    const SEATS_LO = 44;
+    const SEATS_N = 19;
+    const sim = { counts: new Array(SEATS_N).fill(0) as number[], n: 0, hold: 0 };
+    const drawSeats = () => {
+      let z = -6;
+      for (let k = 0; k < 12; k += 1) z += r();
+      return Math.round(53 + z * 2.6);
+    };
+    const addDraws = (k: number) => {
+      for (let i = 0; i < k; i += 1) {
+        const seats = drawSeats() - SEATS_LO;
+        if (seats >= 0 && seats < SEATS_N) sim.counts[seats] += 1;
+        sim.n += 1;
+      }
+    };
+    if (kind === "forecast") addDraws(still ? 4000 : 0);
+
     function draw(now: number) {
       raf = requestAnimationFrame(draw);
       if (!visible) return;
@@ -234,6 +254,47 @@ export default function ProjectViz({
         ctx!.lineTo(X(1), Y(0.94));
         ctx!.strokeStyle = "rgb(255 255 255 / 0.12)";
         ctx!.lineWidth = 1;
+        ctx!.stroke();
+      } else if (kind === "forecast") {
+        if (!still) {
+          if (sim.n >= 4000) {
+            sim.hold += 1;
+            if (sim.hold > 70) {
+              sim.counts.fill(0);
+              sim.n = 0;
+              sim.hold = 0;
+            }
+          } else {
+            addDraws(60);
+          }
+        }
+
+        const peak = Math.max(1, ...sim.counts);
+        const base = Y(0.92);
+        const slot = (w - pad * 2) / SEATS_N;
+
+        for (let i = 0; i < SEATS_N; i += 1) {
+          const seats = SEATS_LO + i;
+          const barH = (sim.counts[i] / peak) * (h - pad * 2) * 0.78;
+          ctx!.fillStyle = seats >= 51 ? A(0.85) : "rgb(255 255 255 / 0.2)";
+          ctx!.fillRect(pad + i * slot + slot * 0.14, base - barH, slot * 0.72, barH);
+        }
+
+        /* The 51-seat line. */
+        const lineX = pad + (51 - SEATS_LO - 0.5) * slot + slot * 0.5;
+        ctx!.beginPath();
+        ctx!.setLineDash([3, 3]);
+        ctx!.moveTo(lineX, Y(0.1));
+        ctx!.lineTo(lineX, base);
+        ctx!.strokeStyle = "rgb(255 255 255 / 0.55)";
+        ctx!.lineWidth = 1;
+        ctx!.stroke();
+        ctx!.setLineDash([]);
+
+        ctx!.beginPath();
+        ctx!.moveTo(X(0), base + 1);
+        ctx!.lineTo(X(1), base + 1);
+        ctx!.strokeStyle = "rgb(255 255 255 / 0.12)";
         ctx!.stroke();
       } else {
         /* series: a line with a confidence band around it. */

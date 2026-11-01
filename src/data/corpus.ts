@@ -68,7 +68,7 @@ chunks.push({
     `analyzing behavioral data under clinical supervision and HIPAA. He pairs it with formal training: a ` +
     `Postgraduate Diploma in Data Science and Business Analytics from UT Austin and the DACSS master's at ` +
     `UMass Amherst. His experience spans data analysis, business and digital strategy consulting, ` +
-    `behavioral analysis and product development. His projects are public: five public repositories, ` +
+    `behavioral analysis and product development. His projects are public: six public repositories, ` +
     `including an NLP analysis of 25,886 Reddit posts and comments with the raw data to re-run it. He is ` +
     `also a co-founder of Kinnovation Group, whose seven ventures are at concept, prototype or in-development ` +
     `stages, and three of which have won pitch competitions. ` +

@@ -49,7 +49,7 @@ export const ENTRIES: Entry[] = [
     answer: [
       "A few things stand out. He has formal quantitative training from UT Austin and the UMass DACSS program, and consulting experience analyzing customer and operational data, building KPI dashboards and supporting digital strategy at Steve Fisher Consulting and Simple Coaching.",
       "He also has a behavioral background: a psychology degree with a computer science minor, and behavioral data work at Intercare Therapy under HIPAA. He works in Python, SQL, R and Power BI.",
-      "His projects are public, so you can check them. He has five public repositories, including an NLP analysis of 25,886 Reddit posts and comments with raw data included so you can re-run it.",
+      "His projects are public, so you can check them. He has six public repositories, including a 2026 Senate forecast and an NLP analysis of 25,886 Reddit posts and comments with raw data included so you can re-run it.",
     ],
   },
   {
@@ -89,7 +89,8 @@ export const ENTRIES: Entry[] = [
       "sample", "work sample",
     ],
     answer: [
-      "The one to start with is his Reddit analysis. He collected 25,886 posts and comments from three mental health subreddits, scored them with three sentiment methods, and compared logistic regression, a linear SVM and a random forest. The topics that came out were mostly about money and housing, not mental health directly.",
+      "The newest is a forecast of the 2026 U.S. Senate races, built with three teammates for UMass's election forecasting group and published on Dr. Brian Adler's Substack. As of October 30, 2026 it gave Democrats a 79.5% chance of controlling the Senate, from 50,000 simulations on 576 polls.",
+      "Before that, the one to start with is his Reddit analysis. He collected 25,886 posts and comments from three mental health subreddits, scored them with three sentiment methods, and compared logistic regression, a linear SVM and a random forest. The topics that came out were mostly about money and housing, not mental health directly.",
       "He also built an interactive scroll story with D3 and Three.js on how the Billboard Hot 100 changed between 2000 and 2023, using chart data joined to Spotify audio features.",
       "Two more are public too: a set of scrapers that combines campus safety alerts from ten universities into one dataset (519 documents, with the source recorded for every row), and a misere Nim agent that uses minimax with alpha-beta pruning and stays inside a one-second move limit.",
     ],
@@ -211,6 +212,16 @@ export const ENTRIES: Entry[] = [
     answer: [
       "He was a Data Analytics Intern at Zad Holding Company in Doha, Qatar, from March to August 2021. He built datasets, database structures and Power BI reporting workflows to support operational analysis, automated parts of the reporting process, and used statistical and cost-benefit analysis to compare business scenarios.",
       "As part of the internship he completed a client analytics project for Ooredoo Qatar, using customer usage data, statistical inference and Power BI to develop a mobile data-plan recommendation.",
+    ],
+  },
+  {
+    id: "senate-forecast",
+    question: "What is the Senate forecast?",
+    keywords: ["senate", "forecast", "forecasting", "election", "midterm", "polls", "polling", "adler", "substack", "probability", "democrats", "republicans", "simulation", "monte", "carlo"],
+    answer: [
+      "It is a forecast of all 35 U.S. Senate races on the 2026 ballot, built by Rishav with teammates Isaiah Wood, Jake Wilkinson and Xiaowen Guo for Dr. Brian Adler's election forecasting group at UMass Amherst. Dr. Adler published it on his Substack, The YIMBY Manifesto.",
+      "As of October 30, 2026 it gave Democrats a 79.5% chance of controlling the Senate, with 53 Democratic seats the most likely outcome and 80% of simulations between 49 and 56. It runs 50,000 simulations on 576 polls from 28 states, blends them with a fundamentals estimate for each state, and is tested on 322 statewide races from 2020 and 2022.",
+      "The model's own caveat is that the national mood is the biggest unknown: depending on how it is set, Democratic control odds range from 64% to 79%. The full results are on the project page.",
     ],
   },
 ];

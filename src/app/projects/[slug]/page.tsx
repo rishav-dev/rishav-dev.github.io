@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Detail from "@/components/detail/Detail";
+import SenateForecast from "@/components/projects/SenateForecast";
 import { PROJECTS } from "@/data/profile";
 
 /* Same hue order as the project grid on the index, so a card and its page are
@@ -53,7 +54,7 @@ export default async function ProjectDetail({
         { label: "Year", value: project.year },
         { label: "Method", value: project.stack[0] ?? "n/a" },
       ]}
-      metrics={project.result ? [project.result] : []}
+      metrics={project.metrics ?? (project.result ? [project.result] : [])}
       body={project.detail}
       table={project.table}
       stack={project.stack}
@@ -65,7 +66,9 @@ export default async function ProjectDetail({
         ...(project.source
           ? [{ label: project.source.label, href: project.source.href, kind: "data" as const }]
           : []),
+        ...(project.links ?? []).map((l) => ({ label: l.label, href: l.href, kind: "site" as const })),
       ]}
+      extra={project.slug === "senate-forecast-2026" ? <SenateForecast /> : undefined}
       siblings={[
         ...(prev ? [{ href: `/projects/${prev.slug}`, label: prev.name, dir: "prev" as const }] : []),
         ...(next ? [{ href: `/projects/${next.slug}`, label: next.name, dir: "next" as const }] : []),

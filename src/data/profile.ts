@@ -437,15 +437,75 @@ export interface Project {
   summary: string;
   detail: string[];
   stack: string[];
-  viz: "sentiment" | "series" | "corpus" | "tree";
+  viz: "sentiment" | "series" | "corpus" | "tree" | "forecast";
   /** Public repository. Its presence is what allows a headline number. */
   repo?: string;
   /** Public dataset the work is built on, where there is one. */
   source?: { label: string; href: string };
   table?: { caption: string; head: string[]; rows: (string | number)[][] };
+  /** Figures shown as large numbers on the project page, instead of the single `result`. */
+  metrics?: { value: string; label: string }[];
+  /** Public write-ups and posts about the work. */
+  links?: { label: string; href: string }[];
 }
 
 export const PROJECTS: Project[] = [
+  {
+    slug: "senate-forecast-2026",
+    name: "2026 U.S. Senate Forecast",
+    context: "UMass Amherst, Election Forecasting Group",
+    year: "2026",
+    result: { value: "79.5%", label: "chance Democrats control the Senate" },
+    summary:
+      "A forecast of all 35 Senate races on the 2026 ballot, built with three teammates for Dr. Brian Adler's election forecasting group and published on his Substack. It runs 50,000 simulations on 576 polls from 28 states.",
+    detail: [
+      "This is our team's entry in the election forecasting group that Dr. Brian Adler started at UMass " +
+        "Amherst this fall. Isaiah Wood, Jake Wilkinson, Xiaowen Guo and I built the model for the 35 Senate " +
+        "races on the ballot, and Dr. Adler published it as the first of several Senate forecasts on his " +
+        "Substack, The YIMBY Manifesto. The code, data and tests are in a public repository, and the results " +
+        "below are as of October 30, before the November 3 election.",
+      "The model gives Democrats a 79.5% chance of controlling the Senate. They need 51 seats, because a " +
+        "Republican vice president breaks a 50-50 tie. The most likely outcome is 53 Democratic seats, and 80% " +
+        "of the simulations land between 49 and 56. The closest races are Iowa (Democrat 57%), Nebraska " +
+        "(Republican 57%), South Carolina (Republican 64%), Alaska (Democrat 66%) and Kansas (Democrat 66%).",
+      "We pull Senate polls from VoteHub and Wikipedia's state polling tables, check them against each " +
+        "other and remove duplicates. We keep the last 120 days and drop primary polls and polls where the two " +
+        "sources disagree, which leaves 576 polls in 28 states. Each poll is weighted by how recent it is (it " +
+        "loses half its weight every 21 days), who was surveyed, who sponsored it, and the pollster's track " +
+        "record. Wedgewood Polls and SoCal Strategies were excluded at Dr. Adler's direction.",
+      "Before looking at polls, the model estimates each state's margin from how it voted for president in " +
+        "the last two elections, how the same Senate seat voted last time, and the national mood. The national " +
+        "mood starts from presidential approval (net about -26) and is adjusted by the state polls, ending at " +
+        "a Democratic lead of 8.9 points, give or take 2.8. In each state the model blends that starting " +
+        "estimate with the poll average and trusts whichever is more certain. Incumbency, unemployment, GDP, " +
+        "inflation and population change were tested and left out because they did not improve predictions on " +
+        "past races.",
+      "The simulation plays out the election 50,000 times. A national swing moves every state, states in the " +
+        "same region or with similar politics move together, and the model allows more upsets than a normal " +
+        "bell curve would. Nothing is adjusted by hand because of news. We chose the main settings using the " +
+        "2016 and 2018 elections and checked them on 322 statewide races from 2020 and 2022. Average poll " +
+        "error fell from 7.27 to 6.80 points, and in a Senate-only test the error fell from 8.33 to 7.68 " +
+        "points and the Brier score from 0.076 to 0.069.",
+      "The limits matter. The national mood is the biggest unknown: depending on how it is set, Democratic " +
+        "control odds range from 64% to 79%. If the polls as a group lean Democratic, the forecast is too " +
+        "high, and shifting every poll 1, 2 or 3 points toward Republicans gives about 68%, 55% and 40%. Seven " +
+        "states have no polls and three have one, so they rely on the starting estimate. Ranked-choice voting " +
+        "and runoffs are not modeled.",
+    ],
+    stack: ["Python", "pandas", "NumPy", "SciPy", "statsmodels", "Monte Carlo simulation"],
+    viz: "forecast",
+    repo: "https://github.com/rishav-dev/senate-forecast-2026",
+    metrics: [
+      { value: "79.5%", label: "chance Democrats control the Senate" },
+      { value: "53", label: "most likely Democratic seats (80% range: 49 to 56)" },
+      { value: "576", label: "polls, from 28 states" },
+      { value: "50,000", label: "simulations" },
+    ],
+    links: [
+      { label: "Read the forecast on The YIMBY Manifesto", href: "https://yimbymanifesto.substack.com/p/the-first-of-several-us-senate-forecasts" },
+      { label: "Dr. Adler's post on LinkedIn", href: "https://www.linkedin.com/feed/update/urn:li:activity:7522663003503255552/" },
+    ],
+  },
   {
     slug: "reddit-mental-health",
     name: "What People Say About Mental Health on Reddit",
@@ -584,6 +644,14 @@ export interface Repo {
 }
 
 export const REPOS: Repo[] = [
+  {
+    name: "senate-forecast-2026",
+    href: "https://github.com/rishav-dev/senate-forecast-2026",
+    language: "Python",
+    blurb:
+      "The 2026 Senate forecast: poll ingestion and verification, weighting, fundamentals, 50,000 simulations, a back-test and tests. The final results for all 35 races are included.",
+    project: "senate-forecast-2026",
+  },
   {
     name: "MentalHealthResearch-SocialMedia",
     href: "https://github.com/rishav-dev/MentalHealthResearch-SocialMedia",
